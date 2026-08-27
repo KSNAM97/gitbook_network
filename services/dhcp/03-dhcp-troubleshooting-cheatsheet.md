@@ -1,11 +1,11 @@
-# 🚑 DHCP 트러블슈팅 치트시트
+# DHCP 트러블슈팅 치트시트
 
 > **Tag:** #Network #DHCP #IPServices #Relay #Cisco  
 > **핵심 요약:** DHCP 장애는 **Port·VLAN 상태 → SVI Up → Client와 Server가 같은 Segment인지 → Relay(helper-address)와 giaddr → 양방향 Routing → ACL(UDP 67/68) → Pool 대역·가용성 → excluded-address → Conflict → default-router/DNS** 순서로 확인한다. 단말이 169.254.x.x(APIPA)를 받았다면 Server 응답이 도달하지 못한 것이고, IP는 받았는데 통신이 안 된다면 DHCP가 아니라 `default-router`·DNS·Routing 문제일 가능성이 높다.
 
 ---
 
-## 1. 🎯 공통 진단 순서
+## 1. 공통 진단 순서
 
 ```properties
 [1]  단말 Port가 Up이고 올바른 VLAN에 속하는가?
@@ -31,7 +31,7 @@ IP는 받지만 통신 불가    → [12] 및 Routing/ACL 문제
 
 ---
 
-## 2. 🛠️ 증상별 즉시 대응표
+## 2. 증상별 즉시 대응표
 
 | 증상 | 주요 원인 | 확인 | 조치 |
 |---|---|---|---|
@@ -50,7 +50,7 @@ IP는 받지만 통신 불가    → [12] 및 Routing/ACL 문제
 
 ---
 
-## 3. 🔍 핵심 진단 명령어
+## 3. 핵심 진단 명령어
 
 ```cisco
 show ip dhcp pool
@@ -88,7 +88,7 @@ undebug all
 
 ---
 
-## 4. 🚨 대표 장애 시나리오
+## 4. 대표 장애 시나리오
 
 ### 시나리오 1. 단말이 IP를 받지 못하고 169.254.x.x를 사용함
 
@@ -537,7 +537,7 @@ show running-config interface <INTERFACE>
 
 ---
 
-## 5. 🔧 안전한 변경 및 복구 절차
+## 5. 안전한 변경 및 복구 절차
 
 ```properties
 [변경 절차]

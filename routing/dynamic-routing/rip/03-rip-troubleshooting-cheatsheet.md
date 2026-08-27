@@ -1,11 +1,11 @@
-# 🚑 RIP 트러블슈팅 치트시트
+# RIP 트러블슈팅 치트시트
 
 > **Tag:** #Routing #RIP #Troubleshooting #Convergence #Authentication #CheatSheet
 > **핵심 요약:** RIP 장애는 **Interface → RIP 활성 Network → Send/Receive Version → Passive Interface → Authentication → Update 수신 → RIB 설치 → Return Path** 순서로 확인한다. 학습 장애는 설정과 Update 수신을 보고, 수렴 장애는 Metric 16·Triggered Update·Timer·Split Horizon을 확인한다.
 
 ---
 
-## 1. 🎯 핵심 진단 순서
+## 1. 핵심 진단 순서
 
 ```properties
 [1] Interface가 up/up인가?
@@ -27,7 +27,7 @@
 
 ---
 
-## 2. 🛠️ 증상별 즉시 대응표
+## 2. 증상별 즉시 대응표
 
 ### 2-1. 경로 학습
 
@@ -56,7 +56,7 @@
 
 ---
 
-## 3. 🔍 핵심 진단 명령어
+## 3. 핵심 진단 명령어
 
 ```cisco
 show ip interface brief
@@ -77,7 +77,7 @@ undebug all
 
 ---
 
-## 4. 🚨 트러블슈팅 시나리오
+## 4. 트러블슈팅 시나리오
 
 ### 시나리오 1. 이웃 경로가 학습되지 않음
 
@@ -401,7 +401,7 @@ debug ip rip
 
 ---
 
-## 5. 🔧 현장 Quick Check
+## 5. 현장 Quick Check
 
 ```cisco
 show ip interface brief

@@ -1,13 +1,13 @@
-# 1.  📖   라우팅(Routing) 기초 개념
+# 라우팅(Routing) 기초 개념
 
 > **Tag:** #Network #Cisco #Routing #StaticRoute #CEF
 > **핵심 요약:** **문서 목적:** IP 네트워크의 핵심 기능인 라우팅의 3대 기능(Discovery/Selection/Management)과 정적/동적 라우팅의 차이를 실무 아키텍처 관점에서 정리한다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
-### 💬 Q1. 실무에서 정적 라우팅(Static)과 동적 라우팅(Dynamic)을 나누는 기준은 무엇인가요?
+### Q1. 실무에서 정적 라우팅(Static)과 동적 라우팅(Dynamic)을 나누는 기준은 무엇인가요?
 
 - 👉 **핵심 답변:** **네트워크 규모와 변경 빈도**가 기준입니다. 경로가 거의 변하지 않는 스텁(Stub) 구간·보안 경계는 Static, 링크가 많고 장애 대응이 필요한 백본/DC는 Dynamic이 원칙입니다.
 
@@ -15,7 +15,7 @@
   - Static은 **결정론적(Deterministic)**이라 예측 가능하고 CPU 부담이 없지만, 장애 시 자동 우회가 불가능해 관리자가 직접 개입해야 합니다. (예: 인터넷 회선 Default Route, 방화벽 뒤 서버망)
   - Dynamic은 **자동 수렴**이 강점이지만 프로토콜 자체가 CPU/메모리를 소모하고, 잘못 설계하면 루프·경로 flapping 같은 사고를 일으킵니다. 그래서 실무에서는 **Static + Dynamic 하이브리드**로 설계하는 경우가 많습니다.
 
-### 💬 Q2. 라우팅의 3대 기능(Path Discovery/Selection/Management) 중 실무에서 가장 사고가 많이 나는 단계는 어디인가요?
+### Q2. 라우팅의 3대 기능(Path Discovery/Selection/Management) 중 실무에서 가장 사고가 많이 나는 단계는 어디인가요?
 
 - 👉 **핵심 답변:** **Path Management(경로 관리)** 단계입니다. Discovery/Selection은 초기 설계 시점의 문제인 반면, Management는 운영 중 토폴로지 변화에 실시간으로 대응해야 하므로 수렴 지연·루프 문제가 여기서 발생합니다.
 
@@ -23,7 +23,7 @@
   - Path Selection의 기준값(Metric)은 Management 단계에서 링크 상태 변화에 따라 계속 재계산되므로, **타이머 튜닝(Hello/Dead, SPF Throttle)**이 안정성의 핵심입니다.
   - 라우팅 테이블은 **최종 결과물**일 뿐이고, 실제 트러블슈팅은 프로토콜별 Neighbor Table / Topology Table을 함께 봐야 정확한 원인을 알 수 있습니다.
 
-### 📊 라우팅의 3대 기능 요약
+### 라우팅의 3대 기능 요약
 
 | 기능 | 역할 | 실무 관점 핵심 |
 |---|---|---|
@@ -31,7 +31,7 @@
 | **Path Selection** | 수집된 경로 중 최적 경로 선출 | **Metric** 계산이 핵심 (Cost, Bandwidth, Delay 등) |
 | **Path Management** | 경로 변화 감지 및 재수렴 | 타이머·SPF·DUAL 등 프로토콜 고유 로직 |
 
-### 📊 Static vs Dynamic Routing 비교
+### Static vs Dynamic Routing 비교
 
 | 구분 | Static Routing | Dynamic Routing |
 |---|---|---|
@@ -43,9 +43,9 @@
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 🔧 2-1. Static Route 표준 설정
+### 2-1. Static Route 표준 설정
 
 ```cisco
 ! ============================================================
@@ -64,7 +64,7 @@ ip route 10.20.30.0 255.255.255.0 Serial0/0       ! Ethernet에 쓰면 ARP 폭�
 ! ▼ Floating Static Route (백업 경로 - AD 값을 높여서 대기)
 ip route 10.20.30.0 255.255.255.0 10.2.2.2 200    ! AD 200 → 주 경로 죽어야 활성화
 ```
-### 🔧 2-2. 라우팅 테이블 확인 후 트래픽 흐름 검증
+### 2-2. 라우팅 테이블 확인 후 트래픽 흐름 검증
 ```cisco
 ! 라우팅 테이블 전체
 show ip route
@@ -76,9 +76,9 @@ show ip route 10.20.30.5
 show ip route static
 
 ```
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 3-1. 필수 검증 명령어
+### 3-1. 필수 검증 명령어
 ```cisco
 show ip route                       ! 라우팅 테이블 (RIB) 전체
 show ip route <목적지 IP>           ! 특정 목적지에 대한 Longest Match 결과
@@ -87,9 +87,9 @@ show ip protocols                   ! 구동 중인 라우팅 프로토콜 상�
 traceroute <목적지 IP>              ! 실제 패킷이 타는 경로 검증
 ping <목적지 IP> source <IF>        ! 소스 지정 Ping (비대칭 라우팅 확인)
 ```
-### 🚨 3-2. 대표 장애 시나리오 & 트러블슈팅
+### 3-2. 대표 장애 시나리오 & 트러블슈팅
 
-#### 🔥 시나리오 1: Static Route를 걸었는데 통신이 안 됨
+#### 시나리오 1: Static Route를 걸었는데 통신이 안 됨
 
 **증상:** `show ip route`에 경로는 보이는데 Ping이 안 되는 상황.
 
@@ -108,7 +108,7 @@ ping <목적지 IP> source <IF>        ! 소스 지정 Ping (비대칭 라우팅
     - `ip route x.x.x.x y.y.y.y GigabitEthernet0/0` 형태는 Ethernet에서 위험
     - 모든 목적지에 대해 ARP를 날려서 CPU/메모리 폭주 유발 → 반드시 **넥스트 홉 IP 지정**으로 변경
 
-#### 🔥 시나리오 2: Floating Static Route가 활성화되지 않음
+#### 시나리오 2: Floating Static Route가 활성화되지 않음
 
 **증상:** 주 경로가 죽었는데 백업 경로로 전환되지 않음.
 

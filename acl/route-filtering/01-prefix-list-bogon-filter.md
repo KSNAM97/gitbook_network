@@ -1,4 +1,4 @@
-# 3-2-1. 🧩 Prefix-list 기초 & Bogon Filter
+# Prefix-list 기초 & Bogon Filter
 
 > **Tag:** #Network #Cisco #Routing #StaticRoute #CEF #ACL #Security #AccessControl #PrefixList #RouteFilter
 > **핵심 요약:** ACL을 넘어선 네트워크 범위 매칭 도구 - Prefix-list의 문법과 실무 활용
@@ -6,7 +6,7 @@
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### ACL 대신 Prefix-list를 쓰는 이유
 
@@ -22,9 +22,9 @@ Bogon(사설 IP, 링크로컬, 문서용, 예약 대역 등)은 **공인 인터�
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 Prefix-list 문법 3가지 형태
+### Prefix-list 문법 3가지 형태
 
 ```cisco
 ! [형태 1] 정확한 prefix 매칭 (한 개의 네트워크만)
@@ -40,7 +40,7 @@ ip prefix-list NET172 permit 172.16.0.0/16 ge 24 le 24
 ! → 172.16.0.0/16 범위 안에서 서브넷마스크가 정확히 /24 인 네트워크만
 ```
 
-### 📌 ge/le 조합 예시 (실무 필수 암기)
+### ge/le 조합 예시 (실무 필수 암기)
 
 ```cisco
 ! 예시 1: 10.0.0.0/8 대역의 모든 서브넷 (/8 ~ /32)
@@ -57,7 +57,7 @@ ip prefix-list NET172 permit 172.16.0.0/21 le 32
 ! /21 = 하위 3비트 = 8개 서브넷 커버
 ```
 
-### 📌 Bogon Filter - 인터넷 경계 라우터 표준 정책
+### Bogon Filter - 인터넷 경계 라우터 표준 정책
 
 ```cisco
 ! [Bogon Filter] 인터넷에 나타나면 안 되는 대역 전체 차단
@@ -84,7 +84,7 @@ router bgp 65000
 !
 ```
 
-### 📌 Bogon 대역 요약 (반드시 암기)
+### Bogon 대역 요약 (반드시 암기)
 
 |대역|분류|실무 의미|
 |---|---|---|
@@ -102,7 +102,7 @@ router bgp 65000
 |`224.0.0.0/4`|Multicast|그룹 통신|
 |`240.0.0.0/4`|Reserved|미래 예약 (Class E)|
 
-### 📌 사설 IP 전용 필터 (내부용 축약 버전)
+### 사설 IP 전용 필터 (내부용 축약 버전)
 ```cisco
 ! [사설 IP만 차단] 대외 인터페이스에서 사설 대역 광고/수신 차단
 !
@@ -117,7 +117,7 @@ router eigrp 100
 !
 ```
 
-### 📌 Prefix-list 편집 (시퀀스 번호 활용)
+### Prefix-list 편집 (시퀀스 번호 활용)
 
 ```cisco
 ! 초기 생성 시 자동으로 seq 5, 10, 15... 부여
@@ -136,9 +136,9 @@ no ip prefix-list NET172
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 ```cisco
 ! 설정된 Prefix-list 전체 확인
 show ip prefix-list
@@ -162,7 +162,7 @@ show ip route eigrp | include <필터-대상-대역>
 show ip route bgp | include <필터-대상-대역>
 ```
 
-### 🚨 트러블슈팅 시나리오 1: Prefix-list 적용 후 정상 경로까지 사라졌다
+### 트러블슈팅 시나리오 1: Prefix-list 적용 후 정상 경로까지 사라졌다
 
 - **증상:** Distribute-list에 Prefix-list 걸었더니 원하는 대역만 남아야 하는데 **전부 사라짐**.
 - **원인 파악:**
@@ -176,7 +176,7 @@ show ip route bgp | include <필터-대상-대역>
     ```
     
 
-### 🚨 트러블슈팅 시나리오 2: `/24` 서브넷만 걸러내려는데 다른 마스크까지 잡힌다
+### 트러블슈팅 시나리오 2: `/24` 서브넷만 걸러내려는데 다른 마스크까지 잡힌다
 
 - **증상:** `172.16.0.0/16 le 24` 로 걸었더니 `/16, /17, /18 ... /24` 까지 전부 매칭됨.
 - **원인 파악:**
@@ -193,7 +193,7 @@ show ip route bgp | include <필터-대상-대역>
     - `ge X le Y` = "서브넷마스크가 X ≤ mask ≤ Y 범위"
     - 정확히 하나의 마스크 길이만 원하면 `ge Y le Y` 로 명시.
 
-### 🚨 트러블슈팅 시나리오 3: Bogon Filter 적용 후 CGN 대역 통신이 안 된다
+### 트러블슈팅 시나리오 3: Bogon Filter 적용 후 CGN 대역 통신이 안 된다
 
 - **증상:** 특정 모바일 사용자(CGN 이용자)가 접속이 안 됨.
 - **원인 파악:**
@@ -206,7 +206,7 @@ show ip route bgp | include <필터-대상-대역>
     - Bogon 목록은 시간에 따라 갱신됨 → **Team Cymru Bogon Feed** 등으로 자동 갱신 검토.
     - 자체 서비스 특성(모바일/컨텐츠/기업망)에 따라 Bogon 리스트를 커스터마이즈.
 
-### ⚠️ Prefix-list 실무 체크리스트
+### Prefix-list 실무 체크리스트
 
 - [ ]  마지막에 `permit 0.0.0.0/0 le 32` 를 넣어 나머지를 명시적으로 허용했는가? (deny 정책일 경우)
 - [ ]  `ge`/`le` 의미를 정확히 이해했는가? (prefix length 조건)

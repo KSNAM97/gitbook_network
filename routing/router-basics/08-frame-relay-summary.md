@@ -1,11 +1,11 @@
-# 🧩 Frame-relay 통합 정리 — WAN L2 이론·구성 한눈에
+# Frame-relay 통합 정리 — WAN L2 이론·구성 한눈에
 
 > **Tag:** #Network #Cisco #WAN #FrameRelay #DLCI #LMI #Summary
 > **핵심 요약:** Frame-relay는 하나의 Serial Interface로 FR-Switch를 통해 N개의 원격지를 연결하는 WAN Layer 2 프로토콜이다. DLCI는 로컬 식별자이며, LMI로 VC 상태를 감시한다. 구성 방식은 주 Interface(Multipoint), Sub-interface P2P, Sub-interface Multipoint 3가지이며 Hub-and-Spoke에서는 Split-horizon 문제에 주의해야 한다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### Q1. Frame-relay가 필요한 이유는?
 
@@ -66,7 +66,7 @@ Hub → Spoke-B ✗ (Split-horizon으로 차단)
 
 ---
 
-## 2. 🛠️ 표준 설정 (Configuration)
+## 2. 표준 설정 (Configuration)
 
 ### 2-1. FR-Switch 설정 (공통 전제)
 
@@ -161,7 +161,7 @@ frame-relay map ip 192.168.10.2 102 broadcast
 
 ---
 
-## 3. 🔍 검증 명령어
+## 3. 검증 명령어
 
 ```cisco
 show frame-relay map              ! IP ↔ DLCI 매핑, static/dynamic, 상태
@@ -181,7 +181,7 @@ show interfaces serial 1/0        ! Encapsulation, LMI type, 에러
 
 ---
 
-## 4. ⚠️ 대표 함정
+## 4. 대표 함정
 
 | 함정 | 결과 | 조치 |
 |------|------|------|
@@ -194,7 +194,7 @@ show interfaces serial 1/0        ! Encapsulation, LMI type, 에러
 
 ---
 
-## 5. 📌 핵심 요약
+## 5. 핵심 요약
 
 > - DLCI는 **로컬 의미**. 양단 DLCI가 달라도 정상
 > - VC 상태 순서: **Active → Inactive → Deleted** (LMI 불일치 시 Deleted)

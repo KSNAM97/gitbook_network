@@ -1,11 +1,11 @@
-# 🕐 NTP & SSH & Telnet (원격 접속 & 시간 동기화)
+# NTP & SSH & Telnet (원격 접속 & 시간 동기화)
 
 > **Tag:** #NTP #SSH #Telnet #RemoteAccess #TimeSync #Cisco
 > **핵심 요약:** NTP는 네트워크 장비 간 시간을 동기화(UDP 123)하고, SSH는 암호화된 원격 접속(TCP 22), Telnet은 평문 원격 접속(TCP 23) 프로토콜이다. 실무에서는 Telnet 대신 SSH를 사용하며, Privilege Level로 접근 권한을 세밀하게 제어한다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### Q1. NTP를 사용하는 이유와 Stratum 계층 구조는?
 👉 **핵심 답변:** 장비 간 시간이 서로 다르면 Log 분석, 장애 추적, 인증서 검증, 보안 장비 이벤트 분석, AAA 인증 기록 확인 등이 정확하지 않기 때문이다. NTP는 UDP 123번 Port를 사용하며, Stratum 계층으로 정확도 단계를 표현한다.
@@ -63,7 +63,7 @@
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
 ### 2-1. NTP Server / Client 설정
 
@@ -186,7 +186,7 @@ menu SOL command 2 exit
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
 ### 3-1. 필수 검증 명령어
 

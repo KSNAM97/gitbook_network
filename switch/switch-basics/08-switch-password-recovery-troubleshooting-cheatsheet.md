@@ -1,11 +1,11 @@
-# 🚑 Switch Password 복구 트러블슈팅 치트시트
+# Switch Password 복구 트러블슈팅 치트시트
 
 > **Tag:** #Network #Troubleshooting #Switch #PasswordRecovery #Flash #NVRAM #CheatSheet
 > **핵심 요약:** Password 복구 실패는 주로 **Mode 버튼 타이밍 오류**, **`flash_init` 누락**, **`config.text` 파일명 상이**, **저장 누락** 4가지 원인에서 발생한다. `switch:` 프롬프트 진입 여부가 모든 절차의 전제 조건이다.
 
 ---
 
-## 1. 🎯 핵심 진단 흐름
+## 1. 핵심 진단 흐름
 
 ### Q1. Password 복구 중 막혔을 때 어떤 순서로 확인하는가?
 
@@ -31,7 +31,7 @@
 
 ---
 
-## 2. 🛠️ 증상별 즉시 대응표
+## 2. 증상별 즉시 대응표
 
 | 증상 | 원인 | 조치 |
 |------|------|------|
@@ -46,7 +46,7 @@
 
 ---
 
-## 3. 🔍 필수 진단 명령어
+## 3. 필수 진단 명령어
 
 ### switch: 프롬프트에서
 
@@ -70,7 +70,7 @@ Switch# show running-config | include secret     ! 기존 Enable Secret 확인
 
 ---
 
-## 4. 🚨 트러블슈팅 시나리오
+## 4. 트러블슈팅 시나리오
 
 ### 시나리오 1. `switch:` 프롬프트 진입 실패
 
@@ -186,7 +186,7 @@ Proceed with system initialization? [yes/no]:
 
 ---
 
-## 5. 🔧 현장 Quick Check
+## 5. 현장 Quick Check
 
 ```cisco
 ! switch: 프롬프트에서

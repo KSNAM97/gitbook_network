@@ -1,11 +1,11 @@
-# ⚡ VTP 명령어 퀵 레퍼런스
+# VTP 명령어 퀵 레퍼런스
 
 > **Tag:** #Network #QuickReference #VTP #VLAN #Cisco #VTPv3  
 > **핵심 요약:** VTP의 Domain·Password·Version·Mode 설정과 검증 명령어를 빠르게 확인하기 위한 암기 카드. VTPv1/v2에서는 Configuration Revision을 반드시 확인하고, VTPv3에서는 Primary Server 여부를 추가로 확인한다.
 
 ---
 
-## 1. 🧠 VTP 역할
+## 1. VTP 역할
 
 | 요구사항 | VTP Mode 또는 기능 |
 |---|---|
@@ -19,7 +19,7 @@
 
 ---
 
-## 2. 📊 Mode 비교
+## 2. Mode 비교
 
 | Mode | VLAN 변경 | 수신 DB 반영 | 광고 중계 | 로컬 VLAN 관리 |
 |---|:---:|:---:|:---:|:---:|
@@ -30,7 +30,7 @@
 
 ---
 
-## 3. 🔢 Version 비교
+## 3. Version 비교
 
 | 기능 | VTPv1 | VTPv2 | VTPv3 |
 |---|---|---|---|
@@ -43,7 +43,7 @@
 
 ---
 
-## 4. 🔧 기본 설정
+## 4. 기본 설정
 
 VTP Domain:
 
@@ -91,7 +91,7 @@ vtp mode off
 
 ---
 
-## 5. 🖥️ VTPv2 Server
+## 5. VTPv2 Server
 
 ```cisco
 configure terminal
@@ -110,7 +110,7 @@ vlan 20
 
 ---
 
-## 6. 📥 VTPv2 Client
+## 6. VTPv2 Client
 
 ```cisco
 configure terminal
@@ -129,7 +129,7 @@ VTP VLAN configuration not allowed when device is in CLIENT mode.
 
 ---
 
-## 7. 🪟 Transparent
+## 7. Transparent
 
 ```cisco
 configure terminal
@@ -151,7 +151,7 @@ VTP 광고 중계       → Version/Domain/플랫폼에 따라 차이
 
 ---
 
-## 8. ⛔ Off Mode
+## 8. Off Mode
 
 ```cisco
 configure terminal
@@ -217,7 +217,7 @@ VTPv3 Server Mode
 
 ---
 
-## 10. 🔌 Trunk 설정
+## 10. Trunk 설정
 
 ```cisco
 interface GigabitEthernet0/1
@@ -250,7 +250,7 @@ show interfaces GigabitEthernet0/1 switchport
 
 ---
 
-## 11. 📦 Extended VLAN
+## 11. Extended VLAN
 
 ### VTPv1/v2
 
@@ -287,7 +287,7 @@ vlan 3001
 
 ---
 
-## 12. ✂️ VTP Pruning
+## 12. VTP Pruning
 
 활성화:
 
@@ -317,7 +317,7 @@ STP          = L2 Loop 방지
 
 ---
 
-## 13. 🔄 Revision 안전 확인
+## 13. Revision 안전 확인
 
 확인:
 
@@ -354,7 +354,7 @@ vtp domain GIT_NET
 
 ---
 
-## 14. 🛡️ 신규 Switch 투입 순서
+## 14. 신규 Switch 투입 순서
 
 ```properties
 운영 Trunk 연결 금지
@@ -399,7 +399,7 @@ vtp mode off
 
 ---
 
-## 15. 🔍 검증 명령어
+## 15. 검증 명령어
 
 VTP 상태:
 
@@ -453,7 +453,7 @@ show logging
 
 ---
 
-## 16. ⚠️ 암기용 함정표
+## 16. 암기용 함정표
 
 | 설정 또는 상황 | 실제 의미 |
 |---|---|
@@ -475,7 +475,7 @@ show logging
 
 ---
 
-## 17. 🚑 빠른 장애 진단 순서
+## 17. 빠른 장애 진단 순서
 
 ```properties
 Trunk Up 확인
@@ -501,7 +501,7 @@ Access Port 및 Gateway 확인
 
 ---
 
-## 18. 🔄 안전한 변경 원칙
+## 18. 안전한 변경 원칙
 
 변경 전:
 

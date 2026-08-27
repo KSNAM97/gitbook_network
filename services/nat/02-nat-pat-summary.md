@@ -1,11 +1,11 @@
-# 🧩 NAT & PAT 통합 정리
+# NAT & PAT 통합 정리
 
 > **Tag:** #Network #NAT #PAT #IPServices #Cisco  
 > **핵심 요약:** NAT는 IP Header의 주소를 변환하는 L3 기능이며, 동작의 전제는 `ip nat inside`와 `ip nat outside` 방향 지정입니다. Static NAT는 1:1 고정 매핑으로 외부→내부 접속을 허용하고, Dynamic NAT는 Pool에서 임시 배정하며, PAT(Overload)는 Port 번호로 구분해 공인 IP 1개를 다수 단말이 공유합니다. NAT 대상 선별 ACL의 `permit`은 트래픽 허용이 아니라 "변환 대상 선정"을 의미합니다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념
+## 1. 핵심 기술 개념
 
 ### Q1. NAT는 무엇을 변환하는가?
 
@@ -438,7 +438,7 @@ no debug all
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿
+## 2. 표준 설정 템플릿
 
 ### 2-1. Interface 기반 PAT + 공개 서버 (공인 IP 1개)
 
@@ -512,7 +512,7 @@ show access-lists
 
 ---
 
-## 3. 🔧 안전한 변경 절차
+## 3. 안전한 변경 절차
 
 ```properties
 [1] 현재 확인 : show run | section ip nat / show ip nat translations / show ip nat statistics
@@ -547,7 +547,7 @@ show run | section ip nat
 
 ---
 
-## 4. 🔍 검증 명령어
+## 4. 검증 명령어
 
 ```cisco
 show ip nat translations
@@ -570,7 +570,7 @@ show logging
 
 ---
 
-## 5. ⚠️ 실무 체크리스트
+## 5. 실무 체크리스트
 
 - [ ] 내부 Interface에 `ip nat inside`를 지정했는가?
 - [ ] 외부 Interface에 `ip nat outside`를 지정했는가?

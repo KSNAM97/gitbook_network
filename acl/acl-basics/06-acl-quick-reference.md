@@ -1,11 +1,11 @@
-# ⚡ Cisco IOS ACL 명령어 퀵 레퍼런스
+# Cisco IOS ACL 명령어 퀵 레퍼런스
 
 > **Tag:** #Network #ACL #QuickReference #StandardACL #ExtendedACL #ReflectiveACL #TimeRange
 > **핵심 요약:** Standard·Extended·Reflective·Dynamic·Time-range ACL의 설정과 검증 명령어를 빠르게 조회하기 위한 암기 카드. 이해보다는 조회와 복붙이 목적이다.
 
 ---
 
-## 1. 🔢 ACL 번호 범위
+## 1. ACL 번호 범위
 
 | 유형 | 기본 번호 | 확장 번호 |
 |---|---:|---:|
@@ -16,7 +16,7 @@
 
 ---
 
-## 2. 🧠 ACL 동작 3대 원칙
+## 2. ACL 동작 3대 원칙
 
 ```properties
 1. 위에서 아래로 순차 검사
@@ -30,7 +30,7 @@ Extended ACL = Source + Destination + Protocol + Port
 
 ---
 
-## 3. 🛠️ Standard ACL
+## 3. Standard ACL
 
 ### Numbered Standard ACL
 
@@ -81,7 +81,7 @@ line vty 0 4
 
 ---
 
-## 4. 🛠️ Extended ACL
+## 4. Extended ACL
 
 ### 기본 문법
 
@@ -118,7 +118,7 @@ ip access-list extended ACL_WEB
 
 ---
 
-## 5. 🔎 주소 키워드
+## 5. 주소 키워드
 
 |표현|의미|
 |---|---|
@@ -136,7 +136,7 @@ Wildcard = 255.255.255.255 - Subnet Mask
 
 ---
 
-## 6. 🔌 포트 연산자
+## 6. 포트 연산자
 
 |연산자|의미|
 |---|---|
@@ -154,7 +154,7 @@ permit tcp any any range 1024 65535
 
 ---
 
-## 7. 🌲 라우팅 프로토콜 예외
+## 7. 라우팅 프로토콜 예외
 
 ### RIPv2
 
@@ -200,7 +200,7 @@ permit tcp host <PEER_IP> host <LOCAL_IP> eq 179
 
 ---
 
-## 8. 🔐 TCP Established
+## 8. TCP Established
 
 ```cisco
 ip access-list extended ACL_OUTSIDE_IN
@@ -216,7 +216,7 @@ UDP/ICMP 적용 불가
 
 ---
 
-## 9. 🔄 Reflective ACL
+## 9. Reflective ACL
 
 ```cisco
 ip access-list extended IN_TO_OUT
@@ -244,7 +244,7 @@ Default Global Timeout = 300초
 
 ---
 
-## 10. 🔑 Dynamic ACL — Lock-and-Key
+## 10. Dynamic ACL — Lock-and-Key
 
 ```cisco
 username <USER> secret <SECRET>
@@ -307,7 +307,7 @@ ntp server <NTP_SERVER_IP>
 
 ---
 
-## 12. 🧾 Log / Log-input
+## 12. Log / Log-input
 
 ```cisco
 deny ip any any log
@@ -323,7 +323,7 @@ deny tcp any host 192.0.2.10 eq 23 log-input
 
 ---
 
-## 13. 🧱 Fragment
+## 13. Fragment
 
 ```cisco
 ip access-list extended ACL_ANTI_FRAG
@@ -342,7 +342,7 @@ interface Tunnel0
 
 ---
 
-## 14. ✏️ ACL 편집
+## 14. ACL 편집
 
 ### 시퀀스 추가
 
@@ -384,7 +384,7 @@ no access-list 101
 
 ---
 
-## 15. 🔍 검증 명령어
+## 15. 검증 명령어
 
 ```cisco
 show access-lists
@@ -425,7 +425,7 @@ show logging | include SEC-6-IPACCESSLOG
 
 ---
 
-## 16. ⚠️ 적용 위치 암기표
+## 16. 적용 위치 암기표
 
 |ACL 유형|기본 배치 원칙|이유|
 |---|---|---|

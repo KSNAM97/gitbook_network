@@ -1,11 +1,11 @@
-# 🧩 Cisco IOS ACL 통합 정리 — Standard·Extended·Stateful 한눈에
+# Cisco IOS ACL 통합 정리 — Standard·Extended·Stateful 한눈에
 
 > **Tag:** #Network #ACL #StandardACL #ExtendedACL #ReflectiveACL #DynamicACL #TimeRange #Security
 > **핵심 요약:** Cisco IOS ACL은 패킷을 **위에서 아래로 순차 검사하고, 최초 일치 시 즉시 종료하며, 마지막에는 암묵적 deny가 존재**한다. Standard ACL은 출발지만 보므로 목적지 가까이, Extended ACL은 출발지·목적지·프로토콜·포트를 구분하므로 출발지 가까이 배치하는 것이 기본이다. 운영망에서는 Named ACL과 시퀀스 번호를 사용하고, 상태 기반 제어가 필요하면 Reflective ACL보다 ZBF 또는 전용 방화벽을 우선 검토한다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### Q1. ACL을 관통하는 가장 중요한 동작 원리는?
 
@@ -116,7 +116,7 @@ permit tcp any 10.10.0.0 0.0.255.255 established
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
 ### 2-1. Standard ACL — 일부 출발지만 허용
 
@@ -426,7 +426,7 @@ ntp server 210.98.16.100
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification)
+## 3. 검증 및 트러블슈팅 (Verification)
 
 ### 3-1. 필수 검증 명령어
 
@@ -463,7 +463,7 @@ show logging | include SEC-6-IPACCESSLOG
 
 ---
 
-## 4. ⚠️ 실무 설계 체크리스트
+## 4. 실무 설계 체크리스트
 
 - [ ]  ACL의 목적과 적용 트래픽 방향을 먼저 도식화했는가?
 - [ ]  구체적인 ACE를 위에, 넓은 ACE를 아래에 배치했는가?

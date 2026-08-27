@@ -1,11 +1,11 @@
-# 🚑 라우팅 기초 트러블슈팅 치트시트
+# 라우팅 기초 트러블슈팅 치트시트
 
 > **Tag:** #Network #Troubleshooting #Routing #Static #RIB #FIB #CEF #IPSLA #CheatSheet
 > **핵심 요약:** Static Routing 장애는 **Interface → Connected Route → 목적지 RIB → CEF/Adjacency → Next-hop → Return Path → ACL/NAT** 순서로 확인한다. RIB에 Static Route가 보인다고 실제 통신이 보장되는 것은 아니며, Ethernet에서는 Next-hop ARP와 CEF Adjacency까지 확인해야 한다.
 
 ---
 
-## 1. 🎯 핵심 진단 흐름
+## 1. 핵심 진단 흐름
 
 ### Q1. 통신이 안 될 때 어떤 순서로 확인하는가?
 
@@ -57,7 +57,7 @@ traceroute <DESTINATION>
 
 ---
 
-## 2. 🛠️ 증상별 즉시 대응표
+## 2. 증상별 즉시 대응표
 
 ### 2-1. 경로 및 통신
 
@@ -97,7 +97,7 @@ traceroute <DESTINATION>
 
 ---
 
-## 3. 🔍 필수 진단 명령어
+## 3. 필수 진단 명령어
 
 ### Interface/L1·L2
 
@@ -148,7 +148,7 @@ show track 1
 
 ---
 
-## 4. 🚨 트러블슈팅 시나리오
+## 4. 트러블슈팅 시나리오
 
 ### 시나리오 1. Ping 요청은 가지만 응답이 없음
 
@@ -459,7 +459,7 @@ interface GigabitEthernet0/1
 
 ---
 
-## 5. 🔧 현장 Quick Check
+## 5. 현장 Quick Check
 
 ```cisco
 show ip interface brief

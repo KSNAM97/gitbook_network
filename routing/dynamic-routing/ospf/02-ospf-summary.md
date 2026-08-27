@@ -1,11 +1,11 @@
-# 🌲 OSPF 통합 정리 — SPF·Area·LSA·Neighbor State
+# OSPF 통합 정리 — SPF·Area·LSA·Neighbor State
 
 > **Tag:** #Routing #OSPF #LinkState #IGP #Area #LSA #Summary  
 > **핵심 요약:** OSPF는 **Dijkstra SPF 알고리즘을 사용하는 개방형 Link-State IGP**다. IP Protocol 89를 사용하며 기본 AD는 110이다. Area 계층화를 통해 Type 1·2 LSA의 범위를 제한하고, ABR 요약과 Stub/NSSA를 이용해 LSDB와 경로 정보를 제어한다. 장애 진단은 **Neighbor State가 어디에서 멈췄는지** 확인하는 것부터 시작한다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념
+## 1. 핵심 기술 개념
 
 ### Q1. OSPF를 엔터프라이즈 코어에서 사용하는 이유는?
 
@@ -105,7 +105,7 @@ Frame Relay 같은 NBMA 환경은 브로드캐스트와 멀티캐스트 전달�
 
 ---
 
-## 2. 🧩 OSPF 구성 요소
+## 2. OSPF 구성 요소
 
 ### 2-1. Router 역할
 
@@ -143,7 +143,7 @@ Frame Relay 같은 NBMA 환경은 브로드캐스트와 멀티캐스트 전달�
 
 ---
 
-## 3. 🛠️ 표준 설정 템플릿
+## 3. 표준 설정 템플릿
 
 ### 3-1. 기본 OSPF 구성
 
@@ -319,7 +319,7 @@ router ospf 100
 
 ---
 
-## 4. 🔍 검증 명령어
+## 4. 검증 명령어
 
 ```cisco
 show ip ospf neighbor
@@ -346,7 +346,7 @@ undebug all
 
 ---
 
-## 5. 📌 핵심 정리
+## 5. 핵심 정리
 
 - OSPF는 **AD 110, IP Protocol 89**를 사용하는 Link-State IGP
 - Area 0은 OSPF Backbone

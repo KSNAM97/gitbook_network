@@ -1,4 +1,4 @@
-# ⚖️ IPsec 이중화 (HSRP 연동)
+# IPsec 이중화 (HSRP 연동)
 
 > **Tag:** #network #vpn #ipsec #hsrp #redundancy #high-availability #dpd #cisco
 > **핵심 요약:** 본사 VPN 라우터를 이중화하고 HSRP Virtual IP를 VPN Peer로 삼아 무중단 VPN을 구현
@@ -7,7 +7,7 @@
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### 본사 VPN 라우터 2대를 이중화할 때 HSRP Virtual IP를 VPN Peer로 쓰는 이유
 
@@ -27,9 +27,9 @@ HQ-1, HQ-2, ISP-1이 같은 브로드캐스트 세그먼트에 있으면 DR/BDR 
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 1단계: 공중망 OSPF + DR 고정 (HQ 이중화 구간)
+### 1단계: 공중망 OSPF + DR 고정 (HQ 이중화 구간)
 
 ```cisco
 ! === ISP-1 : DR로 고정 ===
@@ -40,7 +40,7 @@ interface fastethernet 0/1
 interface fastethernet 0/1
  ip ospf priority 0                         ! DR/BDR 선출 배제
 ```
-### 📌 2단계: 내부/외부 HSRP 이중화 + Track 교차 감지
+### 2단계: 내부/외부 HSRP 이중화 + Track 교차 감지
 
 ```cisco
 ! === HQ-1 (Active) ===
@@ -74,7 +74,7 @@ interface fastethernet 0/1
  standby 2 name IPSEC_R
 ```
 
-### 📌 3단계: crypto map을 HSRP와 연동 (핵심, 2가지 방식)
+### 3단계: crypto map을 HSRP와 연동 (핵심, 2가지 방식)
 
 ```cisco
 ! === HQ-1, HQ-2 공통 ===
@@ -107,7 +107,7 @@ interface fastethernet 0/1
  crypto map IPSEC_REDUNDANCY redundancy IPSEC_R
 ```
 
-### 📌 4단계: 다중 지사 이중화 (지사별 다른 Phase1 정책)
+### 4단계: 다중 지사 이중화 (지사별 다른 Phase1 정책)
 
 ```cisco
 ! HQ에서 지사(GIT-A/GIT-B)마다 다른 정책·transform-set을 crypto map sequence로 분리
@@ -139,7 +139,7 @@ interface fastethernet 0/1
  crypto map IPSEC_HSRP redundancy IPSEC_R
 ```
 
-### 📌 5단계: 원격 지사(GIT-A)는 Virtual IP를 Peer로 + NAT 예외
+### 5단계: 원격 지사(GIT-A)는 Virtual IP를 Peer로 + NAT 예외
 
 ```cisco
 ! === GIT-A ===
@@ -162,9 +162,9 @@ ip nat inside source list 110 pool GIT_NAT overload
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 
 ```cisco
 Router# show standby brief                   ! Active/Standby + Virtual IP
@@ -174,28 +174,28 @@ Router# show crypto engine connections active   ! 암/복호화 카운터
 Router# show ip ospf neighbor                 ! DR/BDR 확인
 ```
 
-### 📊 정상 동작 판독
+### 정상 동작 판독
 
 - `show standby brief`: HQ-1이 내부(Grp1)·외부(Grp2) 모두 **Active**, Virtual IP 소유.
 - `show crypto isakmp peer`: **Active(HQ-1)에만** Peer 표시, Standby(HQ-2)엔 없음.
 - 절체 후: HQ-2가 Active로, 같은 Virtual IP로 Peer가 나타나며 암/복호화 카운터 증가.
-### 🚨 장애 시나리오 1: Active 절체는 됐는데 VPN이 안 넘어감
+### 장애 시나리오 1: Active 절체는 됐는데 VPN이 안 넘어감
 
 - **증상:** HSRP는 HQ-2로 넘어갔으나 원격지와 VPN 불통. 로그에 `%CRYPTO-6-IKMP_MODE_FAILURE`.
 - **원인 파악:** crypto map을 **HSRP와 연동(`redundancy [이름]`)하지 않음** 또는 HSRP `name` 미지정. IPsec이 물리 IP에 묶여 절체 안 됨.
 - **해결:** `standby [grp] name IPSEC_R` + `crypto map ... redundancy IPSEC_R`를 양쪽 HQ에 적용. `crypto isakmp keepalive`로 죽은 SA 조기 정리.
 
-### 🚨 장애 시나리오 2: WAN(외부) 회선만 끊겼는데 절체가 안 됨
+### 장애 시나리오 2: WAN(외부) 회선만 끊겼는데 절체가 안 됨
 
 - **원인 파악:** HSRP는 자기 인터페이스 장애만 감지 → 반대편 장애를 모름. **Track 미설정.**
 - **해결:** 내부 그룹이 외부 IF(`track fa0/1`), 외부 그룹이 내부 IF(`track fa0/0`)를 **교차 추적**하도록 설정. `show standby all`에서 Track state와 차감된 우선순위 확인.
 
-### 🚨 장애 시나리오 3: 절체 후 원격지가 Peer를 못 찾음
+### 장애 시나리오 3: 절체 후 원격지가 Peer를 못 찾음
 
 - **원인 파악:** 원격지가 HQ의 **물리 IP를 Peer로 지정**해 둠. Active가 바뀌면 그 물리 IP는 응답 안 함.
 - **해결:** 원격지 `set peer`와 `crypto isakmp key address`를 모두 **HSRP Virtual IP(121.160.10.4)** 로 통일.
 
-### 🚨 장애 시나리오 4: OSPF 인접이 불안정하거나 BDR이 자꾸 바뀜
+### 장애 시나리오 4: OSPF 인접이 불안정하거나 BDR이 자꾸 바뀜
 
 - **원인 파악:** HQ 이중화 구간에서 DR/BDR 선출이 유동적.
 - **해결:** ISP를 `ip ospf priority 255`로 DR 고정, HQ들을 `ip ospf priority 0`으로 후보 제외.

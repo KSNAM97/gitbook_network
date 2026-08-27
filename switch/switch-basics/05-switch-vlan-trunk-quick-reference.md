@@ -1,11 +1,11 @@
-# ⚡ 스위치 기본 & VLAN·Trunk 퀵 레퍼런스
+# 스위치 기본 & VLAN·Trunk 퀵 레퍼런스
 
 > **Tag:** #Network #QuickReference #Switch #VLAN #Trunk #DTP #Dot1Q #InterVLAN  
 > **핵심 요약:** VLAN·Access Port·Trunk·Router-on-a-Stick의 핵심 문법과 검증 명령어를 빠르게 확인하기 위한 암기 카드. VLAN은 Broadcast Domain을 분리하고, Access Port는 단말을 VLAN에 연결하며, Trunk는 여러 VLAN을 하나의 링크로 전달한다.
 
 ---
 
-## 1. 🧠 도구 선택표
+## 1. 도구 선택표
 
 | 요구사항 | 설정 또는 기술 |
 |---|---|
@@ -22,7 +22,7 @@
 
 ---
 
-## 2. 🔌 스위치 동작 암기
+## 2. 스위치 동작 암기
 
 ```properties
 Learning   = Source MAC 학습
@@ -40,7 +40,7 @@ Flooding 범위는 VLAN 단위이다.
 
 ---
 
-## 3. 📍 VLAN 생성
+## 3. VLAN 생성
 
 단일 VLAN:
 
@@ -79,7 +79,7 @@ show vlan id 10
 
 ---
 
-## 4. 🖥️ Access Port
+## 4. Access Port
 
 단일 Port:
 
@@ -124,7 +124,7 @@ show vlan brief
 
 ---
 
-## 5. 🚚 Trunk 기본 설정
+## 5. Trunk 기본 설정
 
 고정 802.1Q 플랫폼:
 
@@ -160,7 +160,7 @@ show dtp interface GigabitEthernet0/24
 
 ---
 
-## 6. 🔀 DTP 조합
+## 6. DTP 조합
 
 | SW1 | SW2 | 결과 |
 |---|---|---|
@@ -195,7 +195,7 @@ switchport nonegotiate
 
 ---
 
-## 7. 📦 Allowed VLAN
+## 7. Allowed VLAN
 
 현재 목록을 교체:
 
@@ -238,7 +238,7 @@ show running-config interface GigabitEthernet0/24
 
 ---
 
-## 8. 🏷️ Native VLAN
+## 8. Native VLAN
 
 Native VLAN 변경:
 
@@ -266,7 +266,7 @@ Native VLAN Frame은 기본적으로 Untagged
 
 ---
 
-## 9. 🌐 Router-on-a-Stick
+## 9. Router-on-a-Stick
 
 Router:
 
@@ -316,7 +316,7 @@ interface GigabitEthernet0/0.999
 
 ---
 
-## 10. 🧾 MAC Address Table
+## 10. MAC Address Table
 
 전체 확인:
 
@@ -370,7 +370,7 @@ clear mac address-table dynamic interface GigabitEthernet0/1
 
 ---
 
-## 11. 🔍 필수 검증 명령어
+## 11. 필수 검증 명령어
 
 VLAN:
 
@@ -427,7 +427,7 @@ show errdisable recovery
 
 ---
 
-## 12. ⚠️ 암기용 함정표
+## 12. 암기용 함정표
 
 | 설정 또는 상황 | 실제 의미 |
 |---|---|
@@ -452,7 +452,7 @@ show errdisable recovery
 
 ---
 
-## 13. 🚑 빠른 장애 진단 순서
+## 13. 빠른 장애 진단 순서
 
 ```properties
 Port Up 확인
@@ -480,7 +480,7 @@ ACL·Port Security 확인
 
 ---
 
-## 14. 🔄 안전한 정책 변경
+## 14. 안전한 정책 변경
 
 변경 전:
 

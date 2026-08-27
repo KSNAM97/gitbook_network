@@ -1,11 +1,11 @@
-# 🧩 통합 실습 부가기술 (DHCP / NTP / Anti-Fragment ACL)
+# 통합 실습 부가기술 (DHCP / NTP / Anti-Fragment ACL)
 
 > **Tag:** #network #dhcp #ntp #acl #l3switch #cisco
 > **핵심 요약:** L3 스위치 통합 구성 시 함께 쓰이는 서비스 기술 (DHCP 서버, NTP 시간 동기화, 조각 공격 차단)
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### Q. L3 스위치를 DHCP 서버로 쓸 때 반드시 챙겨야 할 것은?
 
@@ -23,9 +23,9 @@
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 L3 스위치 DHCP 서버
+### L3 스위치 DHCP 서버
 
 ```cisco
 SW1(config)# ip routing
@@ -40,7 +40,7 @@ SW1(dhcp-config)# dns-server 168.126.63.1                 ! DNS 서버
 SW1(dhcp-config)# lease 5 0 0                             ! 임대기간 5일 (일 시 분)
 ```
 
-### 📌 NTP 인증 기반 시간 동기화
+### NTP 인증 기반 시간 동기화
 
 ```cisco
 ! === NTP Server (R2) ===
@@ -57,7 +57,7 @@ Client(config)# ntp trusted-key 1
 Client(config)# ntp server 121.160.20.2 key 1            ! 지정 서버로부터만 key1로 동기화
 ```
 
-### 📌 IP Fragment 기반 DoS 차단 ACL
+### IP Fragment 기반 DoS 차단 ACL
 
 ```cisco
 ! 특정 서버로 향하는 조각화(fragment) 패킷을 차단하여 조각 재조합 DoS 방어
@@ -71,9 +71,9 @@ R1(config-if)# ip access-group ANTI-FRAG in                  ! 인바운드 적�
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 
 ```cisco
 ! --- DHCP ---
@@ -90,7 +90,7 @@ R1# show access-lists ANTI-FRAG        ! ACL 매칭 카운터 확인
 R1# show ip interface fa0/0            ! ACL 적용 여부 확인
 ```
 
-### 🚨 장애 시나리오 1: 단말이 DHCP로 IP를 못 받음
+### 장애 시나리오 1: 단말이 DHCP로 IP를 못 받음
 
 - **원인 파악:**
     1. 해당 VLAN **SVI가 down** — VLAN에 활성 Access 포트가 없으면 SVI가 안 뜨고 풀도 죽음.
@@ -98,7 +98,7 @@ R1# show ip interface fa0/0            ! ACL 적용 여부 확인
     3. 단말이 다른 서브넷에 있음 — 라우터에 `ip helper-address` 누락.
 - **해결:** SVI up 확인 → 풀의 default-router가 SVI IP와 일치하는지 확인 → `show ip dhcp binding`으로 임대 확인.
 
-### 🚨 장애 시나리오 2: NTP 클라이언트가 동기화 안 됨
+### 장애 시나리오 2: NTP 클라이언트가 동기화 안 됨
 
 - **증상:** `show ntp status`에 `unsynchronized` 표시.
 - **원인 파악:**

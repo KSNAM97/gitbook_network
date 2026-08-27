@@ -1,4 +1,4 @@
-# 📘 Network
+# Network
 
 Cisco 기반 네트워크 학습 가이드. Network 기본 개념부터 Routing, ACL, Switch/L2·L3 인프라, IP 서비스(DHCP·NAT·VPN)까지 실무 설정 템플릿과 트러블슈팅 시나리오 중심으로 정리했다.
 

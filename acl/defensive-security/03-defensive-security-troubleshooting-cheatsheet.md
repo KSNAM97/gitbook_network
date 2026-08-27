@@ -1,11 +1,11 @@
-# 🚑 스위치 & 방어 보안 트러블슈팅 치트시트
+# 스위치 & 방어 보안 트러블슈팅 치트시트
 
 > **Tag:** #Network #Troubleshooting #PortSecurity #ErrDisable #BPDUGuard #TCPIntercept
 > **핵심 요약:** Port-security 장애는 **포트 상태 → Err-disable 원인 → Secure MAC → Maximum/Violation Mode → 실제 연결 장비** 순서로 확인한다. TCP Intercept 장애는 **ACL 매칭 → Mode → Connection/Drop 통계 → Threshold → CPU/Memory → NAT/ZBF 충돌** 순서로 진단한다.
 
 ---
 
-## 1. 🎯 공통 진단 순서
+## 1. 공통 진단 순서
 
 ### Port-security
 
@@ -31,7 +31,7 @@
 
 ---
 
-## 2. 🛠️ 증상별 즉시 대응표
+## 2. 증상별 즉시 대응표
 
 | 증상 | 원인 | 확인 | 조치 |
 |---|---|---|---|
@@ -49,7 +49,7 @@
 
 ---
 
-## 3. 🔍 필수 확인 명령어
+## 3. 필수 확인 명령어
 
 ### Port-security
 
@@ -85,7 +85,7 @@ show processes memory sorted
 
 ---
 
-## 4. 🚨 대표 장애 시나리오
+## 4. 대표 장애 시나리오
 
 ### 시나리오 1. PC 교체 후 Port-security 위반
 
@@ -465,7 +465,7 @@ no errdisable recovery cause psecure-violation
 
 ---
 
-## 5. 🔧 안전한 Port-security 변경 절차
+## 5. 안전한 Port-security 변경 절차
 
 ```properties
 [1] 현재 Secure MAC 및 Running-config 백업

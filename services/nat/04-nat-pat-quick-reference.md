@@ -1,11 +1,11 @@
-# ⚡ NAT & PAT 명령어 퀵 레퍼런스
+# NAT & PAT 명령어 퀵 레퍼런스
 
 > **Tag:** #Network #NAT #PAT #IPServices #Cisco  
 > **핵심 요약:** NAT 설정은 **방향 지정 → 대상 선별 → 변환 규칙 → 검증** 4단계로 고정됩니다. `ip nat inside`/`ip nat outside`가 없으면 어떤 규칙도 동작하지 않고, `overload` 유무가 PAT와 Dynamic NAT를 가르며, NAT 대상 ACL의 `permit`은 허용이 아니라 변환 대상 선정입니다.
 
 ---
 
-## 1. 🧠 요구사항별 선택 가이드
+## 1. 요구사항별 선택 가이드
 
 | 요구사항 | 사용할 방식 |
 |---|---|
@@ -21,7 +21,7 @@
 
 ---
 
-## 2. 📊 NAT 4대 용어
+## 2. NAT 4대 용어
 
 | 용어 | 누구의 주소 | 누구의 시선 | 예시 |
 |---|---|---|---|
@@ -40,7 +40,7 @@ ip nat outside source 시 : Outside Local ≠ Outside Global
 
 ---
 
-## 3. 📊 NAT 유형 비교
+## 3. NAT 유형 비교
 
 | 유형 | 매핑 | 필요 공인 IP | 외부→내부 최초 접속 | Entry 생성 시점 |
 |---|---|:---:|:---:|---|
@@ -56,7 +56,7 @@ overload 없음 = Dynamic NAT (주소 1:1 임시 배정, Pool 고갈 위험)
 
 ---
 
-## 4. 🔧 1단계 · 방향 지정 (필수)
+## 4. 1단계 · 방향 지정 (필수)
 
 ```cisco
 interface <INTERFACE>
@@ -82,7 +82,7 @@ show run | section ip nat
 
 ---
 
-## 5. 🔧 2단계 · 변환 대상 선별 ACL
+## 5. 2단계 · 변환 대상 선별 ACL
 
 ```cisco
 access-list <ACL-NUMBER> permit <NETWORK> <WILDCARD-MASK>
@@ -112,7 +112,7 @@ permit = 통과 허용 / deny = 폐기
 
 ---
 
-## 6. 🔧 3단계 · 변환 규칙 4종
+## 6. 3단계 · 변환 규칙 4종
 
 Static NAT:
 
@@ -174,7 +174,7 @@ Interface 기반 PAT 조건 = 해당 Interface에 실제 공인 IP + ip nat outs
 
 ---
 
-## 7. 🔧 Outside NAT
+## 7. Outside NAT
 
 ```cisco
 ip nat outside source static <OUTSIDE-GLOBAL-IP> <OUTSIDE-LOCAL-IP>
@@ -199,7 +199,7 @@ ip nat outside source = 외부 호스트 주소 변환
 
 ---
 
-## 8. 🔧 NAT 예외 (VPN 병행)
+## 8. NAT 예외 (VPN 병행)
 
 ```cisco
 ip access-list extended NAT_TARGET
@@ -233,7 +233,7 @@ Crypto ACL / Proxy ID 불일치 → Tunnel 미통과
 
 ---
 
-## 9. 🔧 사설 대역 유출 차단 (ISP 방향)
+## 9. 사설 대역 유출 차단 (ISP 방향)
 
 ```cisco
 ip access-list standard ANTI_PRIVATE
@@ -263,7 +263,7 @@ NAT 대상 ACL의 deny  = 변환 제외
 
 ---
 
-## 10. 🔧 Timeout 조정과 Table 해제
+## 10. Timeout 조정과 Table 해제
 
 ```cisco
 ip nat translation timeout <SECONDS>
@@ -307,7 +307,7 @@ Static Entry  = clear로 삭제되지 않음 (no 명령 필요)
 
 ---
 
-## 11. 📊 `show ip nat translations` 판독
+## 11. `show ip nat translations` 판독
 
 ```properties
 Pro   Inside global        Inside local        Outside local       Outside global
@@ -330,7 +330,7 @@ ICMP    → ICMP Query ID로 세션 구분
 
 ---
 
-## 12. 📊 `show ip nat statistics` 확인 항목
+## 12. `show ip nat statistics` 확인 항목
 
 ```properties
 Total active translations : 현재 활성 변환 수 (static / dynamic 구분 표시)
@@ -350,7 +350,7 @@ Total active translations 과다      → Timeout 또는 비정상 트래픽 검
 
 ---
 
-## 13. 🔀 NAT · 라우팅 · ACL 처리 순서
+## 13. NAT · 라우팅 · ACL 처리 순서
 
 ```properties
 [Inside → Outside]
@@ -394,7 +394,7 @@ show ip nat statistics
 
 ---
 
-## 14. 🔍 라우팅 확인과 경로 선택 원칙
+## 14. 라우팅 확인과 경로 선택 원칙
 
 ```cisco
 ip route 0.0.0.0 0.0.0.0 <NEXT-HOP-IP>
@@ -418,7 +418,7 @@ AD만 단독 비교 = 잘못된 결론
 
 ---
 
-## 15. 🔐 NAT-T (NAT Traversal)
+## 15. NAT-T (NAT Traversal)
 
 ```properties
 IKE 협상        : UDP 500
@@ -454,7 +454,7 @@ show ip nat translations
 
 ---
 
-## 16. 🔍 Debug와 부하 확인
+## 16. Debug와 부하 확인
 
 ```cisco
 debug ip nat
@@ -487,7 +487,7 @@ show ip route <IP-ADDRESS>
 
 ---
 
-## 17. 🔄 안전한 변경 순서
+## 17. 안전한 변경 순서
 
 ```properties
 [1] 현재 확인 : show run | section ip nat / show ip nat translations / show ip nat statistics
@@ -516,7 +516,7 @@ show ip nat statistics
 
 ---
 
-## 18. ⚠️ 암기용 함정표
+## 18. 암기용 함정표
 
 | 설정 또는 상황 | 실제 의미 |
 |---|---|
@@ -545,7 +545,7 @@ show ip nat statistics
 
 ---
 
-## 19. 🚑 빠른 장애 진단 순서
+## 19. 빠른 장애 진단 순서
 
 ```properties
 ip nat inside 확인
@@ -574,7 +574,7 @@ Inside Outbound ACL을 사설 IP 기준으로 확인
 
 ---
 
-## 20. 🔍 검증 명령어 모음
+## 20. 검증 명령어 모음
 
 ```cisco
 show ip nat translations

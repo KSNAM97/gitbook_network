@@ -1,11 +1,11 @@
-# 🔌 스위치 기본 & VLAN (Switch Basics & VLAN)
+# 스위치 기본 & VLAN (Switch Basics & VLAN)
 
 > **Tag:** #network #switch #layer2 #vlan #cisco
 > **핵심 요약:** 계층별 장비의 역할, 스위치 동작원리(L.F.F.F), VLAN을 통한 논리적 분할
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### 스위치의 Collision Domain 분리만으로 VLAN이 필요한 이유
 
@@ -21,9 +21,9 @@ MAC Table의 기본 Aging Time은 **300초(5분)**이며, 이 시간 동안 트�
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 계층별 장비 요약 (면접 단골)
+### 계층별 장비 요약 (면접 단골)
 
 | 구분 | 계층 | 주소 체계 | 도메인 처리 | 기반 |
 |------|------|-----------|-------------|------|
@@ -31,7 +31,7 @@ MAC Table의 기본 Aging Time은 **300초(5분)**이며, 이 시간 동안 트�
 | **Switch** | L2 | MAC (48bit) | Collision 분할 / Broadcast 공유 | 하드웨어(ASIC) |
 | **Router** | L3 | IP (32bit) | Broadcast 분할 | 소프트웨어 |
 
-### 📌 VLAN 생성 / 수정 / 삭제
+### VLAN 생성 / 수정 / 삭제
 
 ```cisco
 ! === 단일 VLAN 생성 ===
@@ -57,7 +57,7 @@ Switch(config)# no vlan 11-30
 Copy
 ````
 
-### 📌 Access Mode 포트 할당 (단말 장비용)
+### Access Mode 포트 할당 (단말 장비용)
 
 ```cisco
 ! PC, Server 등 VLAN을 모르는 단말이 붙는 포트에 적용
@@ -66,7 +66,7 @@ Switch(config-if)# switchport mode access          ! 모드를 Access로 고정 
 Switch(config-if)# switchport access vlan 10        ! 해당 포트를 VLAN 10에 소속
 ```
 
-### 📌 Range 명령어 (다수 포트 일괄 설정 = 운영 효율의 핵심)
+### Range 명령어 (다수 포트 일괄 설정 = 운영 효율의 핵심)
 
 ```cisco
 Switch(config)# vlan 10,20,30,40
@@ -89,9 +89,9 @@ Switch(config-if)# switchport access vlan 40
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 
 ```cisco
 Switch# show vlan brief          ! VLAN 목록 + 각 VLAN에 소속된 포트 확인 (가장 많이 사용)
@@ -100,7 +100,7 @@ Switch# show interface status    ! 포트의 VLAN/Duplex/Speed 상태 한눈에 
 Switch# show running-config interface fa0/1   ! 특정 포트 설정 검증
 ```
 
-### 🚨 장애 시나리오 1: 같은 VLAN 인데 통신이 안 됨
+### 장애 시나리오 1: 같은 VLAN 인데 통신이 안 됨
 
 - **증상:** VLAN 10에 할당한 두 PC 간 Ping 실패.
 - **원인 파악:**
@@ -109,7 +109,7 @@ Switch# show running-config interface fa0/1   ! 특정 포트 설정 검증
     3. 두 PC가 다른 스위치에 있다면 스위치 간 **Trunk 구성 여부** 확인.
 - **해결:** 누락된 VLAN을 `vlan 10`으로 생성하고, `switchport access vlan 10`을 재적용.
 
-### 🚨 장애 시나리오 2: VLAN을 삭제했더니 포트가 먹통
+### 장애 시나리오 2: VLAN을 삭제했더니 포트가 먹통
 
 - **증상:** `no vlan 10` 실행 후 해당 VLAN에 속했던 포트들이 통신 불가.
 - **원인 파악:** VLAN을 삭제해도 포트의 `switchport access vlan 10` 설정은 남아있어, 존재하지 않는 VLAN을 가리키며 **inactive**가 됨. (`show vlan brief`에서 해당 포트가 사라짐)

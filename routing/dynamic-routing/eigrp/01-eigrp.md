@@ -1,13 +1,13 @@
-# 2-1. 🐎  EIGRP (Enhanced Interior Gateway Routing Protocol)
+# EIGRP (Enhanced Interior Gateway Routing Protocol)
 
 >**Tags:** #EIGRP #Routing #IGP #Cisco #DUAL #HybridProtocol
 > **핵심 요약:** **Category:** Routing Protocol / Fundamentals
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
-### Q1. 🤔 OSPF라는 표준 프로토콜이 있는데, 왜 실무에서 여전히 EIGRP를 채택하나요? 각각의 아키텍처적 강점은 무엇인가요?
+### Q1. OSPF라는 표준 프로토콜이 있는데, 왜 실무에서 여전히 EIGRP를 채택하나요? 각각의 아키텍처적 강점은 무엇인가요?
 
 - 👉 **핵심 답변:** EIGRP는 **DUAL 알고리즘 기반의 "Hybrid 프로토콜"** 로, Link-State의 빠른 수렴 속도와 Distance-Vector의 낮은 리소스 사용량을 모두 갖췄기 때문입니다. 특히 **Feasible Successor(사전 계산된 백업 경로)** 덕분에 장애 발생 시 SPF 재계산 없이 즉시 Failover가 가능해, Cisco 단일 벤더 환경의 대규모 캠퍼스/WAN에서 여전히 강력합니다.
 
@@ -16,7 +16,7 @@
   - **Metric 산정 방식:** OSPF는 Bandwidth만 보지만, EIGRP는 **Bandwidth + Delay(기본)** 조합으로 계산해 더 세밀한 경로 선택이 가능합니다.
   - **부분 업데이트:** 링크 변화 시 전체 토폴로지가 아닌 **변화된 경로만** 업데이트해 대역폭 소모가 적습니다.
 
-### Q2. 🤔 EIGRP의 3가지 테이블(Neighbor / Topology / Routing)은 왜 분리되어 있고, 각각 어떤 실무적 의미를 가지나요?
+### Q2. EIGRP의 3가지 테이블(Neighbor / Topology / Routing)은 왜 분리되어 있고, 각각 어떤 실무적 의미를 가지나요?
 
 - 👉 **핵심 답변:** 이 3단계 분리 구조가 바로 **EIGRP의 빠른 수렴을 가능하게 하는 핵심 아키텍처**입니다. Topology Table에 이미 모든 대체 경로(FS)를 사전 계산해 두었기 때문에, 장애 발생 시 Routing Table 재계산 없이 즉시 백업 경로로 전환됩니다.
 
@@ -28,9 +28,9 @@
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 기본 EIGRP 활성화 (실무 표준)
+### 기본 EIGRP 활성화 (실무 표준)
 
 ```cisco
 ! === 기본 EIGRP 설정 (모든 라우터 공통 템플릿) ===
@@ -54,7 +54,7 @@ router eigrp 100
  network 150.1.13.1   0.0.0.0
 !
 ```
-### 🔧 Frame-Relay Multipoint 환경 (Split-Horizon 이슈)
+### Frame-Relay Multipoint 환경 (Split-Horizon 이슈)
 ```cisco
 ! === Hub 라우터 (R2) - NBMA 환경 필수 설정 ===
 !
@@ -67,7 +67,7 @@ interface serial 1/0.123 multipoint
 !
 
 ```
-### 🔐 EIGRP 인증 설정 (보안 필수)
+### EIGRP 인증 설정 (보안 필수)
 ```cisco
 ! === MD5 인증 (양단 동일하게 설정) ===
 !
@@ -82,7 +82,7 @@ interface serial 1/0
  ip authentication key-chain eigrp 100 EIGRP_AUTH
 !
 ```
-### ⚡ Hello/Hold Timer 조정 (수렴 속도 튜닝)
+### Hello/Hold Timer 조정 (수렴 속도 튜닝)
 ```cisco
 ! === NBMA 구간에서 Hello 주기 단축 ===
 !
@@ -95,7 +95,7 @@ interface serial 1/0.123
 !
 
 ```
-### 📊 주요 파라미터 정리
+### 주요 파라미터 정리
 
 |항목|값|설명|
 |---|---|---|
@@ -111,9 +111,9 @@ interface serial 1/0.123
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 ```cisco
 ! [1] 인접성(Neighbor) 형성 확인 - 가장 먼저 볼 것
 R1# show ip eigrp neighbor
@@ -139,7 +139,7 @@ R1# debug eigrp packet hello
 R1# debug eigrp packet update ack
 R1# debug eigrp packet query reply
 ```
-### 🚨 대표 장애 시나리오 & 트러블슈팅
+### 대표 장애 시나리오 & 트러블슈팅
 
 #### 시나리오 1. Neighbor 인접성이 형성되지 않음
 
@@ -189,7 +189,7 @@ interface serial 1/0.123 multipoint
 R2# show ip eigrp interfaces detail serial 1/0.123
 !  → "Split-horizon is disabled" 확인
 ```
-### ⚠️ 실무 Best Practice
+### 실무 Best Practice
 
 - **`network` 명령어는 Wildcard로 정밀하게** — Classful로 넣으면 원하지 않는 인터페이스까지 EIGRP가 활성화되어 보안/성능 이슈 발생
 - **`passive-interface default` 후 필요한 곳만 해제** — 서버 세그먼트 등 EIGRP 불필요 구간의 Hello 트래픽 및 공격 표면 최소화

@@ -1,11 +1,11 @@
-# ⚡ HSRP & VRRP 명령어 퀵 레퍼런스
+# HSRP & VRRP 명령어 퀵 레퍼런스
 
 > **Tag:** #Network #FHRP #HSRP #VRRP #Redundancy #Cisco  
 > **핵심 요약:** HSRP와 VRRP의 설정·검증 명령어와 기본값 함정을 빠르게 확인하기 위한 암기 카드. HSRP는 Preempt를 반드시 명시하고, Tracking Decrement는 Priority 차이보다 크게 설계하며, VRRP는 IOS 버전별 문법 차이를 먼저 확인한다.
 
 ---
 
-## 1. 🧠 요구사항별 선택
+## 1. 요구사항별 선택
 
 | 요구사항 | 사용할 기능 또는 프로토콜 |
 |---|---|
@@ -23,7 +23,7 @@
 
 ---
 
-## 2. 📊 HSRP vs VRRP vs GLBP 비교
+## 2. HSRP vs VRRP vs GLBP 비교
 
 | 항목 | HSRP | VRRP | GLBP |
 |---|---|---|---|
@@ -52,7 +52,7 @@ VRRP = IP Protocol 112 (UDP 아님)
 
 ---
 
-## 3. 🔢 HSRPv1 vs HSRPv2
+## 3. HSRPv1 vs HSRPv2
 
 | 항목 | HSRPv1 | HSRPv2 |
 |---|---|---|
@@ -90,7 +90,7 @@ Version 불일치 결과
 
 ---
 
-## 4. 🔧 HSRP 기본 설정
+## 4. HSRP 기본 설정
 
 가상 IP:
 
@@ -150,7 +150,7 @@ show standby <INTERFACE> <GROUP>
 
 ---
 
-## 5. 🖥️ HSRP Active 전체 구성
+## 5. HSRP Active 전체 구성
 
 ```cisco
 configure terminal
@@ -178,7 +178,7 @@ show ip route
 
 ---
 
-## 6. 📥 HSRP Standby 전체 구성
+## 6. HSRP Standby 전체 구성
 
 ```cisco
 configure terminal
@@ -209,7 +209,7 @@ Priority가 낮은 쪽에도 Preempt는 필요합니다.
 
 ---
 
-## 7. 🎯 Interface Tracking
+## 7. Interface Tracking
 
 Track Object 방식(권장):
 
@@ -267,7 +267,7 @@ Decrement 기본값 10 → 대부분 절체 실패
 
 ---
 
-## 8. ⚖️ MHSRP 부하 분산
+## 8. MHSRP 부하 분산
 
 R1 (VLAN 10 Active, VLAN 20 Standby):
 
@@ -320,7 +320,7 @@ show ip route
 
 ---
 
-## 9. 🌳 STP Root와 FHRP Active 정렬
+## 9. STP Root와 FHRP Active 정렬
 
 ```cisco
 spanning-tree vlan 10 root primary
@@ -358,7 +358,7 @@ VLAN 20 : STP Root = R2, FHRP Active = R2
 
 ---
 
-## 10. 🔐 HSRP 인증
+## 10. HSRP 인증
 
 Plain Text:
 
@@ -397,7 +397,7 @@ show logging
 
 ---
 
-## 11. 🌐 VRRP 구 문법
+## 11. VRRP 구 문법
 
 Master:
 
@@ -475,7 +475,7 @@ interface <INTERFACE>
 
 ---
 
-## 13. 🏢 SVI 및 L3 Switch 연동
+## 13. SVI 및 L3 Switch 연동
 
 VLAN 및 SVI:
 
@@ -531,7 +531,7 @@ SVI Up 조건
 
 ---
 
-## 14. 💾 DHCP Gateway 배포
+## 14. DHCP Gateway 배포
 
 ```cisco
 ip dhcp excluded-address 192.168.10.250 192.168.10.254
@@ -563,7 +563,7 @@ default-router ≠ 장비 물리 IP
 
 ---
 
-## 15. 🔗 IPsec 연동
+## 15. IPsec 연동
 
 HSRP 그룹 이름 지정:
 
@@ -599,7 +599,7 @@ show crypto engine connections active
 
 ---
 
-## 16. 🔍 검증 명령어
+## 16. 검증 명령어
 
 HSRP 요약:
 
@@ -670,7 +670,7 @@ undebug all
 
 ---
 
-## 17. 📖 show standby brief 판독
+## 17. show standby brief 판독
 
 ```properties
 Interface  Grp  Pri  P  State    Active          Standby         Virtual IP
@@ -700,7 +700,7 @@ Pri가 설정값보다 낮음
 
 ---
 
-## 18. ⚠️ 암기용 함정표
+## 18. 암기용 함정표
 
 | 설정 또는 상황 | 실제 의미 |
 |---|---|
@@ -727,7 +727,7 @@ Pri가 설정값보다 낮음
 
 ---
 
-## 19. 🚑 빠른 장애 진단 순서
+## 19. 빠른 장애 진단 순서
 
 ```properties
 Interface 및 SVI Up 확인
@@ -773,7 +773,7 @@ L2/L3 정상 + 역할 이상 → FHRP
 
 ---
 
-## 20. 🔄 안전한 변경 원칙
+## 20. 안전한 변경 원칙
 
 변경 순서:
 

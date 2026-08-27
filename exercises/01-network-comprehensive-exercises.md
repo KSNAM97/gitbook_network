@@ -1,4 +1,4 @@
-# 📝 Network 종합 연습문제
+# Network 종합 연습문제
 
 > **Tag:** #Network #Cisco #연습문제 #IPv4 #Subnetting #StaticRoute #DynamicRouting #ACL #VLAN #Switch #DHCP #NAT #심화
 >
@@ -8,7 +8,7 @@
 
 ---
 
-## 📚 문제 구성 & 관련 문서
+## 문제 구성 & 관련 문서
 
 | PART | 주제 | 문항 | 관련 문서 |
 | --- | --- | --- | --- |
@@ -29,7 +29,7 @@
 
 > 📖 관련 문서: 1. 🧮 IPv4 Addressing & Subnetting & VLSM & Summary & Wildcard Mask
 
-### 📌 핵심 개념 복습
+### 핵심 개념 복습
 
 ```text
 서브넷 계산 공식
@@ -50,7 +50,7 @@ VLSM 설계 원칙
 
 ---
 
-### 🟢 기초 (Level 1)
+### 기초 (Level 1)
 
 **Q1.** `192.168.10.0/27` 네트워크에 대해 다음을 구하시오.
 
@@ -110,7 +110,7 @@ VLSM 설계 원칙
 
 ---
 
-### 🔵 응용 (Level 2)
+### 응용 (Level 2)
 
 **Q4.** 다음 VLSM 요구사항에 맞게 `192.168.1.0/24`를 분배하시오.
 
@@ -180,7 +180,7 @@ VLSM 설계 원칙
 
 > 📖 관련 문서: 2. ⚙️ Cisco 라우터 기초 - CDP, Mode, Interface, Password 종합 정리
 
-### 📌 핵심 개념 복습
+### 핵심 개념 복습
 
 ```text
 모드 계층
@@ -204,7 +204,7 @@ Password 종류
 
 ---
 
-### 🟢 기초 (Level 1)
+### 기초 (Level 1)
 
 **Q7.** 라우터에서 다음 작업을 수행하는 명령어를 순서대로 작성하시오.
 
@@ -264,7 +264,7 @@ Password 종류
 
 ---
 
-### 🔵 응용 (Level 2)
+### 응용 (Level 2)
 
 **Q10.** 다음 보안 기본 설정을 완성하시오.
 
@@ -325,7 +325,7 @@ Password 종류
 
 > 📖 관련 문서: 2. 📍 Static Route (정적 라우팅)
 
-### 📌 핵심 개념 복습
+### 핵심 개념 복습
 
 ```text
 Static Route 기본 문법
@@ -348,7 +348,7 @@ Next-hop vs Exit Interface
 
 ---
 
-### 🟢 기초 (Level 1)
+### 기초 (Level 1)
 
 **Q12.** R1에서 `192.168.3.0/24` 네트워크로 가는 정적 경로를 설정하시오. Next-hop은 `10.0.12.2`이다.
 
@@ -382,7 +382,7 @@ Next-hop vs Exit Interface
 
 ---
 
-### 🔵 응용 (Level 2)
+### 응용 (Level 2)
 
 **Q14.** 다음 토폴로지에서 R1, R2, R3 각각에 Static Route를 설정해 전체 통신이 가능하게 하시오.
 
@@ -459,7 +459,7 @@ Fa0/0: 192.168.1.0/24                              Fa0/0: 192.168.3.0/24
 
 > 📖 관련 문서: 1. ♟️ RIP · 2. 🐎 EIGRP · 3. 🌲 OSPF
 
-### 📌 핵심 개념 복습
+### 핵심 개념 복습
 
 ```text
 프로토콜 비교
@@ -480,7 +480,7 @@ OSPF 핵심
 
 ---
 
-### 🟢 기초 (Level 1)
+### 기초 (Level 1)
 
 **Q17.** R1에서 RIPv2를 설정하시오. 광고할 네트워크는 `192.168.1.0`과 `10.0.12.0`이며, Auto-summary를 비활성화하시오.
 
@@ -546,7 +546,7 @@ OSPF 핵심
 
 ---
 
-### 🔵 응용 (Level 2)
+### 응용 (Level 2)
 
 **Q20.** OSPF에서 DR/BDR 선출 기준을 설명하고, R1이 무조건 DR이 되도록 Priority를 설정하시오. 인터페이스는 `GigabitEthernet0/0`.
 
@@ -685,7 +685,7 @@ OSPF 핵심
 
 > 📖 관련 문서: 3-1-1. 🔰  ACL 기초 - Standard ACL (Numbered & Named) · 3-1-2. 🎯  Extended ACL & 라우팅 프로토콜 예외 처리
 
-### 📌 핵심 개념 복습
+### 핵심 개념 복습
 
 ```text
 ACL 3대 원칙
@@ -707,7 +707,7 @@ Extended ACL 문법
 
 ---
 
-### 🟢 기초 (Level 1)
+### 기초 (Level 1)
 
 **Q25.** Standard ACL을 사용해 `192.168.2.0/24` 네트워크의 접근은 허용하고 나머지는 차단하는 ACL을 작성하시오. (ACL 번호: 10, 인터페이스 Fa0/0 out 방향 적용)
 
@@ -772,7 +772,7 @@ Extended ACL 문법
 
 ---
 
-### 🔵 응용 (Level 2)
+### 응용 (Level 2)
 
 **Q28.** Extended ACL을 사용해 다음 두 조건을 하나의 ACL(번호: 110)에 작성하시오.
 
@@ -886,7 +886,7 @@ Extended ACL 문법
 
 > 📖 관련 문서: 1-1. 🔌 스위치 동작원리 & VLAN 기초 · 1-2. 🚚 Switchport & Trunk & Inter-VLAN
 
-### 📌 핵심 개념 복습
+### 핵심 개념 복습
 
 ```text
 VLAN 기초
@@ -912,7 +912,7 @@ Inter-VLAN 라우팅 방식
 
 ---
 
-### 🟢 기초 (Level 1)
+### 기초 (Level 1)
 
 **Q32.** 스위치에서 VLAN 10(SALES)과 VLAN 20(HR)을 생성하고, `Fa0/1`은 VLAN 10, `Fa0/2`는 VLAN 20 Access 포트로 설정하시오.
 
@@ -966,7 +966,7 @@ Inter-VLAN 라우팅 방식
 
 ---
 
-### 🔵 응용 (Level 2)
+### 응용 (Level 2)
 
 **Q34.** Router-on-a-Stick 방식으로 Inter-VLAN 라우팅을 설정하시오.
 
@@ -1105,7 +1105,7 @@ Inter-VLAN 라우팅 방식
 
 > 📖 관련 문서: 5-1. 💾 DHCP (동적 IP 할당) · 5-2. 🔀 NAT & PAT (주소 변환)
 
-### 📌 핵심 개념 복습
+### 핵심 개념 복습
 
 ```text
 DHCP 핵심 과정 (DORA)
@@ -1130,7 +1130,7 @@ ip nat outside : 외부 인터페이스 지정
 
 ---
 
-### 🟢 기초 (Level 1)
+### 기초 (Level 1)
 
 **Q38.** R1에서 DHCP 서버를 설정하시오.
 
@@ -1196,7 +1196,7 @@ ip nat outside : 외부 인터페이스 지정
 
 ---
 
-### 🔵 응용 (Level 2)
+### 응용 (Level 2)
 
 **Q40.** Static NAT를 사용해 내부 서버 `192.168.1.100`을 공인 IP `203.0.113.10`으로 1:1 매핑하시오.
 
@@ -1311,7 +1311,7 @@ ip nat outside : 외부 인터페이스 지정
 
 ---
 
-## PART 8. 🔴 실무 종합 심화
+## PART 8. 실무 종합 심화
 
 > 📖 관련 문서: 전 범위
 

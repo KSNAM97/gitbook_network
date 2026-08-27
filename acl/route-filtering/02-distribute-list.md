@@ -1,4 +1,4 @@
-# ⛳ Distribute-list를 활용한 라우팅 필터링
+# Distribute-list를 활용한 라우팅 필터링
 
 > **Tag:** #Network #Cisco #ACL #Security #AccessControl #DistributeList #RouteFilter
 > **핵심 요약:** 라우팅 프로토콜 업데이트를 송/수신할 때 특정 네트워크만 걸러내는 표준 도구
@@ -6,7 +6,7 @@
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### Distribute-list in/out 방향 선택 기준
 
@@ -22,9 +22,9 @@
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 Distribute-list 기본 문법
+### Distribute-list 기본 문법
 
 ```cisco
 ! [ACL 기반]
@@ -37,7 +37,7 @@ router <protocol> <as>
 !
 ! ★ 하나의 라우팅 프로세스에서 인터페이스당 in/out 각 1개씩만 적용 가능
 ```
-### 📌 ACL 기반 Distribute-list - 특정 대역만 수신
+### ACL 기반 Distribute-list - 특정 대역만 수신
 ```cisco
 ! [시나리오] R3은 R5로부터 13.13.5.0/24, 13.13.15.0/24, 198.198.x.x/16만 수신
 !
@@ -50,7 +50,7 @@ router eigrp 100
  distribute-list 1 in FastEthernet0/0
 !
 ```
-### 📌 Prefix-list 기반 Distribute-list - 서브넷 길이 조건 활용
+### Prefix-list 기반 Distribute-list - 서브넷 길이 조건 활용
 ```cisco
 ! [시나리오] 172.16.0.0/16 범위 중 /25 ~ /27 서브넷만 수신
 !
@@ -60,7 +60,7 @@ router eigrp 100
  distribute-list prefix NET172 in FastEthernet0/0
 !
 ```
-### 📌 특정 대역 제외 + 나머지 허용 (실무 표준 패턴)
+### 특정 대역 제외 + 나머지 허용 (실무 표준 패턴)
 ```cisco
 ! [시나리오] 172.16.0.0/16 대역만 차단, 나머지는 전부 수신
 !
@@ -71,7 +71,7 @@ router eigrp 100
  distribute-list prefix FILTER in FastEthernet0/0
 !
 ```
-### 📌 사설 IP 차단 - 인터넷 경계 라우터 표준 정책
+### 사설 IP 차단 - 인터넷 경계 라우터 표준 정책
 ```cisco
 ! [시나리오] 사설 대역이 EIGRP로 유입되는 것을 전면 차단
 !
@@ -90,7 +90,7 @@ router eigrp 100
  distribute-list prefix PRIVATE out Serial1/0
 !
 ```
-### 📌 광고자 vs 수신자 - 어디에 걸어야 하는가?
+### 광고자 vs 수신자 - 어디에 걸어야 하는가?
 ```cisco
 ! ===== 방식 A: 광고자(R5)에서 out 필터링 (권장) =====
 ! → 광고 자체를 안 보내므로 네트워크/CPU 자원 절약
@@ -115,7 +115,7 @@ router eigrp 100
  distribute-list 1 in FastEthernet0/0
 !
 ```
-### 📌 프로토콜별 적용 특이사항
+### 프로토콜별 적용 특이사항
 ```cisco
 ! ===== RIP - 가장 단순, in/out 모두 자유롭게 =====
 router rip
@@ -136,9 +136,9 @@ router ospf 1
 !
 ! ★ OSPF는 LSA 플러딩을 막지 못하므로 진짜 필터링은 ABR/ASBR에서 area filter로 처리
 ```
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 ```cisco
 ! Distribute-list 적용 상태 확인
 show running-config | section router eigrp
@@ -157,7 +157,7 @@ show access-lists 1
 ! EIGRP Topology에서 필터링 전 원본 상태 확인
 show ip eigrp topology all-links                     ! 필터 적용 전 원본 정보
 ```
-### 🚨 트러블슈팅 시나리오 1: Distribute-list 적용 후 모든 경로가 사라졌다
+### 트러블슈팅 시나리오 1: Distribute-list 적용 후 모든 경로가 사라졌다
 
 - **증상:** 특정 대역만 차단하려 했는데 라우팅 테이블에서 EIGRP 경로가 통째로 사라짐.
 - **원인 파악:**
@@ -172,7 +172,7 @@ show ip eigrp topology all-links                     ! 필터 적용 전 원본 
 
 - **재발 방지:** 필터링 정책 작성 시 항상 "차단 → 명시적 허용" 두 단계로 구성.
 
-### 🚨 트러블슈팅 시나리오 2: Prefix-list 수정했는데 라우팅 테이블이 안 바뀐다
+### 트러블슈팅 시나리오 2: Prefix-list 수정했는데 라우팅 테이블이 안 바뀐다
 
 - **증상:** Prefix-list 라인을 추가/수정했는데 `show ip route`에는 변화가 없음.
 - **원인 파악:**
@@ -192,7 +192,7 @@ show ip eigrp topology all-links                     ! 필터 적용 전 원본 
     ```
     
 
-### 🚨 트러블슈팅 시나리오 3: OSPF Distribute-list가 예상대로 동작 안 함
+### 트러블슈팅 시나리오 3: OSPF Distribute-list가 예상대로 동작 안 함
 
 - **증상:** OSPF에서 `distribute-list in` 걸었는데 이웃 라우터의 테이블에는 여전히 해당 경로가 있음.
 - **원인 파악:**
@@ -209,7 +209,7 @@ show ip eigrp topology all-links                     ! 필터 적용 전 원본 
     2. **재분배 필터링**은 `distribute-list out <프로세스>` 로 가능.
     3. 근본적으로 OSPF는 링크스테이트 특성상 LSA 필터가 제한적 → **경계는 ABR/ASBR** 로 설계.
 
-### 🚨 트러블슈팅 시나리오 4: EIGRP에서 out 필터가 원거리 이웃까지 영향 미침
+### 트러블슈팅 시나리오 4: EIGRP에서 out 필터가 원거리 이웃까지 영향 미침
 
 - **증상:** R1에서 R2 방향으로 out 필터를 걸었는데 R3의 라우팅 테이블에서도 해당 경로가 사라짐.
 - **원인 파악:**
@@ -219,7 +219,7 @@ show ip eigrp topology all-links                     ! 필터 적용 전 원본 
     - 특정 이웃에게만 차단하려면 광고 방향(interface)을 정확히 지정.
     - 세밀한 정책이 필요하면 **Route-map 기반 Distribute-list** 로 전환 (Chapter 4-3에서 다룸).
 
-### ⚠️ Distribute-list 실무 체크리스트
+### Distribute-list 실무 체크리스트
 
 - [ ]  Prefix-list/ACL 마지막에 **명시적 permit** 을 넣어 정상 경로가 살아있는가?
 - [ ]  `in` / `out` 방향을 **자기 라우터 기준**으로 정확히 판단했는가?

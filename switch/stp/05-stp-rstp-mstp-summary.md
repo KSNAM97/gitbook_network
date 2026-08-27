@@ -1,11 +1,11 @@
-# 🧩 STP·RSTP·MSTP 통합 정리
+# STP·RSTP·MSTP 통합 정리
 
 > **Tag:** #Network #Switch #STP #PVST #RSTP #RapidPVST #MSTP #LoopPrevention  
 > **핵심 요약:** STP는 L2 이중화 환경에서 일부 경로를 논리적으로 차단해 Loop-Free Tree를 만든다. 가장 낮은 Bridge ID의 Switch가 Root Bridge가 되고, 각 Non-Root Switch는 최저 Root Path Cost를 가진 Root Port를 선택한다. Rapid-PVST+는 RSTP의 Proposal/Agreement와 Alternate Port를 사용해 빠르게 수렴하고, MSTP는 여러 VLAN을 소수의 MST Instance에 매핑하여 STP Instance 수를 줄인다.
 
 ---
 
-## 1. 🎯 STP가 필요한 이유
+## 1. STP가 필요한 이유
 
 ### Q1. L2 Loop는 왜 치명적인가?
 
@@ -70,7 +70,7 @@ VLAN 30 → STP Instance 30
 
 ---
 
-## 2. 🌳 Root Bridge 선출
+## 2. Root Bridge 선출
 
 ### Q3. Root Bridge는 어떻게 선출되는가?
 
@@ -131,7 +131,7 @@ SW1(config)# spanning-tree vlan 30,40 root secondary
 
 ---
 
-## 3. 📍 STP Port Role 선출
+## 3. STP Port Role 선출
 
 ### Q5. Root Port는 어떻게 선택되는가?
 
@@ -190,7 +190,7 @@ RSTP에서는 다음 역할이 추가됩니다.
 
 ---
 
-## 4. ⚖️ STP Cost와 Tie-Breaker
+## 4. STP Cost와 Tie-Breaker
 
 ### Q8. STP Cost는 어떻게 계산되는가?
 
@@ -329,7 +329,7 @@ Timer는 서로 연관되어 있으므로 임의로 줄이면 불안정한 수�
 
 ---
 
-## 6. 🚀 Rapid-PVST+와 RSTP
+## 6. Rapid-PVST+와 RSTP
 
 ### Q13. RSTP가 빠른 이유는 무엇인가?
 
@@ -406,7 +406,7 @@ RSTP는 Legacy STP Neighbor를 감지하면 해당 Port에서 호환 동작으�
 
 ---
 
-## 7. 🗺️ MSTP
+## 7. MSTP
 
 ### Q16. MSTP가 필요한 이유는 무엇인가?
 
@@ -499,7 +499,7 @@ show spanning-tree mst 1
 
 ---
 
-## 8. ⚡ PortFast, UplinkFast, BackboneFast
+## 8. PortFast, UplinkFast, BackboneFast
 
 ### Q20. PortFast는 무엇인가?
 
@@ -547,7 +547,7 @@ spanning-tree backbonefast
 
 ---
 
-## 9. 🛡️ STP 보호 기능
+## 9. STP 보호 기능
 
 ### Q22. 보호 기능별 차이는 무엇인가?
 
@@ -648,7 +648,7 @@ interface GigabitEthernet0/1
 
 ---
 
-## 10. 🔍 검증 명령어
+## 10. 검증 명령어
 
 ### 기본 STP
 
@@ -695,7 +695,7 @@ debug spanning-tree events
 
 ---
 
-## 11. ⚠️ 실무 체크리스트
+## 11. 실무 체크리스트
 
 - [ ] Root Bridge와 Secondary Root를 수동 지정했는가?
 - [ ] Root 위치가 실제 Traffic 및 Gateway 위치와 일치하는가?

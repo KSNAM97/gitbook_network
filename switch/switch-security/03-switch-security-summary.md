@@ -1,11 +1,11 @@
-# 🧩 Switch 보안 통합 정리
+# Switch 보안 통합 정리
 
 > **Tag:** #Network #Switch #Security #PortSecurity #SPAN #Cisco  
 > **핵심 요약:** Switch 보안은 Access Edge에서 Source MAC을 제한하는 Port-security, 폭주 Traffic으로부터 Switch와 Segment를 보호하는 Storm-control, Traffic을 복제해 탐지·감사에 사용하는 SPAN/RSPAN을 축으로 구성된다. 여기에 미사용 Port Shutdown, 미사용 VLAN 격리, Native VLAN 명시, BPDU Guard 연계를 더해 방어 계층을 완성한다. 각 기능은 대체 관계가 아니며, Port-security와 SPAN Destination은 같은 Port에 병행할 수 없으므로 Port 역할 설계가 먼저다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념
+## 1. 핵심 기술 개념
 
 ### Q1. Switch 보안의 방어 축은 무엇인가?
 
@@ -332,7 +332,7 @@ L3 Gateway + Routing 존재 → VLAN 간 통신 가능
 
 ---
 
-## 2. 🛠️ Port 역할별 표준 설정
+## 2. Port 역할별 표준 설정
 
 ### 2-1. 일반 사용자 Port
 
@@ -490,7 +490,7 @@ Uplink/Trunk          → 이 조합 적용하지 않음
 
 ---
 
-## 3. 🌊 Storm-control 프로파일
+## 3. Storm-control 프로파일
 
 Access Port 기본 (알림 중심):
 
@@ -531,7 +531,7 @@ show errdisable recovery
 
 ---
 
-## 4. 🔎 SPAN / RSPAN 구성
+## 4. SPAN / RSPAN 구성
 
 ### 4-1. Local SPAN
 
@@ -615,7 +615,7 @@ show interfaces trunk
 
 ---
 
-## 5. 🔧 안전한 변경과 Rollback
+## 5. 안전한 변경과 Rollback
 
 ```properties
 [1] 현재 확인 : show running-config interface <INTERFACE>
@@ -657,7 +657,7 @@ show interfaces status
 
 ---
 
-## 6. ⚠️ 실무 체크리스트
+## 6. 실무 체크리스트
 
 - [ ] Port 역할별로 사용자·Phone·Server·Uplink·SPAN Destination 프로파일을 분리했는가?
 - [ ] Maximum 값을 실제 Source MAC 개수 조사 결과로 산정했는가?

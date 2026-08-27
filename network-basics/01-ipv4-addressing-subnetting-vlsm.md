@@ -1,4 +1,4 @@
-# 1. 🧮 IPv4 Addressing & Subnetting & VLSM & Summary & Wildcard Mask
+# IPv4 Addressing & Subnetting & VLSM & Summary & Wildcard Mask
 
 > **Tag:** #Network #Cisco #IPv4 #Subnetting #VLSM #Addressing
 > **핵심 요약:** **Layer 3 (Network Layer) Protocol** — 서로 다른 브로드캐스트 도메인(외부 네트워크) 간 통신 시 사용되는 32bit 논리 주소 체계.
@@ -6,7 +6,7 @@
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### Q1. VLSM(가변 서브넷)과 Route Summary(경로 요약)를 실무에서 반드시 함께 설계해야 하는 이유는?
 
@@ -24,9 +24,9 @@
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 2-1. 📋 주소 설계 참고표 (실무 암기 필수)
+### 2-1. 주소 설계 참고표 (실무 암기 필수)
 
 | Prefix | Subnet Mask | Wildcard | Host 수(가용) | 용도 |
 |---|---|---|---|---|
@@ -39,7 +39,7 @@
 | /30 | 255.255.255.252 | 0.0.0.3 | 2 | **P2P 링크 표준** |
 | /31 | 255.255.255.254 | 0.0.0.1 | 2(RFC 3021) | P2P (최신) |
 
-### 2-2. 🧩 VLSM 기반 인터페이스 설계 (Cisco)
+### 2-2. VLSM 기반 인터페이스 설계 (Cisco)
 
 > **시나리오:** `192.168.1.0/24` 를 R1—R2—R3 구조에 VLSM으로 분배  
 > LAN 세그먼트(Host 30) 3개 + P2P 링크 2개
@@ -93,7 +93,7 @@ interface Serial1/0
  ip address 192.168.1.102 255.255.255.252
 ```
 
-### 2-3. 🧭 Route Summary 설정 (OSPF / EIGRP)
+### 2-3. Route Summary 설정 (OSPF / EIGRP)
 
 > **시나리오:** R1 하위에 `172.168.0.0/24 ~ 172.168.7.0/24` 8개 대역 존재 → **/21**로 요약해 광고
 ```cisco
@@ -111,7 +111,7 @@ router ospf 1
  network 192.168.1.0 0.0.0.255 area 0                    ! /24 전체 매칭
 ```
 
-### 2-4. 🛡️ Wildcard 기반 ACL (Filtering)
+### 2-4. Wildcard 기반 ACL (Filtering)
 
 ```cisco
 ! 특정 서브넷(192.168.1.64/27)만 허용
@@ -122,7 +122,7 @@ interface GigabitEthernet0/0
  ip access-group 10 in                                   ! Inbound 방향 필터 적용
 ```
 
-### 2-5. 🐧 Linux 측 IP 설정 (netplan 예시)
+### 2-5. Linux 측 IP 설정 (netplan 예시)
 
 ```cisco
 # /etc/netplan/01-netcfg.yaml
@@ -140,9 +140,9 @@ network:
         addresses: [8.8.8.8, 1.1.1.1]
 ```
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### 3-1. ✅ 필수 검증 명령어
+### 3-1. 필수 검증 명령어
 
 ```cisco
 ! -- 라우팅 / IP 확인
@@ -169,9 +169,9 @@ ping -c 3 192.168.1.1                # 게이트웨이 도달성
 mtr 8.8.8.8                          # 경로별 손실률 모니터링
 ```
 
-### 3-2. 🚨 대표 장애 시나리오
+### 3-2. 대표 장애 시나리오
 
-#### 🚨 시나리오 A. "서브넷은 맞게 잡은 것 같은데 통신이 안 됩니다"
+#### 시나리오 A. "서브넷은 맞게 잡은 것 같은데 통신이 안 됩니다"
 
 - **증상:** `192.168.1.30` 호스트가 게이트웨이 `192.168.1.33`(R2 /27)로 통신 불가.
 - **원인 분석:**
@@ -183,7 +183,7 @@ mtr 8.8.8.8                          # 경로별 손실률 모니터링
     3. `show arp` 로 GW MAC 학습 여부 최종 확인.
 - **예방책:** 설계 단계에서 **각 세그먼트의 "사용 가능 범위(First/Last Host)"를 문서로 명시**. `Network-ID`, `Broadcast`는 절대 호스트에 할당 금지.
 
-#### 🚨 시나리오 B. "OSPF Summary를 걸었는데 특정 대역만 통신이 끊깁니다"
+#### 시나리오 B. "OSPF Summary를 걸었는데 특정 대역만 통신이 끊깁니다"
 
 - **증상:** `172.168.0.0/21`로 요약 후, `172.168.6.0/24` 트래픽이 블랙홀됨.
 - **원인 분석:**

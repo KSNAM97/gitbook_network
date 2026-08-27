@@ -1,11 +1,11 @@
-# 🐎 EIGRP 통합 정리 — DUAL·3개 테이블·Successor/FS 한눈에
+# EIGRP 통합 정리 — DUAL·3개 테이블·Successor/FS 한눈에
 
 > **Tag:** #EIGRP #Routing #IGP #Cisco #DUAL #AdvancedDistanceVector #Summary
 > **핵심 요약:** EIGRP는 Cisco가 개발한 **Advanced Distance Vector IGP**로, DUAL 알고리즘을 이용해 루프 없는 경로를 계산한다. 현재 최적 경로는 Successor, Feasibility Condition을 만족하는 Loop-free Backup은 Feasible Successor다. FS가 유효하면 장애 시 Query 없이 빠르게 전환하고, FS가 없으면 경로를 Active 상태로 전환해 이웃에게 Query한다. SIA는 단순히 FS가 없어서가 아니라 Active 경로에 대한 Reply가 제한 시간 내 돌아오지 않을 때 발생하며, Stub·주소 요약·계층화 설계로 Query 범위를 줄이는 것이 핵심이다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### Q1. OSPF가 있는데 왜 EIGRP를 사용하나요?
 
@@ -148,7 +148,7 @@ Reply 미수신
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿
+## 2. 표준 설정 템플릿
 
 ### 2-1. Classic EIGRP 기본 설정
 
@@ -342,7 +342,7 @@ Classic EIGRP Metric
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅
+## 3. 검증 및 트러블슈팅
 
 ### 3-1. 공통 검증
 
@@ -431,7 +431,7 @@ undebug all
 
 ---
 
-## 4. ⚠️ 대표 함정
+## 4. 대표 함정
 
 | 함정 | 결과 | 권장 조치 |
 |---|---|---|

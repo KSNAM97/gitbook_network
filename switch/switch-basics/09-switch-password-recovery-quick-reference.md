@@ -1,11 +1,11 @@
-# ⚡ Switch Password 복구 퀵 레퍼런스
+# Switch Password 복구 퀵 레퍼런스
 
 > **Tag:** #Network #QuickReference #Switch #PasswordRecovery #Flash #NVRAM #CheatSheet
 > **핵심 요약:** Switch Password 복구 명령어를 빠르게 조회하기 위한 암기 카드. 절차는 **진입 → flash_init → rename → boot → 원복 → 설정 로딩 → 패스워드 변경 → 저장** 8단계다.
 
 ---
 
-## 1. ⚡ 전체 절차 요약 (8단계)
+## 1. 전체 절차 요약 (8단계)
 
 ```ini
 [1] 전원 분리
@@ -22,7 +22,7 @@
 
 ---
 
-## 2. 🛠️ switch: 프롬프트 명령어
+## 2. switch: 프롬프트 명령어
 
 ```cisco
 switch: flash_init                                      ! Flash 마운트 (필수)
@@ -34,7 +34,7 @@ switch: boot                                            ! 재부팅
 
 ---
 
-## 3. 🛠️ IOS 부팅 후 명령어
+## 3. IOS 부팅 후 명령어
 
 ```cisco
 Switch# rename flash:old.text flash:config.text         ! 파일명 원복
@@ -53,7 +53,7 @@ Switch# copy running-config startup-config              ! 저장 (필수)
 
 ---
 
-## 4. 🔍 검증 명령어
+## 4. 검증 명령어
 
 ```cisco
 show flash:                                ! Flash 파일 목록 및 크기
@@ -64,7 +64,7 @@ show version                               ! IOS 버전, 장비 모델
 
 ---
 
-## 5. 🔢 Switch vs Router 방식 비교
+## 5. Switch vs Router 방식 비교
 
 | 항목 | **Switch** | **Router** |
 |------|------------|------------|
@@ -76,7 +76,7 @@ show version                               ! IOS 버전, 장비 모델
 
 ---
 
-## 6. 📁 Flash 파일 구조
+## 6. Flash 파일 구조
 
 | 파일 | 역할 |
 |------|------|
@@ -86,7 +86,7 @@ show version                               ! IOS 버전, 장비 모델
 
 ---
 
-## 7. 🚨 증상별 Quick Check
+## 7. 증상별 Quick Check
 
 | 증상 | 먼저 확인 |
 |------|-----------|
@@ -99,7 +99,7 @@ show version                               ! IOS 버전, 장비 모델
 
 ---
 
-## 8. ⚠️ 핵심 주의사항
+## 8. 핵심 주의사항
 
 ```properties
 flash_init 없이 dir flash: 불가

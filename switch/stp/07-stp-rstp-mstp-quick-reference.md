@@ -1,11 +1,11 @@
-# ⚡ STP·RSTP·MSTP 퀵 레퍼런스
+# STP·RSTP·MSTP 퀵 레퍼런스
 
 > **Tag:** #Network #QuickReference #STP #PVST #RapidPVST #MSTP #STPGuard  
 > **핵심 요약:** STP의 Root 선출, Port Role, Cost 조정, Rapid-PVST+/MSTP 설정 및 보호 기능 명령어를 빠르게 확인하기 위한 암기 카드다.
 
 ---
 
-## 1. 🧠 STP 핵심 공식
+## 1. STP 핵심 공식
 
 ```properties
 Bridge ID
@@ -26,7 +26,7 @@ Blocking/Discarding Port
 
 ---
 
-## 2. 🗳️ Root Bridge 선출 순서
+## 2. Root Bridge 선출 순서
 
 ```properties
 1. 가장 낮은 Bridge Priority
@@ -54,7 +54,7 @@ Priority 단위:
 
 ---
 
-## 3. 📍 Root Port Tie-Breaker
+## 3. Root Port Tie-Breaker
 
 ```properties
 1. 가장 낮은 Root Bridge ID
@@ -71,7 +71,7 @@ Priority 단위:
 
 ---
 
-## 4. 🌳 Root Bridge 설정
+## 4. Root Bridge 설정
 
 Primary Root:
 
@@ -106,7 +106,7 @@ show spanning-tree vlan 10
 
 ---
 
-## 5. ⚖️ STP Cost
+## 5. STP Cost
 
 ### Short Cost
 
@@ -148,7 +148,7 @@ show spanning-tree summary
 
 ---
 
-## 6. 🔧 Cost 및 Port Priority
+## 6. Cost 및 Port Priority
 
 VLAN별 Cost:
 
@@ -216,7 +216,7 @@ Forward Delay = 15초
 
 ---
 
-## 8. ⏱️ STP Timer
+## 8. ⏱ STP Timer
 
 ```cisco
 spanning-tree vlan 10 hello-time 2
@@ -236,7 +236,7 @@ no spanning-tree vlan 10 forward-time
 
 ---
 
-## 9. 🚀 Rapid-PVST+
+## 9. Rapid-PVST+
 
 설정:
 
@@ -281,7 +281,7 @@ Alternate Port
 
 ---
 
-## 10. 🔗 RSTP Link Type
+## 10. RSTP Link Type
 
 Point-to-Point:
 
@@ -311,7 +311,7 @@ Half-Duplex = 일반적으로 Shared
 
 ---
 
-## 11. 🗺️ MSTP
+## 11. MSTP
 
 MST Mode:
 
@@ -368,7 +368,7 @@ show spanning-tree mst 1
 
 ---
 
-## 12. 🧩 MST Region 조건
+## 12. MST Region 조건
 
 ```properties
 Region Name 일치
@@ -387,7 +387,7 @@ MST0 = IST
 
 ---
 
-## 13. ⚡ PortFast
+## 13. PortFast
 
 Access Port:
 
@@ -420,7 +420,7 @@ show spanning-tree interface GigabitEthernet0/10 detail
 
 ---
 
-## 14. 🛡️ BPDU Guard
+## 14. BPDU Guard
 
 Interface별:
 
@@ -467,7 +467,7 @@ show errdisable recovery
 
 ---
 
-## 15. ⚠️ BPDU Filter
+## 15. BPDU Filter
 
 Interface별:
 
@@ -498,7 +498,7 @@ BPDU Filter
 
 ---
 
-## 16. 🌱 Root Guard
+## 16. Root Guard
 
 설정:
 
@@ -542,7 +542,7 @@ show logging
 
 ---
 
-## 17. 🔁 Loop Guard
+## 17. Loop Guard
 
 Interface별:
 
@@ -591,7 +591,7 @@ show spanning-tree interface GigabitEthernet0/1 detail
 
 ---
 
-## 18. ⚡ Legacy Fast 기능
+## 18. Legacy Fast 기능
 
 UplinkFast:
 
@@ -626,7 +626,7 @@ Rapid-PVST+/MSTP
 
 ---
 
-## 19. 🔍 필수 검증 명령어
+## 19. 필수 검증 명령어
 
 전체:
 
@@ -685,7 +685,7 @@ undebug all
 
 ---
 
-## 20. ⚠️ 암기용 함정표
+## 20. 암기용 함정표
 
 | 항목 | 실제 의미 |
 |---|---|
@@ -710,7 +710,7 @@ undebug all
 
 ---
 
-## 21. 🚑 빠른 장애 진단 순서
+## 21. 빠른 장애 진단 순서
 
 ```properties
 Physical Link
@@ -736,7 +736,7 @@ MAC Flapping 및 Log
 
 ---
 
-## 22. 🔄 안전한 변경 절차
+## 22. 안전한 변경 절차
 
 변경 전:
 

@@ -1,11 +1,11 @@
-# 🚑 OSPF 트러블슈팅 치트시트
+# OSPF 트러블슈팅 치트시트
 
 > **Tag:** #Routing #OSPF #Troubleshooting #Adjacency #MTU #LSA  
 > **핵심 요약:** OSPF 장애는 **인터페이스 → Hello → Neighbor State → LSDB → RIB → FIB** 순서로 확인한다. Neighbor State가 어디서 멈췄는지 먼저 확인하고, Full 상태라면 LSA 존재 여부와 더 좋은 경로의 존재를 확인한다.
 
 ---
 
-## 1. 🚦 빠른 진단 순서
+## 1. 빠른 진단 순서
 
 ```text
 ① Interface Up/Up 확인
@@ -36,7 +36,7 @@ show ip cef <prefix>
 
 ---
 
-## 2. 🧭 Neighbor State별 진단
+## 2. Neighbor State별 진단
 
 | State | 주요 원인 | 확인 및 조치 |
 |---|---|---|
@@ -50,7 +50,7 @@ show ip cef <prefix>
 
 ---
 
-## 3. 🛠️ 증상별 즉시 대응표
+## 3. 증상별 즉시 대응표
 
 ### 3-1. 인접성 문제
 
@@ -84,7 +84,7 @@ show ip cef <prefix>
 
 ---
 
-## 4. 🚨 대표 장애 시나리오
+## 4. 대표 장애 시나리오
 
 ### 시나리오 A. Neighbor가 표시되지 않음
 
@@ -241,7 +241,7 @@ clear ip ospf process
 
 ---
 
-## 5. 🔍 Debug 명령어
+## 5. Debug 명령어
 
 ```cisco
 debug ip ospf adj
@@ -255,7 +255,7 @@ undebug all
 
 ---
 
-## 6. ✅ 변경 전후 체크리스트
+## 6. 변경 전후 체크리스트
 
 ### 변경 전
 
@@ -280,7 +280,7 @@ undebug all
 
 ---
 
-## 7. 📌 핵심 요약
+## 7. 핵심 요약
 
 - 첫 명령은 `show ip ospf neighbor`
 - Down/Init은 Hello와 단방향 통신 확인

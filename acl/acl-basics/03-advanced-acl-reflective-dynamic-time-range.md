@@ -1,4 +1,4 @@
-# 3-1-3. ⚙️  고급 ACL - Reflective & Dynamic & Time-range
+# 고급 ACL - Reflective & Dynamic & Time-range
 
 > **Tag:** #Network #Cisco #ACL #Security #AccessControl
 > **핵심 요약:** 상태 기반(Stateful) 필터링과 시간·인증 기반 접근 제어
@@ -6,7 +6,7 @@
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### Reflective ACL과 `established`의 결정적 차이
 
@@ -28,9 +28,9 @@ VPN이 없던 시절의 원격 접근 솔루션으로 요즘은 대부분 IPsec/
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 Reflective ACL - 진짜 Stateful 필터링
+### Reflective ACL - 진짜 Stateful 필터링
 
 ```cisco
 ! [시나리오] 내부→외부는 자유롭게 나가고, 외부→내부는 응답 트래픽만 허용
@@ -55,7 +55,7 @@ interface Serial1/0
 ! ▶ 임시 ACL 타임아웃 조정 (default 300초)
 ip reflexive-list timeout 120
 ```
-### 📌 Dynamic ACL (Lock&Key) - 인증 기반 임시 개방
+### Dynamic ACL (Lock&Key) - 인증 기반 임시 개방
 
 ```cisco
 ! [시나리오] 외부에서 라우터에 Telnet 인증 성공 시 → 내부망 접근 5분간 허용
@@ -83,7 +83,7 @@ interface Serial1/0
  ip access-group 105 in
 !
 ```
-### 📌 Time-range - 시간 기반 접근 제어
+### Time-range - 시간 기반 접근 제어
 
 ```cisco
 ! [시나리오 1] 평일 업무시간에만 Telnet/HTTP 허용
@@ -109,7 +109,7 @@ interface FastEthernet0/0
 !
 ```
 
-### 📌 Time-range 예약어 요약
+### Time-range 예약어 요약
 
 |키워드|의미|
 |---|---|
@@ -120,7 +120,7 @@ interface FastEthernet0/0
 |`periodic`|반복 스케줄|
 |`absolute start ... end ...`|일회성 기간 지정|
 
-### 📌 NTP 동기화 (Time-range 사용 전 필수)
+### NTP 동기화 (Time-range 사용 전 필수)
 ```cisco
 ! Time-range는 시스템 시간을 기준으로 동작 → NTP 동기화 필수
 !
@@ -134,9 +134,9 @@ ntp server 210.98.16.100                     ! 백업 NTP 서버
 ! show ntp associations
 ! show ntp status
 ```
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 
 ```cisco
 ! Reflective ACL - 임시 ACL 생성 여부 확인
@@ -162,7 +162,7 @@ show ntp status
 show ntp associations
 ```
 
-### 🚨 트러블슈팅 시나리오 1: Reflective ACL 응답이 안 온다
+### 트러블슈팅 시나리오 1: Reflective ACL 응답이 안 온다
 
 - **증상:** 내부에서 Ping은 나가는데 응답이 안 돌아옴. Neighbor는 정상.
 - **원인 파악:**
@@ -173,7 +173,7 @@ show ntp associations
     - 임시 ACL timeout이 너무 짧으면 응답 도착 전에 만료 → `ip reflexive-list timeout 300` 으로 조정.
 - **재발 방지:** in/out 방향을 절대 반대로 걸지 말 것. `reflect` 는 out 방향에, `evaluate` 는 in 방향에.
 
-### 🚨 트러블슈팅 시나리오 2: Dynamic ACL 인증 후에도 접근이 안 된다
+### 트러블슈팅 시나리오 2: Dynamic ACL 인증 후에도 접근이 안 된다
 
 - **증상:** Telnet 인증까지는 성공 → 하지만 내부망 접근 여전히 불가.
 - **원인 파악:**
@@ -188,7 +188,7 @@ show ntp associations
     
 - **주의:** `privilege 15` 계정으로 인증하면 autocommand가 실행되기 전에 exec 모드로 진입해서 dynamic ACL이 활성화 안 될 수 있음 → 별도 계정 사용 권장.
 
-### 🚨 트러블슈팅 시나리오 3: Time-range가 있는데 정책이 안 걸린다
+### 트러블슈팅 시나리오 3: Time-range가 있는데 정책이 안 걸린다
 
 - **증상:** 업무시간인데 Telnet이 차단되거나, 업무시간 외인데 열려있음.
 - **원인 파악:**
@@ -200,7 +200,7 @@ show ntp associations
     2. 임시 조치: `clock set 14:30:00 27 July 2026` 로 수동 세팅.
     3. Timezone 확인: `clock timezone KST 9` 없으면 UTC 기준으로 동작 → 9시간 어긋남.
 
-### ⚠️ 고급 ACL 실무 체크리스트
+### 고급 ACL 실무 체크리스트
 
 - [ ]  Reflective ACL의 `reflect`(out) / `evaluate`(in) 방향을 정확히 바인딩했는가?
 - [ ]  Reflective/Dynamic ACL 모두 **라우팅 프로토콜 permit을 최상단**에 두었는가?

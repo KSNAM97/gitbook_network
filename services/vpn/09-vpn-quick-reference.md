@@ -1,11 +1,11 @@
-# ⚡ VPN 명령어 퀵 레퍼런스
+# VPN 명령어 퀵 레퍼런스
 
 > **Tag:** #Network #VPN #GRE #IPsec #DMVPN #Cisco  
 > **핵심 요약:** GRE·mGRE·NHRP·IPsec·CBAC·GRE-over-IPsec·DMVPN·IPsec 이중화의 설정 명령과 검증 명령을 한 곳에서 확인하는 암기 카드입니다. GRE는 캡슐화만 제공하고 암호화는 IPsec이 담당하며, 모든 설정 블록 뒤에는 반드시 `show` 검증을 붙입니다. 마지막의 함정표와 빠른 진단 순서를 우선 암기하십시오.
 
 ---
 
-## 1. 🧠 요구사항별 기술 선택
+## 1. 요구사항별 기술 선택
 
 | 요구사항 | 사용 기술 |
 |---|---|
@@ -28,7 +28,7 @@ DMVPN = mGRE + NHRP + IPsec Profile + 동적 라우팅
 
 ---
 
-## 2. 📊 기술 비교
+## 2. 기술 비교
 
 | 항목 | GRE | IPsec | GRE-over-IPsec | DMVPN |
 |---|:---:|:---:|:---:|:---:|
@@ -49,7 +49,7 @@ DMVPN = mGRE + NHRP + IPsec Profile + 동적 라우팅
 
 ---
 
-## 3. 🚇 GRE Static
+## 3. GRE Static
 
 ```cisco
 configure terminal
@@ -86,7 +86,7 @@ Tunnel Up 조건
 
 ---
 
-## 4. 🔄 GRE Dynamic
+## 4. GRE Dynamic
 
 ```cisco
 configure terminal
@@ -159,7 +159,7 @@ show logging
 
 ---
 
-## 5. 🌐 mGRE & NHRP
+## 5. mGRE & NHRP
 
 Hub (NHS):
 
@@ -227,7 +227,7 @@ dynamic = 학습된 매핑
 
 ---
 
-## 6. 🔒 IPsec Site-to-Site (Crypto Map)
+## 6. IPsec Site-to-Site (Crypto Map)
 
 ### 6-1. Phase 1
 
@@ -378,7 +378,7 @@ show crypto session
 
 ---
 
-## 7. 🛡️ CBAC
+## 7. CBAC
 
 ```cisco
 configure terminal
@@ -438,7 +438,7 @@ ZBF           = Zone 기반 정책, 신규 설계 권장
 
 ---
 
-## 8. 🔗 GRE-Over-IPsec
+## 8. GRE-Over-IPsec
 
 ### 8-1. GRE 터널 + 동적 라우팅
 
@@ -516,7 +516,7 @@ Tunnel IF + Tunnel Mode    = [New IP][GRE][New IP][ESP][Original]  → New IP 2�
 
 ---
 
-## 9. 🌐 DMVPN
+## 9. DMVPN
 
 ### 9-1. IPsec Profile
 
@@ -618,7 +618,7 @@ Phase 3는 show ip route만으로 판단 불가 → show ip nhrp / show ip cef �
 
 ---
 
-## 10. ⚖️ IPsec 이중화 (HSRP 연동)
+## 10. IPsec 이중화 (HSRP 연동)
 
 ### 10-1. 본사 HSRP
 
@@ -708,7 +708,7 @@ Gateway 이중화 자체는 7-1. ⚖️ HSRP & VRRP (Gateway Redundancy)를 참�
 
 ---
 
-## 11. 📐 MTU 및 MSS
+## 11. MTU 및 MSS
 
 ```cisco
 interface Tunnel <TUNNEL-NUMBER>
@@ -745,7 +745,7 @@ NAT-T UDP Header = 8 Byte
 
 ---
 
-## 12. 🔍 검증 명령어
+## 12. 검증 명령어
 
 ### Tunnel
 
@@ -810,7 +810,7 @@ undebug all
 
 ---
 
-## 13. 📖 출력 판독
+## 13. 출력 판독
 
 ### `show crypto isakmp sa`
 
@@ -826,9 +826,9 @@ undebug all
 ### `show crypto ipsec sa`
 
 ```properties
-#pkts encaps 증가 + #pkts decaps 증가 = 양방향 정상
-#pkts encaps 증가 + #pkts decaps 0    = 상대측 반환 경로·ACL 문제
-#pkts encaps 0                        = Crypto ACL 미매칭 또는 Crypto Map 미적용
+# pkts encaps 증가 + #pkts decaps 증가 = 양방향 정상
+# pkts encaps 증가 + #pkts decaps 0 = 상대측 반환 경로·ACL 문제
+# pkts encaps 0 = Crypto ACL 미매칭 또는 Crypto Map 미적용
 
 local ident / remote ident
 = Proxy Identity, 양단이 서로 반대로 일치해야 함
@@ -861,7 +861,7 @@ Standby = SA 없음(정상)
 
 ---
 
-## 14. 🔄 안전한 변경 원칙
+## 14. 안전한 변경 원칙
 
 ```properties
 [1] 현재 확인 → [2] 백업 → [3] 경로 확인 → [4] 적용 → [5] 검증 → [6] 저장
@@ -920,7 +920,7 @@ Rollback 순서
 
 ---
 
-## 15. ⚠️ 암기용 함정표
+## 15. 암기용 함정표
 
 | 설정 또는 상황 | 실제 의미 |
 |---|---|
@@ -955,7 +955,7 @@ Rollback 순서
 
 ---
 
-## 16. 🚑 빠른 장애 진단 순서
+## 16. 빠른 장애 진단 순서
 
 ```properties
 하부 라우팅 확인 (show ip route <PEER-IP>)
@@ -985,7 +985,7 @@ Overlay 라우팅 확인 (show ip route / show ip eigrp neighbors)
 
 ---
 
-## 17. 🧾 명령 한눈에 보기
+## 17. 명령 한눈에 보기
 
 | 목적 | 명령 |
 |---|---|

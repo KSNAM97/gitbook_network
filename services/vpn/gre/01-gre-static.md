@@ -1,11 +1,11 @@
-# 🚇 GRE Static (정적 GRE 터널)
+# GRE Static (정적 GRE 터널)
 
 > **Tag:** #network #vpn #gre #tunnel #cisco
 > **핵심 요약:** 공중망(ISP)을 가로질러 두 사설망을 잇는 논리적 P2P 터널. Static Route와 결합해 사설망 통신 구현
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### GRE 터널을 쓰는 이유와 사설 IP의 공중망 통과 방식
 
@@ -21,9 +21,9 @@ ISP의 라우팅 테이블에는 사설 대역(172.16.x, 192.168.x)이 절대 �
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 GRE Static Tunnel 생성
+### GRE Static Tunnel 생성
 
 ```cisco
 ! === SOL-A (본사) ===
@@ -39,7 +39,7 @@ SOL-B(config-if)# tunnel source 121.160.20.2
 SOL-B(config-if)# tunnel destination 121.160.10.1
 ```
 
-### 📌 사설망 연결용 Static Route
+### 사설망 연결용 Static Route
 
 ```cisco
 ! === SOL-A : 지사 사설망으로 가는 경로를 터널로 지정 ===
@@ -53,9 +53,9 @@ SOL-B(config)# ip route 192.168.10.0 255.255.255.0 172.16.10.1
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 
 ```cisco
 Router# show ip interface brief          ! 터널 인터페이스 up/down 확인
@@ -64,12 +64,12 @@ Router# show ip route                     ! 터널 경로(C) + 사설망 경로(
 Router# ping 172.16.10.2                   ! 터널 IP 소통 테스트
 ```
 
-### 🚨 장애 시나리오 1: 터널 인터페이스가 Down
+### 장애 시나리오 1: 터널 인터페이스가 Down
 
 - **원인 파악:** 터널 **destination 공인 IP가 라우팅 테이블에 없음.** GRE는 목적지 공인 IP로 도달 가능해야만 활성화됨.
 - **해결:** 공중망 라우팅(OSPF/EIGRP 등)으로 상대 공인 IP가 학습됐는지 `show ip route`로 확인. source만 설정하면 여전히 down임을 유의.
 
-### 🚨 장애 시나리오 2: 터널 IP는 되는데 사설망끼리 안 됨
+### 장애 시나리오 2: 터널 IP는 되는데 사설망끼리 안 됨
 
 - **원인 파악:** 상대 사설망으로 가는 **Static Route(또는 라우팅) 누락.** `show ip route`에 상대 사설 대역이 없음.
 - **해결:** `ip route [상대사설망] [마스크] tunnel X` 추가 후 PC에서 재확인.

@@ -1,11 +1,11 @@
-# 🚑 스위치 기본 & VLAN·Trunk 트러블슈팅 치트시트
+# 스위치 기본 & VLAN·Trunk 트러블슈팅 치트시트
 
 > **Tag:** #Network #Troubleshooting #Switch #VLAN #Trunk #DTP #InterVLAN  
 > **핵심 요약:** VLAN 장애는 **물리 상태 → VLAN 존재 여부 → Access VLAN → Trunk 상태 → Allowed/Native VLAN → MAC 학습 → Gateway와 L3 Routing** 순서로 확인한다. 같은 VLAN 통신은 L2 경로를, 서로 다른 VLAN 통신은 L2와 L3 경로를 모두 검증해야 한다.
 
 ---
 
-## 1. 🎯 공통 진단 순서
+## 1. 공통 진단 순서
 
 ```properties
 [1] 포트가 물리적으로 Up인가?
@@ -23,7 +23,7 @@
 
 ---
 
-## 2. 🛠️ 증상별 즉시 대응표
+## 2. 증상별 즉시 대응표
 
 | 증상 | 주요 원인 | 확인 명령 | 조치 |
 |---|---|---|---|
@@ -42,7 +42,7 @@
 
 ---
 
-## 3. 🔍 핵심 진단 명령어
+## 3. 핵심 진단 명령어
 
 ### 물리 및 Port 상태
 
@@ -102,7 +102,7 @@ show logging
 
 ---
 
-## 4. 🚨 대표 장애 시나리오
+## 4. 대표 장애 시나리오
 
 ### 시나리오 1. 같은 VLAN인데 통신이 안 됨
 
@@ -537,7 +537,7 @@ interface GigabitEthernet0/1
 
 ---
 
-## 5. 🔧 안전한 변경 절차
+## 5. 안전한 변경 절차
 
 ```properties
 [1] 현재 VLAN 및 Trunk 상태 저장

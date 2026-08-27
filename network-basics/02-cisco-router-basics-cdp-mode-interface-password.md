@@ -1,4 +1,4 @@
-# 2. ⚙️ Cisco 라우터 기초 - CDP, Mode, Interface, Password 종합 정리
+# Cisco 라우터 기초 - CDP, Mode, Interface, Password 종합 정리
 
 > **Tag:** #Network #Cisco #Routing #CDP #Interface
 > **핵심 요약:** **📌 문서 목적:** Cisco 라우터의 기본 운용에 필요한 CDP, 운영 모드, 인터페이스 설정, 접근 보안(Password)까지 실무 관점에서 압축 정리한 표준 레퍼런스 문서.
@@ -6,9 +6,9 @@
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
-### 🔹 CDP (Cisco Discovery Protocol)
+### CDP (Cisco Discovery Protocol)
 
 > **Q. CDP는 편리한 토폴로지 확인 도구인데, 실무 운영 장비에서는 왜 `no cdp run`으로 비활성화하는 것이 보안 Best Practice로 간주되나요?**
 
@@ -17,7 +17,7 @@
   - CDP는 **Layer 2 프로토콜**이므로 IP 주소 설정 없이도 동작하는 것이 장점이자, IP를 몰라도 옆 장비 정보를 캐낼 수 있다는 단점이 됨.
   - 실무 원칙: **내부 코어/디스트리뷰션 구간은 유지**(운영/장애 파악 유리), **외부망 연결 인터페이스(ISP 구간, DMZ) 및 사용자 액세스 포트는 `no cdp enable`로 인터페이스별 차단**하는 것이 표준.
 
-### 🔹 운영 모드(User / Privilege / Global) & 저장 구조(RAM / NVRAM)
+### 운영 모드(User / Privilege / Global) & 저장 구조(RAM / NVRAM)
 
 > **Q. `configure terminal`에서 설정한 내용이 왜 장비를 재부팅(reload)하면 사라질 수 있나요?**
 
@@ -28,9 +28,9 @@
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📡 2-1. CDP 운영 표준 (외부 인터페이스 차단)
+### 2-1. CDP 운영 표준 (외부 인터페이스 차단)
 
 ```cisco
 ! ============================================
@@ -54,7 +54,7 @@ end
 write memory                      ! running-config → startup-config 저장```
 ```
 
-### 🔐 2-2. 접근 보안 (Console / VTY / AUX / Enable)
+### 2-2. 접근 보안 (Console / VTY / AUX / Enable)
 ```cisco
 ! ============================================
 ! 기본 호스트명 및 관리자 접근 보안 표준 템플릿
@@ -94,7 +94,7 @@ service password-encryption
 end
 write memory
 ```
-### 🔌 2-3. 인터페이스 표준 (Ethernet / Serial / Loopback)
+### 2-3. 인터페이스 표준 (Ethernet / Serial / Loopback)
 ```cisco
 ! ============================================
 ! Ethernet Interface (LAN, DTE 자동 감지)
@@ -126,9 +126,9 @@ interface Loopback0
 end
 write memory
 ```
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 3-1. 필수 검증 명령어
+### 3-1. 필수 검증 명령어
 
 |목적|명령어|확인 포인트|
 |---|---|---|
@@ -142,7 +142,7 @@ write memory
 
 ---
 
-### 🚨 3-2. 대표 장애 시나리오 & 트러블슈팅
+### 3-2. 대표 장애 시나리오 & 트러블슈팅
 
 #### **[시나리오 1] Serial 인터페이스가 `up / down` 상태로 통신 불가**
 

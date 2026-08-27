@@ -1,4 +1,4 @@
-# ⚖️ Offset-list를 활용한 경로 조작
+# Offset-list를 활용한 경로 조작
 
 > **Tag:** #Network #Cisco #ACL #Security #AccessControl #OffsetList #MetricControl
 > **핵심 요약:** 필터링이 아닌 "경로 우선순위 변경" - Metric을 조작해 최적 경로를 원하는 방향으로 유도
@@ -6,7 +6,7 @@
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### Offset-list가 ACL 폴더에서 다뤄지는 이유
 
@@ -28,9 +28,9 @@ Offset-list는 원본 Metric에 상대적 가중치를 적용해 홉 수 변화�
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 Offset-list 기본 문법
+### Offset-list 기본 문법
 
 ```cisco
 ! [문법]
@@ -44,7 +44,7 @@ router <protocol>
 !
 ! ★ 하나의 라우팅 프로세스에서 인터페이스당 in/out 각 1회씩만 적용 가능
 ```
-### 📌 시나리오 1: 특정 목적지 경로를 우회로로 강등
+### 시나리오 1: 특정 목적지 경로를 우회로로 강등
 
 ```cisco
 ! [토폴로지]
@@ -68,7 +68,7 @@ router eigrp 100
 !
 ```
 
-### 📌 시나리오 2: WAN 이중화 - Primary/Backup 회선 지정
+### 시나리오 2: WAN 이중화 - Primary/Backup 회선 지정
 
 ```cisco
 ! [토폴로지] 본사↔지사가 두 개의 WAN 회선으로 이중화
@@ -85,7 +85,7 @@ router eigrp 100
 ! ▶ 결과: MPLS 정상 시 MPLS 사용, MPLS 장애 시 자동으로 VPN 사용
 ```
 
-### 📌 시나리오 3: RIP 환경에서 홉 수 조작
+### 시나리오 3: RIP 환경에서 홉 수 조작
 
 ```cisco
 ! [RIP 특성] Metric = 홉 수 (최대 15)
@@ -100,7 +100,7 @@ router rip
 !    실무에서는 이를 역이용해 특정 경로를 강제 차단 효과로도 사용
 ```
 
-### 📌 시나리오 4: 양방향 트래픽 대칭 유지
+### 시나리오 4: 양방향 트래픽 대칭 유지
 
 ```cisco
 ! [문제] Outbound는 A회선, Inbound는 B회선으로 흐르는 비대칭 라우팅 발생
@@ -120,7 +120,7 @@ router eigrp 100
 !
 ! ▶ 양쪽 다 A회선 우선 → 트래픽 대칭 확보
 ```
-### 📌 프로토콜별 Metric 단위 이해
+### 프로토콜별 Metric 단위 이해
 
 |프로토콜|Metric 구조|Offset-list 가산 시 감각|
 |---|---|---|
@@ -129,7 +129,7 @@ router eigrp 100
 |**OSPF**|Cost (32bit)|Offset-list **미지원** → interface cost 조작|
 |**BGP**|AS_PATH, LOCAL_PREF, MED|Offset-list 미지원 → Route-map 사용|
 
-### 📌 EIGRP Metric 계산 감각 (실무 참고)
+### EIGRP Metric 계산 감각 (실무 참고)
 ```cisco
 ! EIGRP Metric = (K1×BW + K3×Delay) × 256   (기본 공식)
 !
@@ -144,9 +144,9 @@ router eigrp 100
 !   +5,000,000  → 사실상 백업 경로로 강등
 !   +10,000,000 → 최후의 수단 (거의 안 씀)
 ```
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 
 ```cisco
 ! Offset-list 적용 확인
@@ -172,7 +172,7 @@ show ip route eigrp | include 13.13.15.0
 traceroute 13.13.15.5 source 13.13.14.4
 ```
 
-### 🚨 트러블슈팅 시나리오 1: Offset-list 적용했는데 경로가 안 바뀐다
+### 트러블슈팅 시나리오 1: Offset-list 적용했는데 경로가 안 바뀐다
 
 - **증상:** Offset 값을 넣었는데 여전히 같은 경로 사용.
 - **원인 파악:**
@@ -194,7 +194,7 @@ traceroute 13.13.15.5 source 13.13.14.4
     
 - **재발 방지:** Offset 값은 반드시 **경로 간 Metric 차이보다 크게** 설정.
 
-### 🚨 트러블슈팅 시나리오 2: Offset 후 경로가 아예 사라졌다
+### 트러블슈팅 시나리오 2: Offset 후 경로가 아예 사라졌다
 
 - **증상:** Offset 적용했더니 라우팅 테이블에서 해당 경로가 통째로 사라짐.
 - **원인 파악:**
@@ -215,7 +215,7 @@ traceroute 13.13.15.5 source 13.13.14.4
     
 - **재발 방지:** 프로토콜별 Metric 최대값 감각을 익힐 것.
 
-### 🚨 트러블슈팅 시나리오 3: Primary 회선 장애 시 Backup으로 전환이 느리다
+### 트러블슈팅 시나리오 3: Primary 회선 장애 시 Backup으로 전환이 느리다
 
 - **증상:** Offset으로 백업 경로 지정했는데, 주 회선 장애 시 30초~1분 이상 통신 지연.
 - **원인 파악:**
@@ -239,7 +239,7 @@ traceroute 13.13.15.5 source 13.13.14.4
     
 - **재발 방지:** 이중화 설계 시 **감지 시간(convergence time)** 을 SLA에 포함시켜 검증.
 
-### 🚨 트러블슈팅 시나리오 4: 비대칭 라우팅 발생
+### 트러블슈팅 시나리오 4: 비대칭 라우팅 발생
 
 - **증상:** Outbound는 A회선, Return은 B회선으로 흐르며 방화벽에서 세션 끊김.
 - **원인 파악:**
@@ -248,7 +248,7 @@ traceroute 13.13.15.5 source 13.13.14.4
     - 양쪽 엔드포인트 라우터 모두에서 대칭적으로 Offset 정책 적용.
     - 특히 방화벽/IPS를 통과하는 트래픽은 대칭 라우팅이 절대 조건.
 
-### ⚠️ Offset-list 실무 체크리스트
+### Offset-list 실무 체크리스트
 
 - [ ]  Offset 값이 경로 간 Metric 차이보다 **충분히 큰가**?
 - [ ]  `in` / `out` 방향을 자기 라우터 기준으로 정확히 설정했는가?

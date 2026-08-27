@@ -1,4 +1,4 @@
-# 3-3-1. 🔒  스위치 & 방어 보안 - Port-security & TCP Intercept
+# 스위치 & 방어 보안 - Port-security & TCP Intercept
 
 > **Tag:** #Network #Cisco #ACL #Security #AccessControl #PortSecurity #DefensiveSecurity #Switch #VLAN #L2
 > **핵심 요약:** L2 경계 방어(Port-security)와 L4 세션 방어(TCP Intercept)
@@ -6,7 +6,7 @@
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### Port-security와 802.1X의 차이 및 선택 기준
 
@@ -28,9 +28,9 @@ Intercept 모드는 라우터가 프록시 역할을 해 CPU 부담이 크고 �
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 Port-security - Sticky 방식 (실무 권장)
+### Port-security - Sticky 방식 (실무 권장)
 
 ```cisco
 ! [Sticky] 처음 접속한 MAC을 자동 학습 후 running-config에 저장
@@ -49,7 +49,7 @@ interface range FastEthernet0/1 - 20
 end
 write memory                                            ! sticky MAC이 저장되도록 반드시 저장
 ```
-### 📌 Port-security - 정적 MAC 지정 방식
+### Port-security - 정적 MAC 지정 방식
 
 ```cisco
 ! [Static] 특정 MAC만 허용 - 서버룸/네트워크 장비 포트에 사용
@@ -62,14 +62,14 @@ interface FastEthernet0/1
  switchport port-security
 !
 ```
-### 📌 Violation Mode 비교표
+### Violation Mode 비교표
 
 | 모드           | 위반 프레임 | 포트 상태        | Syslog | SNMP trap | 카운터 | 관리자 복구 |
 | ------------ | ------ | ------------ | ------ | --------- | --- | ------ |
 | **protect**  | Drop   | up 유지        | ❌      | ❌         | ❌   | 불필요    |
 | **restrict** | Drop   | up 유지        | ✅      | ✅         | ✅   | 불필요    |
 | **shutdown** | Drop   | err-disabled | ✅      | ✅         | ✅   | **필요** |
-### 📌 err-disable 자동 복구 (shutdown 모드 필수 세트)
+### err-disable 자동 복구 (shutdown 모드 필수 세트)
 
 ```cisco
 ! [errdisable recovery] shutdown으로 잠긴 포트를 일정 시간 후 자동 복구
@@ -80,7 +80,7 @@ errdisable recovery interval 300                        ! 5분 후 자동 복구
 ! ▶ 확인 명령
 ! show errdisable recovery
 ```
-### 📌 TCP Intercept - Watch 모드 (실무 권장)
+### TCP Intercept - Watch 모드 (실무 권장)
 
 ```cisco
 ! [Watch mode] 세션을 감시만 하다가 timeout 시 강제 종료
@@ -103,7 +103,7 @@ ip tcp intercept drop-mode oldest                      ! 임계 초과 시 오�
 !
 ```
 
-### 📌 TCP Intercept - Intercept 모드 (강력한 방어)
+### TCP Intercept - Intercept 모드 (강력한 방어)
 
 ```cisco
 ! [Intercept mode] 라우터가 프록시로 개입 - 3-way 완료된 세션만 서버로 전달
@@ -117,7 +117,7 @@ ip tcp intercept mode intercept                        ! Intercept 모드 (defau
 ip tcp intercept connection-timeout 30                 ! 3-way 완료 후 30초 미사용 시 종료
 !
 ```
-### 📌 종합 실무 템플릿 - Access Layer Switch
+### 종합 실무 템플릿 - Access Layer Switch
 
 ```cisco
 ! [운영 스위치 표준 설정] 모든 Access 포트에 일괄 적용
@@ -163,9 +163,9 @@ Copy
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 
 ```cisco
 ! Port-security 전체 상태 확인
@@ -199,7 +199,7 @@ show tcp intercept statistics                          ! 누적 통계 (drop, in
 debug ip tcp intercept
 ```
 
-### 🚨 트러블슈팅 시나리오 1: 포트가 err-disabled로 잠겨서 통신 불가
+### 트러블슈팅 시나리오 1: 포트가 err-disabled로 잠겨서 통신 불가
 
 - **증상:** 사용자 PC 교체 후 네트워크 안 됨. `show interfaces status`에 `err-disabled` 표시.
 - **원인 파악:**
@@ -225,7 +225,7 @@ debug ip tcp intercept
     
 - **재발 방지:** PC 교체 프로세스에 "네트워크팀 통보 및 MAC 재등록" 절차 명문화.
 
-### 🚨 트러블슈팅 시나리오 2: Sticky MAC이 재부팅 후 사라진다
+### 트러블슈팅 시나리오 2: Sticky MAC이 재부팅 후 사라진다
 
 - **증상:** 스위치 재부팅하면 학습된 MAC이 초기화되고 포트가 계속 학습 상태.
 - **원인 파악:**
@@ -240,7 +240,7 @@ debug ip tcp intercept
     
 - **재발 방지:** Port-security 활성화 후 반드시 `write memory` 를 SOP에 포함.
 
-### 🚨 트러블슈팅 시나리오 3: IP Phone + PC 환경에서 포트가 계속 잠긴다
+### 트러블슈팅 시나리오 3: IP Phone + PC 환경에서 포트가 계속 잠긴다
 - **증상:** IP Phone 뒤에 PC 붙였더니 MAC 2개 학습 → 위반 발생.
 - **원인 파악:**
     - `switchport port-security maximum 1` 이 기본값 → IP Phone 환경에는 부적합.
@@ -255,7 +255,7 @@ debug ip tcp intercept
     
 - **재발 방지:** Voice VLAN 사용 환경은 `maximum 2` 이상으로 설계 표준화.
 
-### 🚨 트러블슈팅 시나리오 4: TCP Intercept 활성화 후 정상 사용자 접속 지연
+### 트러블슈팅 시나리오 4: TCP Intercept 활성화 후 정상 사용자 접속 지연
 
 - **증상:** SYN Flood 방어 활성화 후 일반 사용자도 접속 지연 발생.
 - **원인 파악:**
@@ -277,7 +277,7 @@ debug ip tcp intercept
     ```
     
 - **재발 방지:** TCP Intercept 활성화 전 서비스 정상 트래픽의 SYN rate를 벤치마킹.
-### 🚨 트러블슈팅 시나리오 5: BPDU Guard로 포트가 잠겼는데 원인 불명
+### 트러블슈팅 시나리오 5: BPDU Guard로 포트가 잠겼는데 원인 불명
 
 - **증상:** 사용자가 스위치를 몰래 붙였다가 뽑았는데 포트가 계속 err-disabled.
 - **원인 파악:**
@@ -300,7 +300,7 @@ debug ip tcp intercept
     
 - **재발 방지:** BPDU Guard는 **Access 포트에 스위치 연결을 원천 차단** 하는 강력한 정책 → 반드시 유지.
 
-### ⚠️ 스위치/방어 보안 실무 체크리스트
+### 스위치/방어 보안 실무 체크리스트
 
 - [ ]  모든 Access 포트에 **Port-security + sticky** 를 적용했는가?
 - [ ]  Violation Mode는 **restrict** (또는 shutdown + err-disable recovery) 로 설정했는가?

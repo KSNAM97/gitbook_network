@@ -1,11 +1,11 @@
-# 🚑 VTP 트러블슈팅 치트시트
+# VTP 트러블슈팅 치트시트
 
 > **Tag:** #Network #Troubleshooting #VTP #VLAN #Trunk #Cisco  
 > **핵심 요약:** VTP 장애는 **Trunk 상태 → VTP Version → Domain → Password → Mode → Revision → VLAN Database → Allowed VLAN** 순서로 확인한다. VLAN이 동기화됐는데도 통신하지 못한다면 VTP가 아니라 Access Port, Trunk Allowed VLAN, STP 또는 L3 Gateway 문제일 수 있다.
 
 ---
 
-## 1. 🎯 공통 진단 순서
+## 1. 공통 진단 순서
 
 ```properties
 [1] Switch 사이 Trunk가 실제로 Up인가?
@@ -22,7 +22,7 @@
 
 ---
 
-## 2. 🛠️ 증상별 즉시 대응표
+## 2. 증상별 즉시 대응표
 
 | 증상 | 주요 원인 | 확인 | 조치 |
 |---|---|---|---|
@@ -39,7 +39,7 @@
 
 ---
 
-## 3. 🔍 핵심 진단 명령어
+## 3. 핵심 진단 명령어
 
 ### VTP 상태
 
@@ -82,7 +82,7 @@ show vtp counters
 
 ---
 
-## 4. 🚨 대표 장애 시나리오
+## 4. 대표 장애 시나리오
 
 ### 시나리오 1. Server에서 만든 VLAN이 Client에 나타나지 않음
 
@@ -509,7 +509,7 @@ STP Blocking
 
 ---
 
-## 5. 🔧 안전한 변경 및 복구 절차
+## 5. 안전한 변경 및 복구 절차
 
 ```properties
 [1] show vtp status 출력 저장

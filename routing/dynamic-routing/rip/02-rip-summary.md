@@ -1,11 +1,11 @@
-# ♟️ RIP 통합 정리 — Distance Vector·v1 vs v2·Loop 방지 한눈에
+# RIP 통합 정리 — Distance Vector·v1 vs v2·Loop 방지 한눈에
 
 > **Tag:** #Routing #RIP #DistanceVector #IGP #Convergence #Summary
 > **핵심 요약:** RIP는 **Hop Count(최대 15)** 를 Metric으로 사용하는 Distance Vector IGP로, Cisco IOS 기본 AD는 120이며 UDP 520을 사용한다. 30초 주기 Routing Update와 최대 Hop 제한 때문에 대규모 환경에는 부적합하지만, Split Horizon·Route Poison·Poison Reverse·Triggered Update 등 Distance Vector의 핵심 루프 방지 원리를 이해하는 데 중요하다. 현대적인 RIP 환경에서는 RIPv2와 `no auto-summary`를 사용하고, 실제 운영에서는 OSPF·EIGRP·BGP로의 마이그레이션을 우선 검토한다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### Q1. RIP는 왜 거의 사용하지 않는데 아직 배우나요?
 
@@ -108,7 +108,7 @@ interface Serial1/0
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
 ### 2-1. RIPv2 기본 설정
 
@@ -254,7 +254,7 @@ RIPv2         = Multicast 224.0.0.9 / Classless / Authentication
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅
+## 3. 검증 및 트러블슈팅
 
 ### 3-1. 기본 검증
 
@@ -311,7 +311,7 @@ RIP: sending v2 update to 224.0.0.9 via Serial1/0 (13.13.12.1)
 
 ---
 
-## 4. ⚠️ 대표 함정
+## 4. 대표 함정
 
 | 함정 | 결과 | 권장 조치 |
 |---|---|---|

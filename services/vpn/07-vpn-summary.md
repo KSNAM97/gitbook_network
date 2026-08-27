@@ -1,11 +1,11 @@
-# 🧩 VPN 통합 정리 (GRE · IPsec · DMVPN)
+# VPN 통합 정리 (GRE · IPsec · DMVPN)
 
 > **Tag:** #Network #VPN #GRE #IPsec #DMVPN #Cisco  
 > **핵심 요약:** GRE는 캡슐화(Encapsulation)만 제공하며 암호화를 제공하지 않고, IPsec은 암호화·무결성·인증을 제공하지만 Multicast 기반 동적 라우팅을 직접 보호하지 못합니다. 그래서 실무에서는 GRE로 라우팅과 Multicast를 실어 나르고 IPsec으로 암호화하는 GRE-over-IPsec, mGRE·NHRP·IPsec Profile을 결합해 확장성을 확보한 DMVPN을 사용합니다. 어떤 방식이든 하부 라우팅 도달성, Crypto ACL 대칭, NAT 예외, MTU가 공통 실패 지점입니다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념
+## 1. 핵심 기술 개념
 
 ### Q1. GRE는 암호화를 제공하는가?
 
@@ -658,7 +658,7 @@ Gateway 이중화 동작은 7-1. ⚖️ HSRP & VRRP (Gateway Redundancy)를 참�
 
 ---
 
-## 2. 📊 기술 비교표
+## 2. 기술 비교표
 
 ### 2-1. VPN 방식 종합 비교
 
@@ -724,7 +724,7 @@ ip mtu 1400 / ip tcp adjust-mss 1360은 여유를 둔 보수적 기준값
 
 ---
 
-## 3. 🧭 방식 선택 가이드
+## 3. 방식 선택 가이드
 
 ```properties
 암호화 불필요, 단순 논리 경로만 필요   → GRE 단독 (공중망에서는 권장하지 않음)
@@ -737,7 +737,7 @@ Spoke 간 트래픽 비중이 큼              → DMVPN Phase 2 또는 Phase 3
 
 ---
 
-## 4. 🔧 안전한 변경 절차
+## 4. 안전한 변경 절차
 
 ```properties
 [1] 현재 확인 : 라우팅·Tunnel·Crypto·NAT·ACL 상태 출력 저장
@@ -795,7 +795,7 @@ reload cancel
 
 ---
 
-## 5. 🔍 검증 명령어
+## 5. 검증 명령어
 
 ```cisco
 ! Tunnel
@@ -835,7 +835,7 @@ undebug all
 
 ---
 
-## 6. ⚠️ 실무 체크리스트
+## 6. 실무 체크리스트
 
 - [ ] GRE만 사용하는 구간에 암호화가 필요하지 않은지 검토했는가?
 - [ ] Tunnel destination이 Underlay 라우팅으로 도달 가능한가?

@@ -1,11 +1,11 @@
-# 🧩 L3 Switch & Inter-VLAN Routing 통합 정리
+# L3 Switch & Inter-VLAN Routing 통합 정리
 
 > **Tag:** #Network #Switch #L3Switch #InterVLAN #SVI #Cisco  
 > **핵심 요약:** Inter-VLAN Routing은 Router-on-a-Stick(Sub-interface), SVI, Routed Port로 구현한다. L3 Switch에서 라우팅이 동작하려면 전역 `ip routing`이 필수이며, SVI는 VLAN Database 존재·해당 VLAN의 Up 상태 L2 Port·`no shutdown`을 모두 만족해야 Up/Up이 된다. Multi-Layer Switch는 제어평면이 만든 경로를 CEF 기반 하드웨어 테이블로 내려 와이어스피드로 전달한다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념
+## 1. 핵심 기술 개념
 
 ### Q1. Inter-VLAN Routing은 왜 필요한가?
 
@@ -458,7 +458,7 @@ PC → Discover(Broadcast, VLAN 내부)
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿
+## 2. 표준 설정 템플릿
 
 ### 2-1. 기본 준비와 SVI Gateway
 
@@ -577,7 +577,7 @@ no passive-interface <INTERFACE>   = 인접 맺을 IF만 개방
 
 ---
 
-## 3. 🛡️ 안전한 변경 절차
+## 3. 안전한 변경 절차
 
 ```properties
 [1] 현재 확인 : show running-config / show ip route / show ip interface brief
@@ -618,7 +618,7 @@ traceroute <IP-ADDRESS>
 
 ---
 
-## 4. 🔍 검증 명령어
+## 4. 검증 명령어
 
 ```cisco
 show ip route
@@ -651,7 +651,7 @@ show processes cpu sorted
 
 ---
 
-## 5. ⚠️ 실무 체크리스트
+## 5. 실무 체크리스트
 
 - [ ] `ip routing`이 활성화되어 있는가?
 - [ ] 필요한 VLAN이 VLAN Database에 존재하는가?

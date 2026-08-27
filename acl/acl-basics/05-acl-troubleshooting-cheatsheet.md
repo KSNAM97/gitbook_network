@@ -1,11 +1,11 @@
-# 🚑 Cisco IOS ACL 트러블슈팅 치트시트
+# Cisco IOS ACL 트러블슈팅 치트시트
 
 > **Tag:** #Network #ACL #Troubleshooting #StandardACL #ExtendedACL #ReflectiveACL #DynamicACL
 > **핵심 요약:** ACL 장애는 **적용 위치/방향 오류, 암묵적 deny, ACE 순서 오류, 라우팅 프로토콜 예외 누락, Return Traffic 차단**에서 가장 많이 발생한다. 진단은 `ACL 바인딩 → ACE 순서 → Hit Count → 제어 트래픽 → 왕복 경로` 순서로 진행한다.
 
 ---
 
-## 1. 🎯 ACL 장애 진단 순서
+## 1. ACL 장애 진단 순서
 
 ```properties
 [1] ACL이 어느 인터페이스의 어느 방향에 적용됐는가?
@@ -26,7 +26,7 @@ traceroute <DESTINATION>
 
 ---
 
-## 2. 🛠️ 증상별 즉시 대응표
+## 2. 증상별 즉시 대응표
 
 |증상|주요 원인|확인|조치|
 |---|---|---|---|
@@ -43,7 +43,7 @@ traceroute <DESTINATION>
 
 ---
 
-## 3. 🔍 핵심 확인 명령어
+## 3. 핵심 확인 명령어
 
 ### ACL 내용 및 Hit Count
 
@@ -96,7 +96,7 @@ show logging | include SEC-6-IPACCESSLOG
 
 ---
 
-## 4. 🚨 대표 장애 시나리오
+## 4. 대표 장애 시나리오
 
 ### 시나리오 1. Deny 한 줄 추가 후 전체 통신이 끊김
 
@@ -447,7 +447,7 @@ interface Tunnel0
 
 ---
 
-## 5. 🔧 안전한 ACL 변경 절차
+## 5. 안전한 ACL 변경 절차
 
 ```properties
 [1] 현재 ACL 및 인터페이스 바인딩 백업

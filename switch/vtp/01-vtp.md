@@ -1,11 +1,11 @@
-# 🔄 VTP (VLAN Trunking Protocol)
+# VTP (VLAN Trunking Protocol)
 
 > **Tag:** #network #switch #vtp #vlan #cisco
 > **핵심 요약:** VLAN Database를 스위치 간 자동 동기화하는 Cisco 전용 프로토콜. Revision Number와 Mode 이해가 핵심
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### VTP가 실무에서 위험한 이유
 
@@ -19,7 +19,7 @@ VLAN을 관리할 소수의 스위치만 **Server**, 이를 받기만 하는 대
 
 Server/Client는 **Standard VLAN(1~1005)**만 다룰 수 있고, **Extended VLAN(1006~4094)**은 오직 **Transparent 모드**에서만 생성 가능하다. Transparent에서 만든 VLAN은 자기 DB에만 존재하므로, 상위 Server가 VLAN을 삭제해도 **Transparent 스위치엔 그대로 남아** 독립성이 보장된다.
 
-### 📊 VTP Mode별 권한 매트릭스 (반드시 암기)
+### VTP Mode별 권한 매트릭스 (반드시 암기)
 
 | Mode | 생성 | 수정 | 삭제 | 전파 | 일치 | 중계 |
 |------|:----:|:----:|:----:|:----:|:----:|:----:|
@@ -34,9 +34,9 @@ Server/Client는 **Standard VLAN(1~1005)**만 다룰 수 있고, **Extended VLAN
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 VTP 기본 3종 설정 (Domain / Password / Mode)
+### VTP 기본 3종 설정 (Domain / Password / Mode)
 
 ```cisco
 ! === Domain : 한 스위치에서 설정하면 Trunk를 통해 자동 전파됨 ===
@@ -51,7 +51,7 @@ Switch(config)# vtp mode client        ! VLAN 수신 전용
 Switch(config)# vtp mode transparent   ! 독립 운영 + 중계만
 ```
 
-### 📌 실전 시나리오 (SW1=Server, SW2/SW4=Client, SW3=Transparent)
+### 실전 시나리오 (SW1=Server, SW2/SW4=Client, SW3=Transparent)
 
 **요구사항:** SW1/SW3만 VLAN 생성 가능 · SW2/SW4는 SW1의 VLAN만 공유 · SW3은 VLAN 공유 안 함 · Domain=GIT_NET, Password=cisco1234 · 관리주소 192.168.1.X/24
 
@@ -114,7 +114,7 @@ vtp password cisco1234
 vtp mode client
 ```
 
-### 📌 Extended VLAN(1006~4094) 생성 (Transparent 전용)
+### Extended VLAN(1006~4094) 생성 (Transparent 전용)
 
 ```cisco
 ! Server 모드에서는 Extended VLAN 생성 불가 → Transparent로 전환 필요
@@ -127,9 +127,9 @@ Switch(config)# vlan 3001                  ! Extended VLAN은 Transparent에서�
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 
 ```cisco
 Switch# show vtp status         ! Mode, Domain, Revision Number, VLAN 개수 확인 (최우선)
@@ -139,14 +139,14 @@ Switch# show interface trunk    ! VTP 전제조건인 Trunk 형성 여부 확인
 Switch# ping 192.168.1.X        ! VLAN 1 관리망 소통 확인
 ```
 
-### 📊 `show vtp status` 판독 핵심 포인트
+### `show vtp status` 판독 핵심 포인트
 
 - **VTP Operating Mode** : Server / Client / Transparent 확인
 - **VTP Domain Name** : 모든 스위치가 동일해야 함 (한 글자만 달라도 동기화 실패)
 - **Configuration Revision** : 동기화 기준값. Client/Server는 서로 같아야 정상
 - **Number of existing VLANs** : 동기화된 VLAN 총 개수 비교
 
-### 🚨 장애 시나리오 1: VLAN이 동기화되지 않음
+### 장애 시나리오 1: VLAN이 동기화되지 않음
 
 - **증상:** SW1에서 VLAN을 만들었는데 SW2에 안 나타남.
 - **원인 파악 (순서대로):**
@@ -156,7 +156,7 @@ Switch# ping 192.168.1.X        ! VLAN 1 관리망 소통 확인
     4. SW2가 실수로 **Transparent 모드**면 VTP 광고를 자기 DB에 반영하지 않음.
 - **해결:** 불일치 항목(Trunk/Domain/Password/Mode)을 맞춰준다.
 
-### 🚨 장애 시나리오 2: 신규 스위치 투입 후 전체 VLAN이 사라짐 (가장 치명적)
+### 장애 시나리오 2: 신규 스위치 투입 후 전체 VLAN이 사라짐 (가장 치명적)
 
 - **증상:** 새로 넣은 스위치 때문에 운영망 VLAN이 통째로 삭제/변경됨.
 - **원인 파악:** 신규 스위치의 **Revision Number가 기존 Server보다 높았음.** VTP는 높은 Revision을 "최신"으로 간주해 전체를 덮어씀. (Domain/Password가 우연히 일치했을 때 발생)
@@ -164,7 +164,7 @@ Switch# ping 192.168.1.X        ! VLAN 1 관리망 소통 확인
     1. 스위치 투입 전 **반드시 Revision을 0으로 리셋** — `vtp mode transparent` 후 다시 원하는 모드로 전환하거나, Domain을 임의값으로 바꿨다 되돌린다.
     2. 투입 전 `show vtp status`로 Revision이 0인지 확인 후 연결.
 
-### 🚨 장애 시나리오 3: Client에서 VLAN 삭제/생성이 거부됨
+### 장애 시나리오 3: Client에서 VLAN 삭제/생성이 거부됨
 
 - **증상:** `no vlan 30` 실행 시 `VTP VLAN configuration not allowed when device is in CLIENT mode.` 출력.
 - **원인 파악:** Client 모드는 VLAN 생성/수정/삭제 권한이 없음 (정상 동작).

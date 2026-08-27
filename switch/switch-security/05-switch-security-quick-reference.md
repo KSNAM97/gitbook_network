@@ -1,11 +1,11 @@
-# ⚡ Switch 보안 명령어 퀵 레퍼런스
+# Switch 보안 명령어 퀵 레퍼런스
 
 > **Tag:** #Network #Switch #Security #PortSecurity #SPAN #Cisco  
 > **핵심 요약:** Port-security, Storm-control, SPAN/RSPAN, 미사용 Port·VLAN 격리 명령을 검증과 함정 위주로 정리한 암기 카드. Port-security는 반드시 Access Port에서, SPAN Destination은 반드시 미사용 전용 Port에서 사용하며 두 기능은 같은 Port에 병행할 수 없다.
 
 ---
 
-## 1. 🧠 요구사항별 기능 선택
+## 1. 요구사항별 기능 선택
 
 | 요구사항 | 사용 기능 |
 |---|---|
@@ -28,7 +28,7 @@
 
 ---
 
-## 2. 📊 Violation Mode 비교
+## 2. Violation Mode 비교
 
 | Violation Mode | 위반 Frame 폐기 | Syslog 로그 | SNMP Trap | Violation Counter 증가 | Port 상태 |
 |---|:---:|:---:|:---:|:---:|---|
@@ -46,7 +46,7 @@
 
 ---
 
-## 3. 📊 Secure MAC 학습 방식 비교
+## 3. Secure MAC 학습 방식 비교
 
 | 학습 방식 | 등록 주체 | Running-config 기록 | 재부팅 후 유지 | 기본 Aging 대상 |
 |---|---|:---:|:---:|:---:|
@@ -56,7 +56,7 @@
 
 ---
 
-## 4. 🔧 Port-security 기본 명령
+## 4. Port-security 기본 명령
 
 ```cisco
 interface <INTERFACE>
@@ -81,7 +81,7 @@ show running-config interface <INTERFACE>
 
 ---
 
-## 5. 🖥️ 표준 프로파일
+## 5. 표준 프로파일
 
 ### 5-1. 일반 사용자 Port
 
@@ -176,7 +176,7 @@ show interfaces <INTERFACE> switchport
 
 ---
 
-## 6. ⏱️ Secure MAC Aging
+## 6. ⏱ Secure MAC Aging
 
 ```cisco
 interface <INTERFACE>
@@ -207,7 +207,7 @@ aging static    = Static Secure MAC도 Aging 대상 포함
 
 ---
 
-## 7. 🧹 초기화 및 Err-disable 복구
+## 7. 초기화 및 Err-disable 복구
 
 ```cisco
 clear port-security sticky interface <INTERFACE>
@@ -250,7 +250,7 @@ errdisable recovery interval 단위 = 초(Second)
 
 ---
 
-## 8. 🌊 Storm-control
+## 8. Storm-control
 
 ```cisco
 interface <INTERFACE>
@@ -291,7 +291,7 @@ Upper/Lower 분리 = 임계치 부근 Flapping 억제
 
 ---
 
-## 9. 🔎 Local SPAN
+## 9. Local SPAN
 
 ```cisco
 configure terminal
@@ -335,7 +335,7 @@ show monitor session all
 
 ---
 
-## 10. 🛰️ RSPAN
+## 10. RSPAN
 
 양쪽 Switch 공통:
 
@@ -391,7 +391,7 @@ RSPAN 성립 조건
 
 ---
 
-## 11. 🚫 SPAN Destination Port 특성
+## 11. SPAN Destination Port 특성
 
 | 특성 | 동작 |
 |---|---|
@@ -418,7 +418,7 @@ Destination Port에 서비스 단말 연결 = 즉시 통신 중단
 
 ---
 
-## 12. 🧱 미사용 Port 및 VLAN 격리
+## 12. 미사용 Port 및 VLAN 격리
 
 ```cisco
 configure terminal
@@ -451,7 +451,7 @@ show vlan brief
 
 ---
 
-## 13. 🚚 Native VLAN 및 Trunk 보안
+## 13. Native VLAN 및 Trunk 보안
 
 ```cisco
 configure terminal
@@ -484,7 +484,7 @@ interface <INTERFACE>
 
 ---
 
-## 14. 🛡️ BPDU Guard 연계
+## 14. BPDU Guard 연계
 
 ```cisco
 configure terminal
@@ -523,7 +523,7 @@ Uplink/Trunk          → 이 조합 적용하지 않음
 
 ---
 
-## 15. 🔄 안전한 변경 원칙
+## 15. 안전한 변경 원칙
 
 ```properties
 현재 확인 → 백업 → 관리 경로 확인 → 적용 → 검증 → 저장
@@ -568,7 +568,7 @@ copy running-config startup-config
 
 ---
 
-## 16. ⚠️ 암기용 함정표
+## 16. 암기용 함정표
 
 | 설정 또는 상황 | 실제 의미 |
 |---|---|
@@ -604,7 +604,7 @@ copy running-config startup-config
 
 ---
 
-## 17. 🚑 빠른 장애 진단 순서
+## 17. 빠른 장애 진단 순서
 
 ```properties
 show interfaces status

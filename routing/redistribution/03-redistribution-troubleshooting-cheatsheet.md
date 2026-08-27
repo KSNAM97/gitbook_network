@@ -1,11 +1,11 @@
-# 🚑 라우팅 재분배 트러블슈팅 치트시트
+# 라우팅 재분배 트러블슈팅 치트시트
 
 > **Tags:** #Routing #Redistribution #Troubleshooting #Loop #RouteMap #Metric #CheatSheet  
 > **핵심 요약:** 재분배 장애는 **원본 RIB → Prefix-list → Route-map Sequence → Redistribute 명령 → 대상 Protocol DB → 대상 RIB** 순서로 확인한다. 주요 원인은 원본 경로 부재, Route-map 미매칭, Seed Metric 오류, Tag 차단 오류, 잘못된 방향 및 경로 재유입이다.
 
 ---
 
-## 1. 🚦 빠른 진단 순서
+## 1. 빠른 진단 순서
 
 ```text
 ① 원본 RIB에 경로가 있는가?
@@ -35,7 +35,7 @@ show ip route <prefix>
 
 ---
 
-## 2. 🛠️ 증상별 즉시 대응표
+## 2. 증상별 즉시 대응표
 
 ### 2-1. 광고 누락
 
@@ -81,7 +81,7 @@ show ip route <prefix>
 
 ---
 
-## 3. 🚨 대표 장애 시나리오
+## 3. 대표 장애 시나리오
 
 ### 시나리오 1. 특정 경로가 재분배되지 않음
 
@@ -164,7 +164,7 @@ route-map X->Y permit 20
 
 ---
 
-### 시나리오 4. OSPF → EIGRP 재분배가 안 됨
+### 시나리오 4. OSPF EIGRP 재분배가 안 됨
 
 ```cisco
 router eigrp 100
@@ -284,7 +284,7 @@ router rip
 
 ---
 
-## 4. ⚖️ AD 조정 시 주의사항
+## 4. AD 조정 시 주의사항
 
 AD 조정은 루프 방지의 기본 수단이 아니다.
 
@@ -312,7 +312,7 @@ router eigrp 100
 
 ---
 
-## 5. 🔍 핵심 검증 명령어
+## 5. 핵심 검증 명령어
 
 ```cisco
 show ip route
@@ -336,7 +336,7 @@ show ip eigrp topology <prefix>/<length>
 
 ---
 
-## 6. ⚠️ 강제 초기화 주의
+## 6. 강제 초기화 주의
 
 다음 명령은 일반적인 첫 조치로 사용하지 않는다.
 
@@ -356,7 +356,7 @@ clear ip ospf process
 
 ---
 
-## 7. ✅ 최종 체크리스트
+## 7. 최종 체크리스트
 
 ```text
 □ 원본 RIB에 경로가 존재하는가?

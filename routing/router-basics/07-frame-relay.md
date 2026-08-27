@@ -1,4 +1,4 @@
-# 📡 Frame-relay (WAN Layer 2 Protocol)
+# Frame-relay (WAN Layer 2 Protocol)
 
 > **Tag:** #Network #Cisco #WAN #FrameRelay #DLCI #LMI
 > 핵심 요약: Frame-relay는 Router–Router 간 Serial Interface를 공유 WAN 인프라(FR-Switch)를 통해 연결하는 Layer 2 프로토콜이다. DLCI로 VC(Virtual Circuit)을 식별하고, LMI로 VC 상태를 유지한다. 주 Interface(Multipoint)와 Sub-interface(P2P·Multipoint) 구성 방식을 구분해야 한다.

@@ -1,11 +1,11 @@
-# 🔎 SPAN (Switched Port Analyzer / Port Mirroring)
+# SPAN (Switched Port Analyzer / Port Mirroring)
 
 > **Tag:** #network #span #rspan #mirroring #monitoring #cisco
 > **핵심 요약:** 특정 포트의 트래픽을 모니터링 장비로 복사(미러링)하여 패킷 분석·감사에 활용
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### Q. 스위치 환경에서 왜 SPAN이 필요한가요? (허브와의 차이)
 
@@ -23,9 +23,9 @@
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 Local SPAN
+### Local SPAN
 
 ```cisco
 ! Fa0/1의 양방향 트래픽을 Fa0/20(모니터링 장비)으로 복사
@@ -33,7 +33,7 @@ SW1(config)# monitor session 1 source interface fastethernet 0/1 both
 SW1(config)# monitor session 1 destination interface fastethernet 0/20
 ```
 
-### 📌 Remote SPAN (RSPAN)
+### Remote SPAN (RSPAN)
 
 ```cisco
 ! === 감시 대상 스위치 (SW1) ===
@@ -54,9 +54,9 @@ SW2(config)# monitor session 1 destination interface fastethernet 0/20
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 
 ```cisco
 Switch# show monitor session 1        ! 세션 타입/소스/목적지/방향 확인
@@ -64,13 +64,13 @@ Switch# show monitor                    ! 전체 SPAN 세션 목록
 Switch# show vlan remote-span           ! RSPAN VLAN 지정 확인
 ```
 
-### 📊 `show monitor session` 판독 포인트
+### `show monitor session` 판독 포인트
 
 - **Type**: Local Session / Remote Source Session / Remote Destination Session
 - **Source Ports (Both/Rx/Tx)**: 미러링 대상 및 방향
 - **Destination Ports** 또는 **Dest RSPAN VLAN**: 트래픽이 나가는 곳
 
-### 🚨 장애 시나리오 1: 모니터링 장비에 트래픽이 안 잡힘
+### 장애 시나리오 1: 모니터링 장비에 트래픽이 안 잡힘
 
 - **원인 파악:**
     1. 방향(rx/tx/both) 설정이 원하는 방향과 다름.
@@ -78,7 +78,7 @@ Switch# show vlan remote-span           ! RSPAN VLAN 지정 확인
     3. Port-security/EtherChannel이 설정된 포트를 소스/목적지로 지정 (충돌).
 - **해결:** `show monitor session`으로 소스/목적지/방향 재확인, 목적지 포트를 전용으로 비움.
 
-### 🚨 장애 시나리오 2: RSPAN인데 원격 스위치에서 트래픽이 안 옴
+### 장애 시나리오 2: RSPAN인데 원격 스위치에서 트래픽이 안 옴
 
 - **원인 파악:**
     1. 양쪽 스위치의 **RSPAN VLAN 번호 불일치** 또는 `remote-span` 미지정.

@@ -1,11 +1,11 @@
-# ⚡ L3 Switch & Inter-VLAN Routing 명령어 퀵 레퍼런스
+# L3 Switch & Inter-VLAN Routing 명령어 퀵 레퍼런스
 
 > **Tag:** #Network #Switch #L3Switch #InterVLAN #SVI #Cisco  
 > **핵심 요약:** `ip routing`, SVI, Routed Port, Router-on-a-Stick, L3 EtherChannel 설정과 검증 명령을 빠르게 확인하기 위한 암기 카드. 모든 설정 뒤에는 검증 `show` 명령을 붙이고, SVI는 VLAN DB·Up 상태 L2 Port·`no shutdown` 세 조건을 항상 함께 점검한다.
 
 ---
 
-## 1. 🧠 요구사항별 선택
+## 1. 요구사항별 선택
 
 | 요구사항 | 사용 기능 |
 |---|---|
@@ -21,7 +21,7 @@
 
 ---
 
-## 2. 📊 방식 비교
+## 2. 방식 비교
 
 | 구분 | Router-on-a-Stick | SVI | Routed Port |
 |---|---|---|---|
@@ -36,7 +36,7 @@
 
 ---
 
-## 3. 🔧 라우팅 활성화
+## 3. 라우팅 활성화
 
 ```cisco
 configure terminal
@@ -59,7 +59,7 @@ ip routing 있음 = Connected 경로 등재, 정적·동적 라우팅 동작
 
 ---
 
-## 4. 🌐 SVI 생성과 Access Port 할당
+## 4. SVI 생성과 Access Port 할당
 
 ```cisco
 configure terminal
@@ -110,7 +110,7 @@ Access Port VLAN = SVI VLAN
 
 ---
 
-## 5. 🧱 Routed Interface 전환과 복귀
+## 5. Routed Interface 전환과 복귀
 
 ```cisco
 configure terminal
@@ -154,7 +154,7 @@ VLAN 소속 해제 / switchport 설정 삭제 / STP 대상 제외 / 포트가 IP
 
 ---
 
-## 6. 🔁 SVI Autostate
+## 6. SVI Autostate
 
 ```cisco
 configure terminal
@@ -180,7 +180,7 @@ switchport autostate exclude = 이 포트를 SVI Up 판단에서 제외
 
 ---
 
-## 7. 🪝 Router-on-a-Stick
+## 7. Router-on-a-Stick
 
 Switch 측 Trunk:
 
@@ -238,7 +238,7 @@ Native VLAN = Untagged / 그 외 = Tagged
 
 ---
 
-## 8. 🔗 L3 EtherChannel
+## 8. L3 EtherChannel
 
 ```cisco
 configure terminal
@@ -282,7 +282,7 @@ Speed/Duplex/MTU 등 속성 일치 필수
 
 ---
 
-## 9. 🛣️ 정적 라우팅
+## 9. 정적 라우팅
 
 ```cisco
 configure terminal
@@ -314,7 +314,7 @@ show ip route static
 
 ---
 
-## 10. 🧭 동적 라우팅
+## 10. 동적 라우팅
 
 ```cisco
 configure terminal
@@ -350,7 +350,7 @@ no passive-interface <INTERFACE> = 인접 맺을 IF만 개방
 
 ---
 
-## 11. 📐 경로 선택 순서
+## 11. 경로 선택 순서
 
 ```properties
 [1] Longest Prefix Match : 더 구체적인 Prefix 우선 (/24 > /16)
@@ -384,7 +384,7 @@ traceroute <IP-ADDRESS>
 
 ---
 
-## 12. ⚖️ SVI + HSRP / VRRP
+## 12. SVI + HSRP / VRRP
 
 ```cisco
 configure terminal
@@ -422,7 +422,7 @@ show vrrp brief
 
 ---
 
-## 13. 💾 DHCP Relay
+## 13. DHCP Relay
 
 ```cisco
 configure terminal
@@ -449,7 +449,7 @@ Discover = Broadcast (VLAN 경계 통과 불가)
 
 ---
 
-## 14. 🧩 SDM Template과 CEF 확인
+## 14. SDM Template과 CEF 확인
 
 ```cisco
 show sdm prefer
@@ -487,7 +487,7 @@ ARP 미해결(Adjacency Incomplete) / TTL 만료·IP Option
 
 ---
 
-## 15. 🔍 검증 명령어
+## 15. 검증 명령어
 
 ```cisco
 show ip route
@@ -525,7 +525,7 @@ show logging
 
 ---
 
-## 16. ⚠️ 암기용 함정표
+## 16. 암기용 함정표
 
 | 설정 또는 상황 | 실제 의미 |
 |---|---|
@@ -554,7 +554,7 @@ show logging
 
 ---
 
-## 17. 🚑 빠른 장애 진단 순서
+## 17. 빠른 장애 진단 순서
 
 ```properties
 단말 IP / Mask / Gateway 확인
@@ -594,7 +594,7 @@ show interfaces trunk
 
 ---
 
-## 18. 🔄 안전한 변경 원칙
+## 18. 안전한 변경 원칙
 
 ```properties
 [1] 현재 확인 → [2] 백업 → [3] 경로 확인(관리 경로 포함 여부)

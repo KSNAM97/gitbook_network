@@ -1,11 +1,11 @@
-# ⚡ EtherChannel 명령어 퀵 레퍼런스
+# EtherChannel 명령어 퀵 레퍼런스
 
 > **Tag:** #Network #Switch #EtherChannel #LACP #PAgP #Cisco  
 > **핵심 요약:** EtherChannel의 모드 조합, `channel-group` 설정, Port-channel 구성, Flag 판독, Load-balancing을 빠르게 확인하기 위한 암기 카드. 설정은 항상 Port-channel 인터페이스 기준으로 하고, 검증은 `show etherchannel summary`의 Flag가 `(SU)`/`(RU)` + `(P)`인지로 판단한다.
 
 ---
 
-## 1. 🧠 목적별 선택표
+## 1. 목적별 선택표
 
 | 요구사항 | 선택 |
 |---|---|
@@ -22,7 +22,7 @@
 
 ---
 
-## 2. 📊 모드 조합 매트릭스
+## 2. 모드 조합 매트릭스
 
 | SW1 | SW2 | 프로토콜 | 결과 |
 |---|---|---|:---:|
@@ -51,7 +51,7 @@
 
 ---
 
-## 3. 🔤 프로토콜 비교
+## 3. 프로토콜 비교
 
 | 항목 | PAgP | LACP | on |
 |---|---|---|---|
@@ -66,7 +66,7 @@
 
 ---
 
-## 4. 🔧 기본 설정 명령
+## 4. 기본 설정 명령
 
 ```cisco
 interface <INTERFACE>
@@ -99,7 +99,7 @@ show running-config interface <INTERFACE>
 
 ---
 
-## 5. 🔗 L2 EtherChannel (LACP)
+## 5. L2 EtherChannel (LACP)
 
 > ⚠️ 원격 변경 시 관리 연결이 끊길 수 있습니다. Console 또는 OOB 접근과 Rollback을 준비하십시오.
 
@@ -130,7 +130,7 @@ show spanning-tree interface port-channel 1
 
 ---
 
-## 6. 🔗 L2 EtherChannel (PAgP)
+## 6. L2 EtherChannel (PAgP)
 
 ```cisco
 configure terminal
@@ -157,7 +157,7 @@ show interfaces trunk
 
 ---
 
-## 7. 🔒 Static(on) EtherChannel
+## 7. Static(on) EtherChannel
 
 > ⚠️ 원격 변경 시 관리 연결이 끊길 수 있습니다. Console 또는 OOB 접근과 Rollback을 준비하십시오.
 
@@ -193,7 +193,7 @@ on 모드 위험
 
 ---
 
-## 8. 🌐 L3 EtherChannel
+## 8. L3 EtherChannel
 
 ```cisco
 configure terminal
@@ -230,7 +230,7 @@ ip routing 활성화 / Po에 no switchport / 멤버 포트에도 no switchport �
 
 ---
 
-## 9. 🚩 Flag 판독표
+## 9. Flag 판독표
 
 ```properties
 Group  Port-channel  Protocol    Ports
@@ -266,7 +266,7 @@ L3 → Po(RU) + 전 멤버 (P)
 
 ---
 
-## 10. ⚖️ Load-balancing
+## 10. Load-balancing
 
 ```cisco
 port-channel load-balance src-dst-ip
@@ -299,7 +299,7 @@ Flow 단위 Hash 배정 ≠ 패킷 단위 균등 분산
 
 ---
 
-## 11. 🎚️ LACP 세부 튜닝
+## 11. LACP 세부 튜닝
 
 ```cisco
 lacp system-priority 100
@@ -331,7 +331,7 @@ Port Priority   (기본 32768) = 낮은 포트가 Active 우선, 초과분은 Ho
 
 ---
 
-## 12. 🧱 멤버 포트 일치 조건
+## 12. 멤버 포트 일치 조건
 
 | 항목 | 불일치 결과 | 확인 명령 |
 |---|---|---|
@@ -367,7 +367,7 @@ show etherchannel summary
 
 ---
 
-## 13. 🛑 err-disabled 복구
+## 13. err-disabled 복구
 
 ```cisco
 interface <INTERFACE>
@@ -397,7 +397,7 @@ show logging
 
 ---
 
-## 14. 🌳 STP 연계 확인
+## 14. STP 연계 확인
 
 ```cisco
 show spanning-tree
@@ -434,7 +434,7 @@ show etherchannel summary
 
 ---
 
-## 15. 🧰 통합 실습 부가기술
+## 15. 통합 실습 부가기술
 
 DHCP 서버 및 Relay:
 
@@ -492,7 +492,7 @@ ACL  = fragments 키워드로 비초기 조각 차단
 
 ---
 
-## 16. 🔍 검증 명령어
+## 16. 검증 명령어
 
 ```cisco
 show etherchannel summary
@@ -518,7 +518,7 @@ show logging
 
 ---
 
-## 17. 🔄 안전한 변경 및 Rollback
+## 17. 안전한 변경 및 Rollback
 
 ```properties
 현재 확인 → 백업 → 경로 확인 → 적용 → 검증 → 저장
@@ -557,7 +557,7 @@ copy running-config startup-config
 
 ---
 
-## 18. ⚠️ 암기용 함정표
+## 18. 암기용 함정표
 
 | 설정 또는 상황 | 실제 의미 |
 |---|---|
@@ -584,7 +584,7 @@ copy running-config startup-config
 
 ---
 
-## 19. 🚑 빠른 장애 진단 순서
+## 19. 빠른 장애 진단 순서
 
 ```properties
 물리 링크 Up 확인

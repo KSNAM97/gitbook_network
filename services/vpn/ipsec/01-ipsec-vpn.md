@@ -1,11 +1,11 @@
-# 🔒 IPsec VPN (IP Security)
+# IPsec VPN (IP Security)
 
 > **Tag:** #network #vpn #ipsec #ike #esp #crypto #cisco
 > **핵심 요약:** 공중망에서 트래픽을 암호화·인증하는 표준 보안 프로토콜. IKE 2단계 협상과 AH/ESP가 핵심
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### IPsec이 보장하는 것과 GRE만으로 부족한 이유
 
@@ -25,7 +25,7 @@ Phase 1(IKE SA)은 두 피어 간 인증하고 안전한 관리 채널(ISAKMP SA
 
 Phase 1은 Main mode(6메시지, 안전) 또는 Aggressive mode(3메시지, 빠름·덜 안전)를 쓰며, Phase 2는 Quick mode(3메시지)를 쓴다. IKE는 UDP 500을 사용하므로 방화벽에서 UDP 500 허용이 필수다. 키가 오래 쓰이면 암호분석에 취약하므로 주기적으로 SA를 갱신한다(lifetime).
 
-### 📊 IKE 협상 요약
+### IKE 협상 요약
 
 | 구분 | 목적 | 모드 | 결과물 |
 |------|------|------|--------|
@@ -34,9 +34,9 @@ Phase 1은 Main mode(6메시지, 안전) 또는 Aggressive mode(3메시지, 빠�
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 IPsec Site-to-Site (crypto map 방식) - 5단계
+### IPsec Site-to-Site (crypto map 방식) - 5단계
 
 ```cisco
 ! === GIT-A (R1) ===
@@ -87,7 +87,7 @@ interface serial 1/0.20
  crypto map IPSEC_GIT_B
 ```
 
-### 📌 NAT와 IPsec 공존 시 (NAT 예외 처리 - 중요)
+### NAT와 IPsec 공존 시 (NAT 예외 처리 - 중요)
 
 ```cisco
 ! IPsec 보호 대상은 NAT에서 제외해야 함 (deny로 먼저 걸러냄)
@@ -100,9 +100,9 @@ GIT-A(config)# ip nat inside source list 110 pool GIT_A overload
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 
 ```cisco
 Router# show crypto isakmp sa            ! Phase1 SA 상태 (QM_IDLE=정상)
@@ -115,12 +115,12 @@ Router# debug crypto isakmp              ! Phase1 협상 실시간 추적
 Router# debug crypto ipsec               ! Phase2 협상 추적
 ```
 
-### 📊 `show crypto isakmp sa` 판독
+### `show crypto isakmp sa` 판독
 
 - **QM_IDLE** : Phase 1 정상 완료 (Quick Mode 대기 상태)
 - **MM_NO_STATE / MM_KEY_EXCH** : Phase 1 협상 진행/실패 중
 
-### 🚨 장애 시나리오 1: Phase 1이 안 올라옴 (SA 없음)
+### 장애 시나리오 1: Phase 1이 안 올라옴 (SA 없음)
 
 - **원인 파악:**
     1. **정책 불일치** — 양쪽 encryption/hash/group/authentication이 완전히 같아야 함.
@@ -128,7 +128,7 @@ Router# debug crypto ipsec               ! Phase2 협상 추적
     3. **UDP 500 차단** — 경로상 ACL/방화벽이 IKE를 막음.
 - **해결:** `debug crypto isakmp`로 어느 파라미터에서 실패하는지 확인, 양쪽 정책·키·peer를 일치시킴.
 
-### 🚨 장애 시나리오 2: Phase 1은 되는데 Phase 2가 안 됨 / 트래픽 암호화 안 됨
+### 장애 시나리오 2: Phase 1은 되는데 Phase 2가 안 됨 / 트래픽 암호화 안 됨
 
 - **원인 파악:**
     1. **Interesting Traffic ACL 불일치** — 양쪽 match ACL이 서로 대칭(mirror)이어야 함.
@@ -136,7 +136,7 @@ Router# debug crypto ipsec               ! Phase2 협상 추적
     3. **crypto map을 인터페이스에 미적용.**
 - **해결:** 양쪽 ACL을 정확히 반대로 맞추고, `show crypto ipsec sa`의 encrypt/decrypt 카운터가 증가하는지 확인.
 
-### 🚨 장애 시나리오 3: VPN은 되는데 인터넷이 안 되거나, VPN이 간헐 끊김
+### 장애 시나리오 3: VPN은 되는데 인터넷이 안 되거나, VPN이 간헐 끊김
 
 - **원인 파악:** **NAT 예외 처리 누락.** VPN 대상 트래픽이 NAT로 변환되어 상대가 인식 못 함.
 - **해결:** NAT ACL에서 VPN 트래픽을 `deny`로 먼저 제외.

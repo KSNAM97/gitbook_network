@@ -1,4 +1,4 @@
-# 💾 DHCP (Dynamic Host Configuration Protocol)
+# DHCP (Dynamic Host Configuration Protocol)
 
 > **Tag:** #network #dhcp #ip-service #dora #relay #cisco
 > **핵심 요약:** IP·Subnet·Gateway·DNS를 단말에 자동 할당하는 프로토콜. DORA 4단계와 excluded-address 설계가 핵심
@@ -7,7 +7,7 @@
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### DHCP DORA 4단계와 Broadcast를 쓰는 이유
 
@@ -27,7 +27,7 @@ DHCP Discover는 Broadcast라 라우터를 넘지 못한다. 따라서 단말 �
 
 Relay가 없으면 서브넷마다 DHCP 서버를 둬야 하지만, Relay를 쓰면 중앙 집중형 DHCP 서버 1대로 전 서브넷을 커버할 수 있다.
 
-### 📊 DORA 4단계 요약
+### DORA 4단계 요약
 
 | 단계 | 방향 | 출발지 IP | 방식 | 역할 |
 |------|------|-----------|------|------|
@@ -38,9 +38,9 @@ Relay가 없으면 서브넷마다 DHCP 서버를 둬야 하지만, Relay를 쓰
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 DHCP 서버 기본 구성
+### DHCP 서버 기본 구성
 
 ```cisco
 ! === 서버 인터페이스(게이트웨이 역할) ===
@@ -58,7 +58,7 @@ R1(dhcp-config)# default-router 192.168.10.254          ! 게이트웨이 (SVI/�
 R1(dhcp-config)# dns-server 192.168.10.252 192.168.10.253  ! DNS (Primary, Secondary)
 R1(dhcp-config)# lease 10                               ! 임대기간 (일) / infinite=무제한
 
-### 📌 excluded-address 설계 (실무 핵심)
+### excluded-address 설계 (실무 핵심)
 
 ```cisco
 ! 단일 주소 제외
@@ -73,7 +73,7 @@ R1(dhcp-config)# lease infinite    ! 무제한 (프린터/서버용)
 R1(dhcp-config)# lease 0 12 0      ! 12시간 (게스트망용)
 ```
 
-### 📌 DHCP 클라이언트 (라우터를 PC로 흉내)
+### DHCP 클라이언트 (라우터를 PC로 흉내)
 
 ```cisco
 PC1(config)# interface fastethernet 0/1
@@ -81,7 +81,7 @@ PC1(config-if)# no shutdown
 PC1(config-if)# ip address dhcp                          ! DHCP로 IP 자동 획득
 ```
 
-### 📌 DHCP Relay (서버가 다른 서브넷일 때)
+### DHCP Relay (서버가 다른 서브넷일 때)
 
 ```cisco
 ! 단말 쪽 게이트웨이에 설정 → Broadcast를 원격 서버로 전달
@@ -91,9 +91,9 @@ GW(config-if)# ip helper-address 192.168.100.1          ! 원격 DHCP 서버 IP
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 
 ```cisco
 ! --- 서버 측 ---
@@ -107,7 +107,7 @@ PC1# show ip interface brief      ! 할당받은 IP 확인
 PC1# show dhcp lease              ! 임대 상세 (IP/게이트웨이/DNS/T1·T2)
 ```
 
-### 🚨 장애 시나리오 1: 단말이 IP를 못 받음 (169.254.x.x가 뜸)
+### 장애 시나리오 1: 단말이 IP를 못 받음 (169.254.x.x가 뜸)
 
 - **증상:** 클라이언트가 APIPA 주소(169.254.x.x)를 받음 = DHCP 서버 응답 없음.
 - **원인 파악 (순서대로):**
@@ -116,12 +116,12 @@ PC1# show dhcp lease              ! 임대 상세 (IP/게이트웨이/DNS/T1·T2
     3. 풀의 가용 주소 고갈 — `show ip dhcp pool`에서 사용률 확인.
 - **해결:** 같은 서브넷이면 서버 도달성 확인, 다른 서브넷이면 Relay 설정, 고갈이면 대역 확장/임대 단축.
 
-### 🚨 장애 시나리오 2: IP는 받았는데 인터넷/타 대역 통신 불가
+### 장애 시나리오 2: IP는 받았는데 인터넷/타 대역 통신 불가
 
 - **원인 파악:** `default-router`(게이트웨이)를 잘못 지정했거나 `dns-server`가 틀림. 단말은 IP를 받아도 게이트웨이가 엉뚱하면 외부로 못 나감.
 - **해결:** `show dhcp lease`로 단말이 받은 게이트웨이/DNS 확인 → 풀의 `default-router`가 실제 게이트웨이 IP와 일치하는지 점검.
 
-### 🚨 장애 시나리오 3: IP 충돌 발생 (show ip dhcp conflict에 기록)
+### 장애 시나리오 3: IP 충돌 발생 (show ip dhcp conflict에 기록)
 
 - **원인 파악:** **게이트웨이/서버/고정IP 장비 주소를 `excluded-address`로 제외하지 않아서** DHCP가 이미 쓰이는 IP를 임대함.
 - **해결:** 충돌 IP를 `excluded-address`에 추가하고, `clear ip dhcp conflict *`로 기록 초기화 후 재임대.

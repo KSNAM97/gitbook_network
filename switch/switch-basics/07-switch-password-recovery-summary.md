@@ -1,11 +1,11 @@
-# 🧩 Switch Password 복구 통합 정리 — 절차·원리·플랫폼 한눈에
+# Switch Password 복구 통합 정리 — 절차·원리·플랫폼 한눈에
 
 > **Tag:** #Network #Cisco #Switch #PasswordRecovery #NVRAM #Flash #Summary
 > **핵심 요약:** Switch Password 복구는 물리적 접근(Mode 버튼)으로 `switch:` 프롬프트에 진입한 뒤 `config.text` 파일명을 변경해 NVRAM 로딩을 우회하고, 재부팅 후 기존 설정을 수동으로 불러와 패스워드만 재설정하는 4단계 절차다. Router의 ROMMON `confreg 0x2142` 방식과 구분해야 한다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### Q1. Password 복구의 핵심 원리는?
 
@@ -44,7 +44,7 @@
 
 ---
 
-## 2. 🛠️ 표준 절차 (4단계)
+## 2. 표준 절차 (4단계)
 
 ### Step 1. `switch:` 프롬프트 진입
 
@@ -70,7 +70,7 @@ switch: dir flash:          ! 파일 목록 확인 → config.text 존재 확인
 
 ---
 
-### Step 3. config.text 파일명 변경 → 재부팅
+### Step 3. config.text 파일명 변경 재부팅
 
 ```cisco
 switch: rename flash:config.text flash:old.text
@@ -86,7 +86,7 @@ Switch> enable               ! 패스워드 없이 진입 가능
 
 ---
 
-### Step 4. 설정 복원 및 패스워드 변경 → 저장
+### Step 4. 설정 복원 및 패스워드 변경 저장
 
 ```cisco
 Switch# rename flash:old.text flash:config.text    ! 파일명 원복
@@ -103,7 +103,7 @@ Global_IT# copy running-config startup-config      ! NVRAM 저장 (필수)
 
 ---
 
-## 3. 🔍 검증 명령어
+## 3. 검증 명령어
 
 ```cisco
 show flash:                               ! Flash 파일 목록 및 config.text 확인
@@ -118,7 +118,7 @@ show version                              ! 장비 모델, IOS 버전
 
 ---
 
-## 4. ⚠️ 대표 함정
+## 4. 대표 함정
 
 | 함정 | 결과 | 조치 |
 |------|------|------|
@@ -131,7 +131,7 @@ show version                              ! 장비 모델, IOS 버전
 
 ---
 
-## 5. 🏗️ 플랫폼별 주의사항
+## 5. 플랫폼별 주의사항
 
 - **Catalyst 3550/3560/3750:** 위 절차 적용. Mode 버튼 위치는 모델마다 상이
 - **Packet Tracer:** Password Recovery 시뮬레이션 미지원. GNS3 또는 실장비 사용
@@ -140,7 +140,7 @@ show version                              ! 장비 모델, IOS 버전
 
 ---
 
-## 6. 📌 핵심 요약
+## 6. 핵심 요약
 
 > - 핵심 원리: **`config.text` 파일명 변경 → 로딩 우회 → 수동 복원 → 패스워드 재설정**
 > - `flash_init` 없이 `dir flash:` 불가

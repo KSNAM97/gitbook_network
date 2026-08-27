@@ -1,11 +1,11 @@
-# ⚡ DHCP 명령어 퀵 레퍼런스
+# DHCP 명령어 퀵 레퍼런스
 
 > **Tag:** #Network #DHCP #IPServices #Relay #Cisco  
 > **핵심 요약:** Cisco IOS DHCP Server·Relay·Client 설정과 검증 명령을 빠르게 확인하기 위한 암기 카드. Pool 정의 전에 `ip dhcp excluded-address`로 Gateway와 고정 IP를 제외하고, 다른 Subnet의 Server를 쓸 때는 Client 쪽 Interface에 `ip helper-address`를 설정한다는 두 가지가 실무의 핵심이다.
 
 ---
 
-## 1. 🧠 요구사항별 명령 선택
+## 1. 요구사항별 명령 선택
 
 | 요구사항 | 명령 또는 기능 |
 |---|---|
@@ -24,7 +24,7 @@
 
 ---
 
-## 2. 📊 DORA 흐름과 Port
+## 2. DORA 흐름과 Port
 
 ```properties
 [D] Discover : Client → Broadcast (Src 0.0.0.0:68 / Dst 255.255.255.255:67)
@@ -47,7 +47,7 @@
 
 ---
 
-## 3. 🔀 Relay 경로와 giaddr
+## 3. Relay 경로와 giaddr
 
 ```properties
 Client → Relay  : Broadcast
@@ -68,7 +68,7 @@ giaddr 채워짐    → 해당 값이 속한 Subnet의 Pool 선택
 
 ---
 
-## 4. ⏱️ Lease 타이머
+## 4. ⏱ Lease 타이머
 
 ```properties
 T1 = Lease의 50%   → Unicast 갱신 (Renewing, 원 Server 대상)
@@ -84,7 +84,7 @@ T2 = Lease의 87.5% → Broadcast 갱신 (Rebinding, 임의 Server 허용)
 
 ---
 
-## 5. 🔧 DHCP Server 기본 설정
+## 5. DHCP Server 기본 설정
 
 ```cisco
 configure terminal
@@ -110,7 +110,7 @@ show running-config | section ip dhcp
 
 ---
 
-## 6. 🚫 excluded-address
+## 6. excluded-address
 
 ```cisco
 configure terminal
@@ -164,7 +164,7 @@ show running-config | section ip dhcp pool
 
 ---
 
-## 8. 📌 Static Binding
+## 8. Static Binding
 
 ```cisco
 configure terminal
@@ -195,7 +195,7 @@ client-identifier = Option 61 기반 매칭 (Ethernet은 통상 01 + MAC)
 
 ---
 
-## 9. 🔁 DHCP Relay
+## 9. DHCP Relay
 
 Router Interface:
 
@@ -249,7 +249,7 @@ show running-config | include helper-address
 
 ---
 
-## 10. 📡 helper-address 전달 UDP 조정
+## 10. helper-address 전달 UDP 조정
 
 | Port | 서비스 | Port | 서비스 |
 |:---:|---|:---:|---|
@@ -281,7 +281,7 @@ show ip dhcp binding
 
 ---
 
-## 11. 💻 DHCP Client
+## 11. DHCP Client
 
 ```cisco
 configure terminal
@@ -321,7 +321,7 @@ ip address dhcp
 
 ---
 
-## 12. 🏢 다중 VLAN 구성
+## 12. 다중 VLAN 구성
 
 L3 Switch가 Server 역할:
 
@@ -379,7 +379,7 @@ SVI 상태            = Up 필수 (VLAN에 활성 Port 필요)
 
 ---
 
-## 13. 🛡️ DHCP Snooping 기본
+## 13. DHCP Snooping 기본
 
 ```cisco
 configure terminal
@@ -423,7 +423,7 @@ show running-config | include dhcp snooping
 
 ---
 
-## 14. ⚔️ 중복 주소 관리
+## 14. 중복 주소 관리
 
 ```cisco
 show ip dhcp conflict
@@ -455,7 +455,7 @@ Conflict 발생 원인
 
 ---
 
-## 15. 🔍 검증 명령어
+## 15. 검증 명령어
 
 Server 상태:
 
@@ -500,7 +500,7 @@ undebug all
 
 ---
 
-## 16. 🔒 ACL 환경에서의 DHCP 허용
+## 16. ACL 환경에서의 DHCP 허용
 
 ```properties
 Discover / Request = Src 0.0.0.0:68 → Dst 255.255.255.255:67
@@ -530,7 +530,7 @@ show ip dhcp binding
 
 ---
 
-## 17. 🔄 안전한 변경 원칙
+## 17. 안전한 변경 원칙
 
 ```properties
 [1] 현재 확인
@@ -573,7 +573,7 @@ show ip dhcp binding
 
 ---
 
-## 18. ⚠️ 암기용 함정표
+## 18. 암기용 함정표
 
 | 설정 또는 상황 | 실제 의미 |
 |---|---|
@@ -598,7 +598,7 @@ show ip dhcp binding
 
 ---
 
-## 19. 🚑 빠른 장애 진단 순서
+## 19. 빠른 장애 진단 순서
 
 ```properties
 Port Up 및 VLAN 확인

@@ -1,11 +1,11 @@
-# 2. 📍 Static Route (정적 라우팅)
+# Static Route (정적 라우팅)
 
 > **Tag:** #Network #Cisco
 > **핵심 요약:** **한 줄 요약:** 관리자가 목적지 네트워크로 가는 경로를 라우팅 테이블에 수동으로 직접 박아넣는 방식. 소규모/변화 없는 망에서 CPU·대역폭 부담 없이 정확한 경로 제어가 필요할 때 사용한다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### 대규모 망 시대에도 Static Route가 필요한 이유
 
@@ -21,9 +21,9 @@ Ethernet 구간에서 Exit Interface만 지정하면 라우터가 목적지 대�
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 🖧 실습 Topology
+### 실습 Topology
 ```text
     192.168.12.0/24              192.168.23.0/24
 ```
@@ -31,7 +31,7 @@ Ethernet 구간에서 Exit Interface만 지정하면 라우터가 목적지 대�
 R1 ─────────────────── R2 ─────────────────── R3  192.168.1.0/24                                192.168.2.0/24                                    192.168.3.0/24
 
 
-### 📌 R1 설정 (Stub Router - Default Route 스타일 권장)
+### R1 설정 (Stub Router - Default Route 스타일 권장)
 
 ```cisco
 ! ===== 인터페이스 기본 설정 =====
@@ -54,7 +54,7 @@ ip route 0.0.0.0 0.0.0.0 192.168.12.2                   ! 실무 Best Practice :
 ! ip route 192.168.3.0  255.255.255.0 192.168.12.2
 ! ip route 192.168.23.0 255.255.255.0 192.168.12.2
 ```
-### 📌 R2 설정 (Transit Router - 양방향 명시 필수)
+### R2 설정 (Transit Router - 양방향 명시 필수)
 ```cisco
 interface FastEthernet0/0
  no shutdown
@@ -78,7 +78,7 @@ interface Serial1/0
 ip route 192.168.1.0 255.255.255.0 192.168.12.1         ! R1 LAN 방향
 ip route 192.168.3.0 255.255.255.0 192.168.23.3         ! R3 LAN 방향
 ```
-### 📌 R3 설정 (Stub Router)
+### R3 설정 (Stub Router)
 ```cisco
 interface FastEthernet0/0
  no shutdown
@@ -93,8 +93,8 @@ interface Serial1/1
 ! ===== Static Route =====
 ip route 0.0.0.0 0.0.0.0 192.168.23.2                   ! Stub 라우터 : Default Route로 축약
 ```
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
-### ✅ 필수 검증 명령어
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
+### 필수 검증 명령어
 ```cisco
 show ip route                    ! 라우팅 테이블 전체 확인 (S = Static, C = Connected)
 show ip route static             ! Static 경로만 필터링
@@ -104,7 +104,7 @@ show cdp neighbors               ! 물리 연결 상대방 라우터 식별
 ping 192.168.3.254 source 192.168.1.254   ! 종단 간 통신 검증 (반드시 source 지정)
 traceroute 192.168.3.254         ! Hop-by-hop 경로 추적
 ```
-### 🚨 대표 장애 시나리오
+### 대표 장애 시나리오
 
 #### 시나리오 ①. "Ping이 편도로만 되고 응답이 안 옵니다" (가장 흔한 신입 실수)
 
@@ -125,7 +125,7 @@ traceroute 192.168.3.254         ! Hop-by-hop 경로 추적
     3. **Subnet Mask 오타** → `/24`끼리는 되지만 한쪽만 `/30`이면 서로 다른 서브넷이 되어 통신 불가.
     4. **ACL 차단** → `show access-lists` 및 인터페이스에 적용된 필터 확인.
 
-#### 💡 실무 Tip - Floating Static Route
+#### 실무 Tip - Floating Static Route
 ```cisco
 ip route 192.168.3.0 255.255.255.0 192.168.12.2         ! Primary (AD=1, 기본값)
 ip route 192.168.3.0 255.255.255.0 10.0.0.1 200         ! Backup (AD=200, 평소엔 비활성)

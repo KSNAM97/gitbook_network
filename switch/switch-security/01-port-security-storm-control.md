@@ -1,11 +1,11 @@
-# 🔐 Port-security & Storm-control
+# Port-security & Storm-control
 
 > **Tag:** #network #security #port-security #storm-control #err-disable #cisco
 > **핵심 요약:** 액세스 포트에 붙는 장비(MAC)를 제한하고, 폭주 트래픽으로부터 스위치 CPU를 보호하는 2대 방어 기능
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### Q. Port-security의 3가지 Violation 모드는 실무에서 어떻게 선택하나요?
 
@@ -30,9 +30,9 @@
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 Port-security (수동 MAC 지정)
+### Port-security (수동 MAC 지정)
 
 ```cisco
 SW1(config)# interface fastethernet 0/1
@@ -44,7 +44,7 @@ SW1(config-if)# switchport port-security                    ! 기능 활성화 (
 ```
 
 
-### 📌 Port-security Sticky (자동 학습)
+### Port-security Sticky (자동 학습)
 
 ```cisco
 SW1(config)# interface fastethernet 0/1
@@ -55,7 +55,7 @@ SW1(config-if)# switchport port-security violation restrict
 SW1(config-if)# switchport port-security
 ```
 
-### 📌 Storm-control (Broadcast/Unicast 임계치)
+### Storm-control (Broadcast/Unicast 임계치)
 
 ```cisco
 ! === % 기반: CPU 30% 초과 시 차단 (Upper/Lower 동일) ===
@@ -73,7 +73,7 @@ SW1(config-if)# storm-control broadcast level 30
 SW1(config-if)# storm-control action shutdown
 ```
 
-### 📌 err-disable 자동 복구
+### err-disable 자동 복구
 
 ```cisco
 ! 위반으로 err-disable된 포트를 일정 시간 후 자동 복구
@@ -84,9 +84,9 @@ SW1(config)# errdisable recovery interval 60                ! 60초 후 자동 �
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 
 ```cisco
 Switch# show port-security                        ! 전체 포트 보안 상태 요약
@@ -96,13 +96,13 @@ Switch# show storm-control broadcast               ! Storm-control 임계치/현
 Switch# show interfaces status err-disabled        ! err-disable된 포트 확인
 ```
 
-### 📊 `show port-security interface` 판독 포인트
+### `show port-security interface` 판독 포인트
 
 - **Port Status: Secure-up** → 정상 / **Secure-shutdown** → 위반으로 차단됨
 - **Violation Count** → 위반 발생 횟수 (0이 정상)
 - **Last Source Address** → 마지막으로 들어온 MAC (위반 시 범인 MAC 확인)
 
-### 🚨 장애 시나리오 1: PC를 교체했더니 포트가 죽음 (Secure-shutdown)
+### 장애 시나리오 1: PC를 교체했더니 포트가 죽음 (Secure-shutdown)
 
 - **증상:** 정상 PC를 새 것으로 바꿨는데 통신 불가, 포트 err-disable.
 - **원인 파악:** Port-security에 **기존 PC의 MAC이 고정**되어 있어, 새 PC의 다른 MAC이 위반으로 처리됨. `show port-security interface`의 Last Source Address가 새 PC MAC.
@@ -117,7 +117,7 @@ Switch# show interfaces status err-disabled        ! err-disable된 포트 확�
     ```
     
 
-### 🚨 장애 시나리오 2: Storm-control로 포트가 계속 다운됨
+### 장애 시나리오 2: Storm-control로 포트가 계속 다운됨
 
 - **증상:** `storm-control action shutdown` 설정 후 포트가 반복적으로 err-disable.
 - **원인 파악:** 실제 Broadcast Storm(Loop 등) 또는 **임계치를 너무 낮게** 설정. `show storm-control`의 Current 값이 Upper에 근접.

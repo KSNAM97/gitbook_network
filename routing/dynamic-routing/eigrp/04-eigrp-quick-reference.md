@@ -1,11 +1,11 @@
-# ⚡ EIGRP 명령어 퀵 레퍼런스
+# EIGRP 명령어 퀵 레퍼런스
 
 > **Tag:** #Routing #EIGRP #QuickReference #DUAL #Authentication #CheatSheet
 > **핵심 요약:** EIGRP 설정·인증·Stub·Summary·Split-horizon·검증 명령어를 빠르게 조회하기 위한 암기 카드. 기본 구성은 `no auto-summary` + `passive-interface default`이며, VLSM 환경에서는 Host Wildcard(`0.0.0.0`)로 정밀 지정이 권장된다.
 
 ---
 
-## 1. 🛠️ 기본 설정
+## 1. 기본 설정
 
 ```cisco
 router eigrp 100
@@ -20,7 +20,7 @@ router eigrp 100
 
 ---
 
-## 2. 🚫 Passive Interface
+## 2. Passive Interface
 
 특정 Interface:
 
@@ -45,7 +45,7 @@ Passive ≠ 해당 Connected Network 광고 제거
 
 ---
 
-## 3. 🔐 EIGRP MD5 인증
+## 3. EIGRP MD5 인증
 
 ```cisco
 key chain EIGRP_AUTH
@@ -67,7 +67,7 @@ show ip eigrp neighbors detail
 
 ---
 
-## 4. 🔗 Split-Horizon 비활성화 (FR Multipoint Hub)
+## 4. Split-Horizon 비활성화 (FR Multipoint Hub)
 
 ```cisco
 interface Serial1/0.123 multipoint
@@ -78,7 +78,7 @@ interface Serial1/0.123 multipoint
 
 ---
 
-## 5. 📦 Summary (인터페이스 단위)
+## 5. Summary (인터페이스 단위)
 
 ```cisco
 interface Serial1/0
@@ -89,7 +89,7 @@ interface Serial1/0
 
 ---
 
-## 6. 🔒 Stub 설정
+## 6. Stub 설정
 
 ```cisco
 router eigrp 100
@@ -107,7 +107,7 @@ router eigrp 100
 
 ---
 
-## 7. ⚖️ Unequal-cost Load Balancing
+## 7. Unequal-cost Load Balancing
 
 ```cisco
 router eigrp 100
@@ -119,7 +119,7 @@ router eigrp 100
 
 ---
 
-## 8. 🔢 핵심 파라미터
+## 8. 핵심 파라미터
 
 | 항목 | 값 |
 |---|---|
@@ -138,7 +138,7 @@ router eigrp 100
 
 ---
 
-## 9. 🔍 검증 명령어
+## 9. 검증 명령어
 
 ```cisco
 show ip eigrp neighbors
@@ -154,7 +154,7 @@ show running-config | section router eigrp
 
 ---
 
-## 10. 🧪 연결성 검증
+## 10. 연결성 검증
 
 ```cisco
 show ip route <DESTINATION>
@@ -165,7 +165,7 @@ traceroute <DESTINATION> source <SOURCE>
 
 ---
 
-## 11. 🚨 증상별 Quick Check
+## 11. 증상별 Quick Check
 
 | 증상 | 먼저 확인 |
 |---|---|
@@ -181,7 +181,7 @@ traceroute <DESTINATION> source <SOURCE>
 
 ---
 
-## 12. ⚠️ 핵심 주의사항
+## 12. 핵심 주의사항
 
 ```properties
 no auto-summary

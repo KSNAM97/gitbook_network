@@ -1,11 +1,11 @@
-# ⚡ 라우팅 필터링 & 정책 제어 퀵 레퍼런스
+# 라우팅 필터링 & 정책 제어 퀵 레퍼런스
 
 > **Tag:** #Network #QuickReference #PrefixList #DistributeList #RouteMap #OffsetList #Bogon
 > **핵심 요약:** Prefix-list·Distribute-list·Route-map·Offset-list의 문법과 검증 명령어를 빠르게 조회하기 위한 암기 카드. Prefix-list는 매칭, Distribute-list는 필터링, Route-map은 복합 정책, Offset-list는 Metric 가산에 사용한다.
 
 ---
 
-## 1. 🧠 도구 선택표
+## 1. 도구 선택표
 
 | 요구사항 | 도구 |
 |---|---|
@@ -21,7 +21,7 @@
 
 ---
 
-## 2. 📍 Prefix-list 문법
+## 2. Prefix-list 문법
 
 ```cisco
 ip prefix-list <NAME> [seq <SEQ>] {permit|deny} \
@@ -66,7 +66,7 @@ ip prefix-list DEFAULT_ONLY permit 0.0.0.0/0
 
 ---
 
-## 3. ✏️ Prefix-list 편집
+## 3. Prefix-list 편집
 
 추가:
 
@@ -96,7 +96,7 @@ ip prefix-list NET172 resequence 10 10
 
 ---
 
-## 4. 🛡️ Bogon 기본 목록
+## 4. Bogon 기본 목록
 
 ```cisco
 ip prefix-list BOGON seq 10 deny 0.0.0.0/8 le 32
@@ -140,7 +140,7 @@ clear ip bgp <ISP-IP> soft out
 
 ---
 
-## 5. ⛳ Distribute-list 문법
+## 5. Distribute-list 문법
 
 ACL 기반:
 
@@ -165,7 +165,7 @@ router <PROTOCOL>
 
 ---
 
-## 6. ⛳ Distribute-list 예시
+## 6. Distribute-list 예시
 
 특정 Prefix만 수신:
 
@@ -213,7 +213,7 @@ router ospf 1
 
 ---
 
-## 7. 🗺️ Route-map 문법
+## 7. Route-map 문법
 
 ```cisco
 route-map <NAME> {permit|deny} <SEQ>
@@ -241,7 +241,7 @@ no route-map FILTER permit 20
 
 ---
 
-## 8. 🔎 Route-map Match
+## 8. Route-map Match
 
 | 명령 | 매칭 대상 |
 |---|---|
@@ -269,7 +269,7 @@ match ip address prefix-list PFX_LIST
 
 ---
 
-## 9. 🔧 Route-map Set
+## 9. Route-map Set
 
 | 명령 | 동작 |
 |---|---|
@@ -285,7 +285,7 @@ match ip address prefix-list PFX_LIST
 
 ---
 
-## 10. 🏷️ Route Tagging
+## 10. Route Tagging
 
 Tag 부여:
 
@@ -320,7 +320,7 @@ route-map OSPF_TO_EIGRP permit 20
 
 ---
 
-## 11. ⚖️ Offset-list
+## 11. Offset-list
 
 문법:
 
@@ -363,7 +363,7 @@ BGP = Offset-list 미지원
 
 ---
 
-## 12. 🌲 OSPF 대체 Metric 조정
+## 12. OSPF 대체 Metric 조정
 
 ```cisco
 interface GigabitEthernet0/0
@@ -381,7 +381,7 @@ router ospf 1
 
 ---
 
-## 13. 🔍 검증 명령어
+## 13. 검증 명령어
 
 Prefix-list:
 
@@ -426,7 +426,7 @@ traceroute <DESTINATION> source <SOURCE>
 
 ---
 
-## 14. ⚠️ 암기용 함정표
+## 14. 암기용 함정표
 
 | 설정 | 실제 의미 |
 |---|---|
@@ -443,7 +443,7 @@ traceroute <DESTINATION> source <SOURCE>
 
 ---
 
-## 15. 🔄 정책 변경 원칙
+## 15. 정책 변경 원칙
 
 ```properties
 Prefix-list 변경

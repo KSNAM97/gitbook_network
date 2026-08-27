@@ -1,11 +1,11 @@
-# 🚚 Switchport & Trunk (Trunk / DTP / Sub-interface)
+# Switchport & Trunk (Trunk / DTP / Sub-interface)
 
 > **Tag:** #network #trunk #dot1q #isl #dtp #inter-vlan
 > **핵심 요약:** 하나의 링크로 다수 VLAN을 전송하는 Trunk와 자동협상(DTP), 라우터 온 어 스틱
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### 스위치 간 연결에 Trunk를 써야 하는 이유
 
@@ -21,9 +21,9 @@ DTP는 편리하지만 **보안 취약점(VLAN Hopping)**과 예측 불가능한
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 Trunk 표준 구성 (IEEE 802.1Q 권장)
+### Trunk 표준 구성 (IEEE 802.1Q 권장)
 
 ```cisco
 ! === 표준 Trunk (Dot1q) : 양쪽 스위치 동일 적용 ===
@@ -38,7 +38,7 @@ Switch(config-if)# switchport mode trunk
 ! === 2950 시리즈 이하 : ISL 미지원 → encapsulation 명령 없이 바로 trunk ===
 Switch(config-if)# switchport mode trunk                  ! 자동으로 dot1q 적용
 
-### 📌 Allowed VLAN (Trunk 통과 VLAN 제어 = 보안/트래픽 최적화)
+### Allowed VLAN (Trunk 통과 VLAN 제어 = 보안/트래픽 최적화)
 
 ```cisco
 ! 기본값은 all(1-4094) 허용. 필요한 VLAN만 통과시켜 불필요한 Flooding 차단
@@ -52,7 +52,7 @@ interface fa0/23
  switchport trunk allowed vlan except 100      ! 100만 제외하고 나머지 전부 허용
 ```
 
-### 📌 Inter-VLAN Routing : Router-on-a-Stick (Sub-interface)
+### Inter-VLAN Routing : Router-on-a-Stick (Sub-interface)
 
 ```cisco
 ! === R1 : 물리 인터페이스 1개를 논리적으로 분할해 각 VLAN의 게이트웨이 역할 ===
@@ -79,9 +79,9 @@ interface fastethernet 0/24
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 
 ```cisco
 Switch# show interface trunk       ! Trunk 상태, Encapsulation, Native VLAN, 허용 VLAN 확인 (핵심)
@@ -89,28 +89,28 @@ Switch# show dtp interface fa0/24  ! DTP 협상 상태 확인
 Router# show ip route              ! 서브인터페이스가 Connected 라우트로 잡히는지 확인
 ```
 
-### 📊 `show interface trunk` 판독 포인트
+### `show interface trunk` 판독 포인트
 
 - `Mode` : on(수동) / desirable / auto
 - `Encapsulation` : 802.1q, isl, `n-802.1q`(협상된 dot1q)
 - `Status` : **trunking** 이어야 정상 (not-trunking이면 실패)
 - `Native vlan` : 양쪽 스위치가 반드시 일치해야 함
 
-### 🚨 장애 시나리오 1: Trunk가 형성되지 않음 (Status: not-trunking)
+### 장애 시나리오 1: Trunk가 형성되지 않음 (Status: not-trunking)
 
 - **원인 파악:**
     1. 한쪽만 `mode trunk`, 다른 쪽은 `auto`/`access`인 경우. **auto-auto 또는 access가 낀 조합**은 협상 실패.
     2. 한쪽은 dot1q, 다른 쪽은 isl 등 **Encapsulation 불일치**.
 - **해결:** 양쪽 모두 `switchport trunk encapsulation dot1q` + `switchport mode trunk`로 **수동 고정** 후 `show interface trunk`로 재확인.
 
-### 🚨 장애 시나리오 2: Trunk는 됐는데 특정 VLAN만 통신 안 됨
+### 장애 시나리오 2: Trunk는 됐는데 특정 VLAN만 통신 안 됨
 
 - **원인 파악:**
     1. `show interface trunk`의 "Vlans allowed on trunk"에서 **해당 VLAN이 allowed 목록에 없음**. (`allowed vlan` 설정 시 실수로 덮어씀)
     2. **Native VLAN 불일치** → CDP가 `Native VLAN mismatch` 경고 로그 발생.
 - **해결:** `switchport trunk allowed vlan add [VLAN]`으로 누락 VLAN 추가. Native VLAN을 양쪽 동일하게 맞춤.
 
-### 🚨 장애 시나리오 3: Router-on-a-Stick 구성 후 VLAN 간 통신 불가
+### 장애 시나리오 3: Router-on-a-Stick 구성 후 VLAN 간 통신 불가
 
 - **원인 파악:** 서브인터페이스의 `encapsulation dot1q` VLAN 번호와 스위치 VLAN이 불일치하거나, 스위치-라우터 연결 포트가 **Access로 남아있음**.
 - **해결:** 스위치 연결 포트를 Trunk로 변경하고, PC들의 **게이트웨이가 서브인터페이스 IP로 지정**되었는지 확인.

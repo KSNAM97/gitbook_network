@@ -1,11 +1,11 @@
-# ⚖️ Gateway 이중화 (FHRP: HSRP & VRRP)
+# Gateway 이중화 (FHRP: HSRP & VRRP)
 
 > **Tag:** #network #fhrp #hsrp #vrrp #gateway-redundancy #track #cisco
 > **핵심 요약:** 게이트웨이 단일 장애점(SPOF)을 제거하는 First-Hop Redundancy Protocol. Virtual IP/MAC과 Track이 핵심
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### Q. 게이트웨이 이중화가 필요한 이유와, Virtual IP/MAC이 왜 핵심인가요?
 
@@ -28,7 +28,7 @@
   - Track은 지정한 WAN 인터페이스가 다운되면 **우선순위를 자동 차감(decrement)** 해, Standby가 더 높은 우선순위를 갖게 되어 Active를 넘겨받습니다.
   - Track이 동작하려면 Standby 쪽에 **preempt가 설정되어 있어야** 우선순위 역전 시 실제로 역할을 탈취할 수 있습니다.
 
-### 📊 HSRP vs VRRP 비교
+### HSRP vs VRRP 비교
 
 | 항목 | HSRP | VRRP |
 |------|------|------|
@@ -41,9 +41,9 @@
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 HSRP 기본 구성 (Active/Standby)
+### HSRP 기본 구성 (Active/Standby)
 
 ```cisco
 ! === G/W1 (Active로 동작) ===
@@ -60,14 +60,14 @@ G/W2(config-if)# standby 1 priority 100
 G/W2(config-if)# standby 1 timers 1 3
 ```
 
-### 📌 Preempt Delay (복구 후 즉시 탈환 방지)
+### Preempt Delay (복구 후 즉시 탈환 방지)
 
 ```cisco
 ! 장애 복구 직후 라우팅 수렴 전에 Active를 뺏으면 순간 단절 발생 → 지연을 둠
 G/W1(config-if)# standby 1 preempt delay minimum 60   ! 복구 60초 후 Active 탈환
 ```
 
-### 📌 Track으로 WAN 장애 대응 (FHRP 한계 극복 - 실무 핵심)
+### Track으로 WAN 장애 대응 (FHRP 한계 극복 - 실무 핵심)
 
 ```cisco
 ! === 방법1: 인터페이스 직접 추적 ===
@@ -84,7 +84,7 @@ G/W2(config-if)# standby 1 preempt
 
 > WAN 장애 시: G/W1 우선순위 150 → 50으로 하락 → G/W2(100)가 더 높아짐 → G/W2가 Active 탈취.
 
-### 📌 부하 분산 (그룹 2개로 상호 Active-Standby)
+### 부하 분산 (그룹 2개로 상호 Active-Standby)
 
 ```cisco
 ! G/W1은 그룹1(.254)의 Active + 그룹2(.253)의 Standby
@@ -110,7 +110,7 @@ interface fastethernet 0/1
  standby 2 track serial 1/0.23 100
 ```
 
-### 📌 VRRP 구성 (표준, 문법만 다름)
+### VRRP 구성 (표준, 문법만 다름)
 
 ```cisco
 ! === G/W1 (Master) ===
@@ -129,9 +129,9 @@ G/W2(config-if)# vrrp 1 priority 100
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 
 ```cisco
 ! --- HSRP ---
@@ -147,30 +147,30 @@ PC# traceroute 13.13.2.2            ! 실제 어느 게이트웨이(.251/.252) �
 PC# show arp                        ! 게이트웨이 MAC이 가상MAC인지 확인
 ```
 
-### 📊 `show standby brief` 판독 포인트
+### `show standby brief` 판독 포인트
 
 - **State**: Active(정상 서비스) / Standby(대기) / Init(초기화)
 - **Pri**: 현재 우선순위 (Track 차감이 반영된 실시간 값)
 - **Active/Standby**: 각 역할을 맡은 실제 라우터 IP (`local`=자신)
 
-### 🚨 장애 시나리오 1: LAN 장애는 되는데 WAN 장애 시 통신 먹통 (가장 중요)
+### 장애 시나리오 1: LAN 장애는 되는데 WAN 장애 시 통신 먹통 (가장 중요)
 
 - **증상:** G/W1의 내부 포트를 shut하면 정상 절체되나, WAN(serial) 회선만 끊으면 통신이 `U.U.U`(unreachable)로 실패.
 - **원인 파악:** FHRP는 **WAN 장애를 감지하지 못함.** Active가 그대로 Active를 유지해 트래픽이 죽은 회선으로 계속 나감.
 - **해결:** **Track 기능**으로 WAN 인터페이스를 추적해 다운 시 우선순위를 차감하고, Standby에 **preempt**를 걸어 자동 절체되게 구성. `show standby all`에서 Track state와 차감된 우선순위 확인.
 
-### 🚨 장애 시나리오 2: 복구됐는데 Active로 안 돌아옴 (HSRP)
+### 장애 시나리오 2: 복구됐는데 Active로 안 돌아옴 (HSRP)
 
 - **증상:** G/W1 복구 후에도 여전히 G/W2가 Active.
 - **원인 파악:** HSRP는 **preempt가 기본 비활성**이라, 우선순위가 더 높아도 자동으로 Active를 탈환하지 않음.
 - **해결:** 원래 Active 장비에 `standby 1 preempt` 설정. (VRRP는 기본 활성이라 이 문제 없음)
 
-### 🚨 장애 시나리오 3: Track으로 우선순위는 떨어지는데 절체가 안 됨
+### 장애 시나리오 3: Track으로 우선순위는 떨어지는데 절체가 안 됨
 
 - **원인 파악:** decrement 값이 부족해 여전히 상대보다 우선순위가 높거나, **Standby 쪽에 preempt가 없어** 탈취를 못 함.
 - **해결:** decrement 값을 우선순위 차이보다 크게(예: 150 vs 100이면 100 차감 → 50) 설정하고, Standby에 `preempt` 확인.
 
-### 🚨 장애 시나리오 4: 두 라우터가 서로 Active (Active-Active 충돌)
+### 장애 시나리오 4: 두 라우터가 서로 Active (Active-Active 충돌)
 
 - **원인 파악:** 양쪽 **Virtual IP 불일치**, **그룹 번호 불일치**, 또는 두 장비 간 Hello가 안 오감(중간 L2 단절/타이머 불일치).
 - **해결:** 같은 그룹의 Virtual IP/그룹번호/타이머를 양쪽 동일하게 맞추고, L2 경로가 살아있는지 확인.

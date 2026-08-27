@@ -1,11 +1,11 @@
-# 🧩 스위치 기본 & VLAN·Trunk 통합 정리
+# 스위치 기본 & VLAN·Trunk 통합 정리
 
 > **Tag:** #Network #Switch #Layer2 #VLAN #Trunk #DTP #Dot1Q #InterVLAN  
 > **핵심 요약:** 스위치는 출발지 MAC을 학습하고 목적지 MAC을 기준으로 프레임을 전달한다. VLAN은 하나의 물리적 스위치를 여러 Broadcast Domain으로 논리적으로 분리하며, Trunk는 하나의 링크에서 여러 VLAN을 802.1Q Tag로 구분하여 전송한다. 서로 다른 VLAN 간 통신에는 Router-on-a-Stick 또는 L3 Switch의 Routing 기능이 필요하다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념
+## 1. 핵심 기술 개념
 
 ### Q1. Hub, Switch, Router는 무엇이 다른가?
 
@@ -229,7 +229,7 @@ interface GigabitEthernet0/1
 
 ---
 
-## 2. 🛠️ VLAN 표준 설정
+## 2. VLAN 표준 설정
 
 ### 2-1. VLAN 생성
 
@@ -329,7 +329,7 @@ interface range GigabitEthernet0/9 - 12, GigabitEthernet0/21 - 24
 
 ---
 
-## 3. 🚚 Trunk 표준 설정
+## 3. Trunk 표준 설정
 
 ### 3-1. 스위치 간 Trunk
 
@@ -396,7 +396,7 @@ no switchport trunk allowed vlan
 
 ---
 
-## 4. 🌐 Router-on-a-Stick
+## 4. Router-on-a-Stick
 
 ### 4-1. 동작 구조
 
@@ -480,7 +480,7 @@ VLAN 30 Gateway = 192.168.30.254
 
 ---
 
-## 5. 🔍 검증 명령어
+## 5. 검증 명령어
 
 ### VLAN
 
@@ -522,7 +522,7 @@ ping 192.168.20.10 source 192.168.10.254
 
 ---
 
-## 6. ⚠️ 실무 체크리스트
+## 6. 실무 체크리스트
 
 - [ ] 필요한 VLAN이 모든 관련 Switch에 생성되어 있는가?
 - [ ] Access Port의 VLAN 번호가 올바른가?

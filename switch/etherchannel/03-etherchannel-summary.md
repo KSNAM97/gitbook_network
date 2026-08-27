@@ -1,11 +1,11 @@
-# 🧩 EtherChannel 통합 정리
+# EtherChannel 통합 정리
 
 > **Tag:** #Network #Switch #EtherChannel #LACP #PAgP #Cisco  
 > **핵심 요약:** EtherChannel은 여러 물리 링크를 하나의 논리 링크(Port-channel)로 묶어 대역폭 집약·이중화·STP 단일 논리 링크화를 동시에 달성하는 기술이다. 협상 프로토콜은 Cisco 전용 PAgP(auto/desirable)와 IEEE 802.3ad 표준 LACP(passive/active)가 있으며 서로 호환되지 않는다. 채널 형성의 성패는 모드 조합뿐 아니라 멤버 포트의 속도·듀플렉스·Trunk 모드·Allowed VLAN·Native VLAN 일치 여부에서도 갈린다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념
+## 1. 핵심 기술 개념
 
 ### Q1. EtherChannel은 무엇인가?
 
@@ -321,7 +321,7 @@ show spanning-tree vlan <VLAN-ID>
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿
+## 2. 표준 설정 템플릿
 
 > ⚠️ 원격 변경 시 관리 연결이 끊길 수 있습니다. Console 또는 OOB 접근과 Rollback을 준비하십시오.
 
@@ -459,7 +459,7 @@ show interfaces counters
 
 ---
 
-## 3. 🧰 통합 실습 부가기술
+## 3. 통합 실습 부가기술
 
 ### 3-1. DHCP 서버 및 Relay
 
@@ -540,7 +540,7 @@ show ip interface port-channel <CHANNEL-NUMBER>
 
 ---
 
-## 4. 🔧 안전한 변경 절차
+## 4. 안전한 변경 절차
 
 ```properties
 [1] 현재 확인 : show etherchannel summary / show interfaces trunk / show spanning-tree
@@ -564,7 +564,7 @@ no interface port-channel <CHANNEL-NUMBER>
 
 ---
 
-## 5. 🔍 검증 명령어
+## 5. 검증 명령어
 
 ```cisco
 show etherchannel summary
@@ -586,7 +586,7 @@ show logging
 
 ---
 
-## 6. ⚠️ 실무 체크리스트
+## 6. 실무 체크리스트
 
 - [ ] 양쪽 Switch의 협상 프로토콜이 동일한가(PAgP 또는 LACP)?
 - [ ] 최소 한쪽이 능동 모드(desirable 또는 active)인가?

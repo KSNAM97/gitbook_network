@@ -1,11 +1,11 @@
-# ⚡ OSPF 명령어 퀵 레퍼런스
+# OSPF 명령어 퀵 레퍼런스
 
 > **Tag:** #Routing #OSPF #QuickReference #Area #LSA #CheatSheet  
 > **핵심 요약:** OSPF 설정, Area, LSA, 인증, 요약 및 검증 명령어를 빠르게 조회하기 위한 명령어 카드.
 
 ---
 
-## 1. 🛠️ 기본 설정
+## 1. 기본 설정
 
 ### 1-1. Router Process 방식
 
@@ -44,7 +44,7 @@ interface Loopback172
 
 ---
 
-## 2. 🔐 인증
+## 2. 인증
 
 ### 2-1. Area 단위 MD5 인증
 
@@ -76,7 +76,7 @@ interface Serial1/0
 
 ---
 
-## 3. 🕸️ Network Type 및 DR
+## 3. Network Type 및 DR
 
 ### 3-1. Network Type
 
@@ -117,7 +117,7 @@ router ospf 100
 
 ---
 
-## 4. ⏱️ Timer 및 대역폭
+## 4. ⏱ Timer 및 대역폭
 
 ```cisco
 interface Serial1/0
@@ -141,7 +141,7 @@ router ospf 100
 
 ---
 
-## 5. 🗂️ Area 설정
+## 5. Area 설정
 
 ### 5-1. Stub
 
@@ -188,7 +188,7 @@ router ospf 100
 
 ---
 
-## 6. 📦 요약 및 재분배
+## 6. 요약 및 재분배
 
 ### 6-1. ABR Inter-Area 요약
 
@@ -234,7 +234,7 @@ router ospf 100
 
 ---
 
-## 7. 🌉 Virtual Link
+## 7. Virtual Link
 
 ```cisco
 ! R2
@@ -257,7 +257,7 @@ router ospf 100
 
 ---
 
-## 8. 🔢 핵심 파라미터
+## 8. 핵심 파라미터
 
 | 항목 | 값 |
 |---|---|
@@ -272,7 +272,7 @@ router ospf 100
 
 ---
 
-## 9. 📑 LSA 유형
+## 9. LSA 유형
 
 | Type | 이름 | 생성 주체 |
 |---:|---|---|
@@ -285,7 +285,7 @@ router ospf 100
 
 ---
 
-## 10. 🗺️ Area 유형
+## 10. Area 유형
 
 | 유형 | 주요 동작 | 핵심 명령 |
 |---|---|---|
@@ -297,7 +297,7 @@ router ospf 100
 
 ---
 
-## 11. 🔄 Neighbor State
+## 11. Neighbor State
 
 ```text
 Down → Init → 2-Way → ExStart → Exchange → Loading → Full
@@ -315,7 +315,7 @@ Down → Init → 2-Way → ExStart → Exchange → Loading → Full
 
 ---
 
-## 12. 🔍 검증 명령어
+## 12. 검증 명령어
 
 ```cisco
 show ip ospf
@@ -337,7 +337,7 @@ show ip protocols
 
 ---
 
-## 13. 🧪 Debug 및 초기화
+## 13. Debug 및 초기화
 
 ```cisco
 debug ip ospf adj
@@ -358,7 +358,7 @@ clear ip ospf process
 
 ---
 
-## 14. 🚑 빠른 장애 대응
+## 14. 빠른 장애 대응
 
 ```text
 Neighbor 없음
@@ -389,7 +389,7 @@ Full인데 경로 없음
 
 ---
 
-## 15. 📌 암기 요약
+## 15. 암기 요약
 
 - `network` = 인터페이스 선택 + Area 할당
 - DROTHER끼리 2-Way = 정상

@@ -1,11 +1,11 @@
-# 🚑 VPN 트러블슈팅 치트시트
+# VPN 트러블슈팅 치트시트
 
 > **Tag:** #Network #VPN #GRE #IPsec #DMVPN #Cisco  
 > **핵심 요약:** VPN 장애는 **하부 라우팅 → Tunnel 상태 → IKE Phase 1 → Phase 2 → Crypto ACL 대칭 → NAT 예외 → MTU → 라우팅** 순서로 확인합니다. Phase 1이 QM_IDLE인데 통신이 안 되면 Phase 2·Crypto ACL·NAT 예외를, Ping은 되는데 큰 패킷만 실패하면 MTU/MSS를 우선 의심합니다. GRE는 암호화를 제공하지 않으므로 터널이 올라왔다는 사실이 보안 적용을 의미하지 않습니다.
 
 ---
 
-## 1. 🎯 공통 진단 순서
+## 1. 공통 진단 순서
 
 ```properties
 [1] 하부 라우팅(Underlay) : Tunnel destination 공인 IP에 도달 가능한가?
@@ -31,7 +31,7 @@ AD만 단독 비교하면 Recursive Routing 원인을 놓칩니다.
 
 ---
 
-## 2. 🛠️ 증상별 즉시 대응표
+## 2. 증상별 즉시 대응표
 
 | 증상 | 주요 원인 | 확인 | 조치 |
 |---|---|---|---|
@@ -56,7 +56,7 @@ AD만 단독 비교하면 Recursive Routing 원인을 놓칩니다.
 
 ---
 
-## 3. 🔍 핵심 진단 명령어
+## 3. 핵심 진단 명령어
 
 ### Tunnel 및 NHRP
 
@@ -105,9 +105,9 @@ show crypto engine connections active
 `show crypto ipsec sa` 판독:
 
 ```properties
-#pkts encaps 증가 + #pkts decaps 증가 = 양방향 정상
-#pkts encaps 증가 + #pkts decaps 0    = 송신만 됨, 상대 ACL·경로·ESP 차단 의심
-#pkts encaps 0                        = 관심 트래픽 미매칭, Crypto ACL·적용 인터페이스 확인
+# pkts encaps 증가 + #pkts decaps 증가 = 양방향 정상
+# pkts encaps 증가 + #pkts decaps 0 = 송신만 됨, 상대 ACL·경로·ESP 차단 의심
+# pkts encaps 0 = 관심 트래픽 미매칭, Crypto ACL·적용 인터페이스 확인
 
 local ident / remote ident = Proxy Identity, 양단이 서로 반대로 일치해야 함
 ```
@@ -133,7 +133,7 @@ debug crypto ipsec
 
 ---
 
-## 4. 🚨 대표 장애 시나리오
+## 4. 대표 장애 시나리오
 
 ### 시나리오 1. Tunnel Interface가 Down/Down
 
@@ -482,8 +482,8 @@ show crypto session
 #### 판독
 
 ```properties
-#pkts encaps: 1520, #pkts encrypt: 1520
-#pkts decaps: 0,    #pkts decrypt: 0
+# pkts encaps: 1520, #pkts encrypt: 1520
+# pkts decaps: 0, #pkts decrypt: 0
         ↓
 송신 암호화는 정상, 수신 복호화가 전혀 발생하지 않음
 ```
@@ -933,7 +933,7 @@ show logging
 
 ---
 
-## 5. 🔧 안전한 변경 및 복구 절차
+## 5. 안전한 변경 및 복구 절차
 
 ```properties
 [1] 현재 확인 → [2] 백업 → [3] 경로 확인 → [4] 적용 → [5] 검증 → [6] 저장

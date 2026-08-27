@@ -1,11 +1,11 @@
-# 3-1. 🌲 OSPF (Open Shortest Path First)
+# OSPF (Open Shortest Path First)
 
 > **Tag:** #Network #Cisco #OSPF #Routing #IGP #LinkState
 > **핵심 요약:** **Link-State 기반의 표준 IGP** — Dijkstra(SPF) 알고리즘으로 Loop-Free 경로를 계산하며, Area 기반 계층 설계로 대규모 엔터프라이즈/데이터센터 환경에서 사실상 표준으로 자리잡은 라우팅 프로토콜.
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### 엔터프라이즈 코어에서 OSPF를 선택하는 이유
 
@@ -21,9 +21,9 @@ DR/BDR이 필요 없는 Hub-Spoke 3대 이상 구성에서는 `ip ospf network p
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 🔹 2-1. OSPF 기본 구성 (Single Area / Multi-Area)
+### 2-1. OSPF 기본 구성 (Single Area / Multi-Area)
 
 ```cisco
 ! ========================================
@@ -72,7 +72,7 @@ router ospf 100
  summary-address 200.200.8.0 255.255.248.0            ! ASBR External 요약 → LSA Type-5 축약
 !
 ```
-### 🔹 2-2. NBMA (Frame-Relay) 구간 OSPF - Hub & Spoke
+### 2-2. NBMA (Frame-Relay) 구간 OSPF - Hub & Spoke
 ```cisco
 ! ========================================
 ! [Hub Router] - DR 강제
@@ -98,7 +98,7 @@ interface Serial1/0.123 multipoint
  ip ospf network point-to-multipoint                  ! DR 선출 X, 논리적 P2P 링크 집합으로 처리
 !
 ```
-### 🔹 2-3. Stub / Totally Stub / NSSA 요약
+### 2-3. Stub / Totally Stub / NSSA 요약
 ```cisco
 ! [일반 Stub] LSA Type 4,5 차단 + Default 자동 생성 (ASBR 없는 Area)
 router ospf 100
@@ -116,7 +116,7 @@ router ospf 100
 router ospf 100
  area 14 nssa no-summary                              ! Default 자동 생성 + Type 3,4,5 차단
 ```
-### 🔹 2-4. Virtual-Link (Backbone 단절 시 응급 조치)
+### 2-4. Virtual-Link (Backbone 단절 시 응급 조치)
 ```cisco
 ! Area 13이 Area 0과 물리적으로 단절된 경우
 ! [R2 - ABR] Transit Area 13을 통과하여 R3까지 논리적 Area 0 연장
@@ -129,9 +129,9 @@ router ospf 100
 
 ! ⚠️ 실무 원칙: Virtual-Link는 "설계 실패의 임시 조치"이며, 영구 운영 구조가 되면 안 됨
 ```
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### 🔎 3-1. 필수 검증 명령어
+### 3-1. 필수 검증 명령어
 
 |명령어|확인 목적|
 |---|---|
@@ -146,7 +146,7 @@ router ospf 100
 |`debug ip ospf packet`|인증 방식(aut:0/1/2), 패킷 송수신 확인|
 |`clear ip ospf process`|Router-ID 변경 등 재적용 (⚠️ 운영 중 실행 금지)|
 
-### 🔎 3-2. State 진행 흐름 (Neighbor 안 맺힐 때 어디서 멈추는지가 힌트)
+### 3-2. State 진행 흐름 (Neighbor 안 맺힐 때 어디서 멈추는지가 힌트)
 ```cisco
 Down → Init → 2Way → Exstart → Exchange → Loading → Full
                 ↑        ↑          ↑          ↑
@@ -154,7 +154,7 @@ Down → Init → 2Way → Exstart → Exchange → Loading → Full
              수신     Master/Slave 결정    문제 발생 지점
 
 ```
-### 🚨 3-3. 대표 장애 시나리오 & 트러블슈팅
+### 3-3. 대표 장애 시나리오 & 트러블슈팅
 
 #### 시나리오 A. **인접성이 2WAY에서 멈추고 FULL로 진행되지 않음** (Multi-access 환경)
 
@@ -180,7 +180,7 @@ Down → Init → 2Way → Exstart → Exchange → Loading → Full
 - **2단계:** `show ip ospf | include Area` → Area의 Stub/NSSA 상태 확인.
 - **3단계 - 해결:** Area 설계 재검토. External 경로가 필요하면 Stub 해제 또는 NSSA로 전환.
 
-### ⚠️ 3-4. 실무 Best Practice 체크리스트
+### 3-4. 실무 Best Practice 체크리스트
 
 - ✅ **`network` 명령은 반드시 Wildcard `0.0.0.0`으로 인터페이스 단위 매칭** — Classful 매칭 시 의도치 않은 인터페이스까지 OSPF 활성화되어 보안/성능 이슈 발생.
 - ✅ **`passive-interface default` 선언 후 필요한 WAN 링크만 `no passive-interface`** — 서버 세그먼트에서 Hello 트래픽 및 인접성 공격 표면 최소화.

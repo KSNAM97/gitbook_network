@@ -1,13 +1,13 @@
-# 3. ⚡  라우터의 스위칭 방식 (CEF)
+# 라우터의 스위칭 방식 (CEF)
 
 > **Tag:** #Network #Cisco
 > **핵심 요약:** **문서 목적:** Cisco 라우터의 3대 스위칭 방식(Process/Fast/CEF)과 FIB/Adjacency Table의 동작 원리를 데이터 플레인 관점에서 정리한다. 라우팅 프로토콜(컨트롤 플레인)과는 별개의 레이어임에 주의.
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
-### 💬 Q1. 컨트롤 플레인(Routing Protocol)과 데이터 플레인(Switching Method)의 차이를 설명해 주세요.
+### Q1. 컨트롤 플레인(Routing Protocol)과 데이터 플레인(Switching Method)의 차이를 설명해 주세요.
 
 - 👉 **핵심 답변:** **컨트롤 플레인은 "경로를 결정"**하고(OSPF/EIGRP 등), **데이터 플레인은 "실제 패킷을 전달"**합니다(CEF). 컨트롤 플레인의 결과물인 라우팅 테이블(RIB)을 데이터 플레인이 FIB로 변환해서 사용합니다.
 
@@ -16,7 +16,7 @@
   - **FIB(Forwarding Information Base)** = 데이터 플레인이 실제 조회하는 고속 검색 테이블(`show ip cef`)
   - 이 분리 덕분에 라우팅 프로토콜이 재계산 중에도 기존 트래픽 포워딩은 중단 없이 유지됩니다. (**NSF - Non-Stop Forwarding**의 근간)
 
-### 💬 Q2. 라우터 CPU가 갑자기 폭주할 때 가장 먼저 의심해야 할 것은?
+### Q2. 라우터 CPU가 갑자기 폭주할 때 가장 먼저 의심해야 할 것은?
 
 - 👉 **핵심 답변:** **CEF 미스(Miss)로 인한 Process Switching Punt** 현상을 최우선으로 의심해야 합니다. 정상 상황에서는 데이터 플레인이 CPU를 거의 쓰지 않기 때문입니다.
 
@@ -24,7 +24,7 @@
   - CEF가 처리하지 못하는 트래픽(IP Options, TTL=1, Fragmentation 필요, ACL 로깅 등)은 CPU로 올라와 Process Switching으로 처리됨 → 이를 **Punt**라고 함
   - `show ip cef switching statistics feature` 로 Punt 원인별 카운터 확인이 가능하며, 이게 실무 CPU 트러블슈팅의 시작점
 
-### 📊 3대 스위칭 방식 비교
+### 3대 스위칭 방식 비교
 
 | 항목 | Process Switching | Fast Switching | **CEF** ✅ |
 |---|---|---|---|
@@ -36,7 +36,7 @@
 | 현재 실무 | 디버깅용만 | Deprecated | **표준 (기본값)** |
 
 
-### 🧱 CEF 아키텍처: FIB & Adjacency Table
+### CEF 아키텍처: FIB & Adjacency Table
 
 [Routing Table (RIB)] ← 컨트롤 플레인 (OSPF, BGP 등) ↓ (복사/변환) [FIB] ← "어디로 보낼지" (목적지 → 넥스트홉/IF) ↓ (참조) [Adjacency Table] ← "어떻게 보낼지" (L2 헤더, MAC 등) ↓ [실제 패킷 포워딩]
 
@@ -46,9 +46,9 @@
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 🔧 2-1. CEF 표준 설정 (실무 기본값 - 유지 권장)
+### 2-1. CEF 표준 설정 (실무 기본값 - 유지 권장)
 
 ```cisco
 ! ============================================================
@@ -66,7 +66,7 @@ interface GigabitEthernet0/0
 ---
 
 ```
-### 🔧 2-2. Process Switching 강제 (⚠️ 트러블슈팅 전용)
+### 2-2. Process Switching 강제 ( 트러블슈팅 전용)
 ```cisco
 ! ============================================================
 ! [Process Switching 강제] - debug ip packet 사용 시에만
@@ -85,7 +85,7 @@ interface Serial1/0
 exit
 ip cef
 ```
-### 🔧 2-3. Fast Switching (⚠️ Deprecated - 참고용)
+### 2-3. Fast Switching ( Deprecated - 참고용)
 ```cisco
 ! ============================================================
 ! [Fast Switching] - 레거시 장비 호환 시에만 사용
@@ -98,9 +98,9 @@ configure terminal
 interface Serial1/0
  ip route-cache                             ! Fast Switching 활성화 (CEF 없을 때)
 ```
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 3-1. 필수 검증 명령어
+### 3-1. 필수 검증 명령어
 ```cisco
 ! ---------- CEF 상태 확인 ----------
 show ip cef summary                         ! CEF 전역 활성 여부 + FIB 엔트리 수
@@ -119,7 +119,7 @@ show processes cpu sorted | exclude 0.0     ! CPU 사용률 프로세스별 정�
 show ip cef switching statistics feature    ! Punt 원인별 카운터
 show ip traffic                             ! IP Options, TTL Expired 등 특수 패킷 통계
 ```
-### 📖 명령어 출력 해석 예시
+### 명령어 출력 해석 예시
 
 **`show ip cef` 출력 해석:**
 
@@ -142,7 +142,7 @@ FastEthernet0/1
 - **incomplete:** ARP 미해결 상태 → 패킷은 CPU로 Punt되어 ARP 재시도
 - ### 🚨 3-2. 대표 장애 시나리오 & 트러블슈팅
 
-#### 🔥 시나리오 1: 라우터 CPU 90% 폭주 (IP Input 프로세스 점유)
+#### 시나리오 1: 라우터 CPU 90% 폭주 (IP Input 프로세스 점유)
 
 **증상:** 트래픽은 흐르는데 CPU가 지속적으로 높음. `show processes cpu`에서 **`IP Input`**이 상위.
 
@@ -173,7 +173,7 @@ FastEthernet0/1
      no ip redirects                         ! ICMP Redirect 생성 중단
      no ip proxy-arp                         ! Proxy ARP 비활성화
     ```
-#### 🔥 시나리오 2: 특정 목적지만 통신이 안 됨 (RIB에는 있는데 FIB에 없음)
+#### 시나리오 2: 특정 목적지만 통신이 안 됨 (RIB에는 있는데 FIB에 없음)
 
 **증상:** `show ip route`에는 경로가 있는데 실제 통신은 실패.
 
@@ -203,7 +203,7 @@ FastEthernet0/1
     ```
     
 
-### 📌 3-3. 실무 Quick-Check 체크리스트
+### 3-3. 실무 Quick-Check 체크리스트
 
 |점검 항목|명령어|정상 기준|
 |---|---|---|
@@ -216,7 +216,7 @@ FastEthernet0/1
 
 ---
 
-## 💡 실무 Tip
+## 실무 Tip
 
 - **CEF는 절대 끄지 않는다.** 정말 필요한 순간은 `debug ip packet` 명령을 쓸 때뿐이며, 그마저도 특정 IF에 한정해서 잠깐 끄고 즉시 복구해야 한다.
 - **CPU 튐 = CEF 문제** 공식을 기억하자. 라우팅 프로토콜(OSPF/EIGRP) 자체는 안정 상태에서 CPU를 거의 안 쓴다.

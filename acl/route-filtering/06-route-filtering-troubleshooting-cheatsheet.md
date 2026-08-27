@@ -1,11 +1,11 @@
-# 🚑 라우팅 필터링 & 정책 제어 트러블슈팅 치트시트
+# 라우팅 필터링 & 정책 제어 트러블슈팅 치트시트
 
 > **Tag:** #Network #Troubleshooting #RouteFiltering #PrefixList #DistributeList #RouteMap #OffsetList
 > **핵심 요약:** 라우팅 정책 장애는 **매칭 오류 → 암묵적 deny → 적용 방향 오류 → 프로토콜별 필터링 단계 오해 → 정책 재평가 누락** 순서로 확인한다. 먼저 원본 경로가 존재하는지 확인하고, Prefix-list/ACL 매칭, Route-map Sequence, Distribute-list 방향, RIB 설치 결과를 단계별로 비교한다.
 
 ---
 
-## 1. 🎯 공통 진단 순서
+## 1. 공통 진단 순서
 
 ```properties
 [1] 원본 경로가 이웃 또는 Topology/Routing DB에 존재하는가?
@@ -19,7 +19,7 @@
 
 ---
 
-## 2. 🛠️ 증상별 즉시 대응표
+## 2. 증상별 즉시 대응표
 
 | 증상 | 주요 원인 | 확인 | 조치 |
 |---|---|---|---|
@@ -36,7 +36,7 @@
 
 ---
 
-## 3. 🔍 핵심 진단 명령어
+## 3. 핵심 진단 명령어
 
 ### Prefix-list
 
@@ -76,7 +76,7 @@ show ip bgp neighbors <PEER> advertised-routes
 
 ---
 
-## 4. 🚨 대표 장애 시나리오
+## 4. 대표 장애 시나리오
 
 ### 시나리오 1. Prefix-list 적용 후 모든 경로가 사라짐
 
@@ -424,7 +424,7 @@ interface GigabitEthernet0/0
 
 ---
 
-## 5. 🔧 안전한 정책 변경 절차
+## 5. 안전한 정책 변경 절차
 
 ```properties
 [1] 기존 Prefix-list/Route-map/Protocol 설정 백업

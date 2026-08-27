@@ -1,4 +1,4 @@
-# 3-1-2. 🎯  Extended ACL & 라우팅 프로토콜 예외 처리
+# Extended ACL & 라우팅 프로토콜 예외 처리
 
 > **Tag:** #Network #Cisco #Routing #StaticRoute #CEF #ACL #Security #AccessControl
 > **핵심 요약:** Extended ACL(100~199)의 5-Tuple 기반 정밀 필터링과
@@ -6,7 +6,7 @@
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### Extended ACL을 출발지 인터페이스 in 방향에 적용해야 하는 이유
 
@@ -22,9 +22,9 @@ Extended ACL은 **출발지+목적지+프로토콜+포트**까지 세분화된 �
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 Extended ACL 문법 요약
+### Extended ACL 문법 요약
 
 ```cisco
 ! [문법 1] 프로토콜 + SA/DA만 지정
@@ -36,7 +36,7 @@ access-list <100-199> {permit|deny} <tcp|udp> <SA> <SA-wildcard> [eq <src-port>]
 ! [문법 3] host 키워드 (=단일 호스트, wildcard 0.0.0.0)
 access-list 100 permit tcp host 3.3.3.3 host 1.1.1.1 eq 23
 ```
-### 📌 프로토콜별 예외 처리 시그니처 (반드시 암기)
+### 프로토콜별 예외 처리 시그니처 (반드시 암기)
 
 | 라우팅 프로토콜 | ACL 표기                             | 멀티캐스트 주소              | 비고         |
 | -------- | ---------------------------------- | --------------------- | ---------- |
@@ -44,7 +44,7 @@ access-list 100 permit tcp host 3.3.3.3 host 1.1.1.1 eq 23
 | EIGRP    | `permit eigrp any any`             | 224.0.0.10            | IP 프로토콜 88 |
 | OSPF     | `permit ospf any any`              | 224.0.0.5 / 224.0.0.6 | IP 프로토콜 89 |
 | BGP      | `permit tcp any any eq 179`        | (유니캐스트)               | TCP 179    |
-### 📌 Named Extended ACL - 실무 표준 템플릿
+### Named Extended ACL - 실무 표준 템플릿
 ```cisco
 ! [Named Extended ACL] 이름 기반 + 시퀀스 번호로 라인 편집 가능
 !
@@ -65,7 +65,7 @@ interface Serial1/0
  ip access-group ACL_WAN_IN in
 !
 ```
-### 📌 라우팅 프로토콜별 예외 처리 상세
+### 라우팅 프로토콜별 예외 처리 상세
 
 ```cisco
 ! ===== RIPv2 사용 시 =====
@@ -91,7 +91,7 @@ ip access-list extended ACL_WITH_OSPF
 !
 ```
 
-### 📌 established 옵션 (준-상태 검사)
+### established 옵션 (준-상태 검사)
 
 ```cisco
 ! 시나리오: 내부→외부 TCP는 자유, 외부→내부는 응답만 허용
@@ -110,7 +110,7 @@ interface Serial1/0
  ip access-group ACL_OUTSIDE_IN in
 !
 ```
-### 📌 IP Fragment 공격 방어
+### IP Fragment 공격 방어
 
 ```cisco
 ! 시나리오: ICMP 분할 패킷을 이용한 DoS 공격 방어
@@ -124,7 +124,7 @@ interface FastEthernet0/0
 !
 ```
 
-### 📌 log-input 옵션 (침해 대응/포렌식)
+### log-input 옵션 (침해 대응/포렌식)
 
 ```cisco
 ! deny 발생 시 어느 인터페이스로 들어왔는지까지 syslog에 기록
@@ -141,9 +141,9 @@ ip access-list extended ACL_AUDIT
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 ```cisco
 ! ACL 룰과 라인별 hit count 확인 (매칭이 실제 발생하는지)
 show access-lists
@@ -161,7 +161,7 @@ show ip ospf neighbor
 show logging | include SEC-6-IPACCESSLOG
 ```
 
-### 🚨 트러블슈팅 시나리오 1: ACL 적용 후 라우팅 테이블이 사라졌다
+### 트러블슈팅 시나리오 1: ACL 적용 후 라우팅 테이블이 사라졌다
 
 - **증상:** Serial in에 Extended ACL 적용 → `show ip route`에서 원격지 경로가 전부 사라짐 → Ping/서비스 전면 중단.
 - **원인 파악:**
@@ -177,7 +177,7 @@ show logging | include SEC-6-IPACCESSLOG
     1. `clear ip ospf process` 또는 `clear ip eigrp neighbors` 로 이웃 재수립.
 - **재발 방지:** ACL 설계 시 **라우팅 프로토콜 permit → 서비스 permit → deny any 순서**를 템플릿화.
 
-### 🚨 트러블슈팅 시나리오 2: EIGRP는 되는데 특정 이웃만 안 붙는다
+### 트러블슈팅 시나리오 2: EIGRP는 되는데 특정 이웃만 안 붙는다
 
 - **증상:** EIGRP Hello는 오는데 Neighbor 형성 후 즉시 Down 반복 (Stuck-in-Active).
 - **원인 파악:**
@@ -192,7 +192,7 @@ show logging | include SEC-6-IPACCESSLOG
     ```
     
 
-### 🚨 트러블슈팅 시나리오 3: 특정 서비스만 지연/타임아웃 (Fragment 문제)
+### 트러블슈팅 시나리오 3: 특정 서비스만 지연/타임아웃 (Fragment 문제)
 
 - **증상:** Ping은 되는데 대용량 데이터 전송(FTP, 대형 HTTP 응답)만 타임아웃.
 - **원인 파악:**
@@ -202,7 +202,7 @@ show logging | include SEC-6-IPACCESSLOG
     - 필요 시 `permit tcp any any` 같은 넓은 룰을 두거나, MTU/MSS 조정(`ip tcp adjust-mss 1360`)으로 분할 자체를 회피.
     - Anti-fragment ACL은 반드시 `fragments` 키워드로 명확히 구분.
 
-### ⚠️ Extended ACL 실무 체크리스트
+### Extended ACL 실무 체크리스트
 
 - [ ]  **출발지 인터페이스 in 방향**에 적용했는가?
 - [ ]  라우팅 프로토콜 permit이 **ACL 최상단**에 위치하는가?

@@ -1,11 +1,11 @@
-# ⚡ RIP 명령어 퀵 레퍼런스
+# RIP 명령어 퀵 레퍼런스
 
 > **Tag:** #Routing #RIP #QuickReference #RIPv2 #Authentication #CheatSheet
 > **핵심 요약:** RIPv2 설정·인증·Passive Interface·Timer·검증 명령어를 빠르게 조회하기 위한 암기 카드. 기본 구성은 `version 2`와 `no auto-summary`이며, `network`는 Classic IOS에서 Classful Major Network 기준으로 입력한다.
 
 ---
 
-## 1. 🛠️ RIPv2 기본 설정
+## 1. RIPv2 기본 설정
 
 ```cisco
 router rip
@@ -18,7 +18,7 @@ router rip
 
 ---
 
-## 2. 🚫 Passive Interface
+## 2. Passive Interface
 
 특정 Interface:
 
@@ -43,7 +43,7 @@ Passive ≠ 해당 Connected Network 광고 제거
 
 ---
 
-## 3. 🔐 RIPv2 MD5 인증
+## 3. RIPv2 MD5 인증
 
 ```cisco
 key chain RIP_AUTH
@@ -65,7 +65,7 @@ debug ip rip
 
 ---
 
-## 4. 📡 Unicast RIP Update
+## 4. Unicast RIP Update
 
 ```cisco
 router rip
@@ -82,7 +82,7 @@ debug ip rip
 
 ---
 
-## 5. ⚡ Triggered RIP Extension
+## 5. Triggered RIP Extension
 
 ```cisco
 interface Serial1/0
@@ -106,7 +106,7 @@ interface Serial1/0
 
 ---
 
-## 6. ⏱️ RIP Timer
+## 6. ⏱ RIP Timer
 
 ```cisco
 router rip
@@ -124,7 +124,7 @@ router rip
 
 ---
 
-## 7. 🔢 핵심 파라미터
+## 7. 핵심 파라미터
 
 | 항목 | 값 |
 |---|---|
@@ -141,7 +141,7 @@ router rip
 
 ---
 
-## 8. 🔄 루프 방지
+## 8. 루프 방지
 
 | 기능 | 동작 |
 |---|---|
@@ -154,7 +154,7 @@ router rip
 
 ---
 
-## 9. 🌐 RIPv1 vs RIPv2
+## 9. RIPv1 vs RIPv2
 
 | 항목 | RIPv1 | RIPv2 |
 |---|---|---|
@@ -168,7 +168,7 @@ router rip
 
 ---
 
-## 10. 🔍 검증 명령어
+## 10. 검증 명령어
 
 ```cisco
 show ip protocols
@@ -193,7 +193,7 @@ undebug all
 
 ---
 
-## 11. 🧪 연결성 검증
+## 11. 연결성 검증
 
 ```cisco
 show ip route <DESTINATION>
@@ -204,7 +204,7 @@ traceroute <DESTINATION> source <SOURCE>
 
 ---
 
-## 12. 🚨 증상별 Quick Check
+## 12. 증상별 Quick Check
 
 | 증상 | 먼저 확인 |
 |---|---|
@@ -221,7 +221,7 @@ traceroute <DESTINATION> source <SOURCE>
 
 ---
 
-## 13. ⚠️ 핵심 주의사항
+## 13. 핵심 주의사항
 
 ```properties
 show ip protocol  ❌

@@ -1,4 +1,4 @@
-# 1-1. ♟️ RIP (Routing Information Protocol) v1 & v2
+# RIP (Routing Information Protocol) v1 & v2
 
 > **Tag:** #Network #Cisco #RIP #Routing #IGP #DistanceVector
 > **핵심 요약:** **Distance Vector 기반의 IGP(Interior Gateway Protocol)**
@@ -6,7 +6,7 @@
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### RIP가 사장된 이유와 그럼에도 학습해야 하는 이유
 
@@ -24,10 +24,10 @@ RIPv1은 **Classful(서브넷 마스크 미포함) + Broadcast(255.255.255.255)*
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
 ````
-### 🎯 [표준] RIPv2 Full 설정 (권장)
+### [표준] RIPv2 Full 설정 (권장)
 
 ```cisco
 ! ========== R1 (Edge Router) ==========
@@ -62,7 +62,7 @@ router rip
  passive-interface fastethernet 0/0
 !
 ```
-### 🔐 MD5 인증 설정 (보안 강화 - 실무 필수)
+### MD5 인증 설정 (보안 강화 - 실무 필수)
 ```cisco
 ! ========== R1 & R2 공통 (양쪽 Key 반드시 일치) ==========
 key chain RIP_AUTH                        
@@ -75,7 +75,7 @@ interface serial 1/0
 !
 ```
 
-### ⚡ 성능 최적화 옵션
+### 성능 최적화 옵션
 ```cisco
 ! ---------- Triggered RIP (WAN P2P 전용) ----------
 interface serial 1/0
@@ -89,7 +89,7 @@ router rip
 !
 ```
 
-### ⏱️ RIP Timer 요약 (Convergence 이해 필수)
+### ⏱ RIP Timer 요약 (Convergence 이해 필수)
 |Timer|Default|역할|
 |---|---|---|
 |**Update**|30초|주기적 Full Update 송신 (±15% Jitter)|
@@ -99,9 +99,9 @@ router rip
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 ```cisco
 ! 라우팅 테이블 전체 확인
 show ip route
@@ -120,7 +120,7 @@ show key chain
 ping 172.16.3.3 source 13.13.10.254
 ```
 
-### 🩺 정상 동작 시 `debug ip rip` 출력 예시
+### 정상 동작 시 `debug ip rip` 출력 예시
 ```text
 RIP: sending v2 update to 224.0.0.9 via Serial1/0 (13.13.12.1)
 RIP: build update entries
@@ -130,7 +130,7 @@ RIP: build update entries
 
 ---
 
-### 🚨 장애 시나리오 #1 : "이웃 라우터의 경로가 학습되지 않는다"
+### 장애 시나리오 #1 : "이웃 라우터의 경로가 학습되지 않는다"
 
 **증상:** `show ip route rip` 결과 비어 있음. Ping 실패.
 
@@ -151,7 +151,7 @@ RIP: build update entries
 
 ---
 
-### 🚨 장애 시나리오 #2 : "특정 네트워크 다운 후 다른 라우터의 Convergence가 너무 느리다"
+### 장애 시나리오 #2 : "특정 네트워크 다운 후 다른 라우터의 Convergence가 너무 느리다"
 
 **증상:** 인터페이스 Shutdown 후 원격지에서 최대 **240초(Flush Timer)**까지 홀딩됨.
 
@@ -169,7 +169,7 @@ RIP: build update entries
 
 ---
 
-### 💡 실무 Tip: Route Poison vs Poison Reverse
+### 실무 Tip: Route Poison vs Poison Reverse
 
 |구분|방향|목적|
 |---|---|---|

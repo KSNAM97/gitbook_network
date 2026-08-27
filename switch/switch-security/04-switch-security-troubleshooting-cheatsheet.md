@@ -1,11 +1,11 @@
-# 🚑 Switch 보안 트러블슈팅 치트시트
+# Switch 보안 트러블슈팅 치트시트
 
 > **Tag:** #Network #Switch #Security #PortSecurity #SPAN #Cisco  
 > **핵심 요약:** Switch 보안 장애는 **Port 물리 상태 → Err-disable 원인 → Port-security Violation → Storm-control Counter → SPAN Session → VLAN/Trunk → L3 Gateway** 순서로 확인한다. Port가 Down이면 원인이 Port-security인지 Storm-control인지 BPDU Guard인지 먼저 분리해야 하며, `show interfaces status err-disabled`와 `show logging`이 그 분기점이다. SPAN이 잡히지 않는 문제는 대부분 방향 지정, Destination Port 충돌, RSPAN VLAN 경로 누락 중 하나다.
 
 ---
 
-## 1. 🎯 공통 진단 순서
+## 1. 공통 진단 순서
 
 ```properties
 [1]  Port가 물리적으로 Up인가?                 show interfaces status
@@ -33,7 +33,7 @@ link-flap / 기타  → 물리·케이블·SFP 경로로 진단
 
 ---
 
-## 2. 🛠️ 증상별 즉시 대응표
+## 2. 증상별 즉시 대응표
 
 | 증상 | 주요 원인 | 확인 | 조치 |
 |---|---|---|---|
@@ -57,7 +57,7 @@ link-flap / 기타  → 물리·케이블·SFP 경로로 진단
 
 ---
 
-## 3. 🔍 핵심 진단 명령어
+## 3. 핵심 진단 명령어
 
 ### Port 상태
 
@@ -109,11 +109,11 @@ show logging
 
 ---
 
-## 4. 🚨 대표 장애 시나리오
+## 4. 대표 장애 시나리오
 
 ### 시나리오 1. PC 교체 후 Port가 Secure-shutdown 상태가 됨
 
-#### 증상 → 원인
+#### 증상 원인
 
 ```properties
 Port Status = Secure-shutdown, 통신 불가
@@ -163,7 +163,7 @@ show interfaces status
 
 ### 시나리오 2. Violation Count는 증가하는데 Port는 Up 상태임
 
-#### 증상 → 원인
+#### 증상 원인
 
 ```properties
 증상 = 간헐적 통신 실패, Port는 Up
@@ -854,7 +854,7 @@ show interfaces status
 
 ---
 
-## 5. 🔧 안전한 변경 및 복구 절차
+## 5. 안전한 변경 및 복구 절차
 
 ```properties
 [1] 현재 확인 : show running-config interface <INTERFACE>

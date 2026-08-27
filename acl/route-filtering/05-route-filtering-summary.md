@@ -1,11 +1,11 @@
-# 🧩 라우팅 필터링 & 정책 제어 통합 정리
+# 라우팅 필터링 & 정책 제어 통합 정리
 
 > **Tag:** #Network #Routing #RouteFiltering #PrefixList #DistributeList #RouteMap #OffsetList #Bogon
 > **핵심 요약:** 라우팅 정책은 **무엇을 고를 것인가(Prefix-list/ACL) → 허용·차단할 것인가(Distribute-list) → 속성을 변경할 것인가(Route-map) → 기존 Metric에 가중치를 더할 것인가(Offset-list)**로 나눠 이해한다. Prefix-list는 Prefix Length까지 매칭하고, Distribute-list는 경로의 송수신을 필터링하며, Route-map은 Match+Set 정책을 수행한다. Offset-list는 RIP/EIGRP Metric을 증가시켜 경로 우선순위를 낮춘다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념
+## 1. 핵심 기술 개념
 
 ### Q1. 라우팅 정책 도구를 관통하는 하나의 구조는?
 
@@ -186,7 +186,7 @@ router eigrp 100
 
 ---
 
-## 2. 🛠️ Prefix-list 표준 설정
+## 2. Prefix-list 표준 설정
 
 ### 2-1. 기본 문법
 
@@ -253,7 +253,7 @@ no ip prefix-list NET172
 
 ---
 
-## 3. 🛡️ Bogon Route Filter
+## 3. Bogon Route Filter
 
 ### 3-1. Bogon 필터의 정확한 역할
 
@@ -351,7 +351,7 @@ Bogon Outbound 필터를 보조 방어선으로 함께 사용할 수 있지만, 
 
 ---
 
-## 4. 🔀 Distribute-list 표준 설정
+## 4. Distribute-list 표준 설정
 
 ### 4-1. ACL 기반
 
@@ -442,7 +442,7 @@ router ospf 1
 
 ---
 
-## 5. 🗺️ Route-map 표준 설정
+## 5. Route-map 표준 설정
 
 ### 5-1. 기본 구조
 
@@ -537,7 +537,7 @@ router eigrp 100
 
 ---
 
-## 6. ⚖️ Offset-list 표준 설정
+## 6. Offset-list 표준 설정
 
 ### 6-1. 기본 문법
 
@@ -604,7 +604,7 @@ router eigrp 100
 
 ---
 
-## 7. 🔍 검증 명령어
+## 7. 검증 명령어
 
 ### Prefix-list
 
@@ -654,7 +654,7 @@ show ip bgp regexp
 
 ---
 
-## 8. ⚠️ 실무 체크리스트
+## 8. 실무 체크리스트
 
 - [ ] 트래픽 ACL과 라우팅 Prefix-list를 구분했는가?
 - [ ] Prefix-list의 `ge/le` 범위를 정확히 계산했는가?

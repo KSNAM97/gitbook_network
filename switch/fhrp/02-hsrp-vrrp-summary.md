@@ -1,11 +1,11 @@
-# 🧩 HSRP & VRRP 통합 정리
+# HSRP & VRRP 통합 정리
 
 > **Tag:** #Network #FHRP #HSRP #VRRP #Redundancy #Cisco  
 > **핵심 요약:** FHRP는 단말이 바라보는 Gateway를 가상 IP와 가상 MAC으로 추상화하여 Gateway 단일 장애점을 제거하는 기술입니다. HSRP는 Cisco 전용 Active/Standby 구조이며 Preempt가 기본 비활성이고, VRRP는 RFC 표준 Master/Backup 구조이며 Preempt가 기본 활성입니다. 실무의 성패는 Interface Tracking 설계와 STP Root Bridge 위치 정합성에서 갈립니다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념
+## 1. 핵심 기술 개념
 
 ### Q1. FHRP는 무엇을 해결하는가?
 
@@ -434,7 +434,7 @@ show ip protocols
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿
+## 2. 표준 설정 템플릿
 
 ### 2-1. HSRP Active 및 Standby
 
@@ -524,7 +524,7 @@ show vrrp interface <INTERFACE>
 
 ---
 
-## 3. 🛡️ 안전한 적용 절차
+## 3. 안전한 적용 절차
 
 ```properties
 [1] 현재 확인 : State, Priority, Tracking, Routing, STP 위치 기록
@@ -566,7 +566,7 @@ interface <INTERFACE>
 
 ---
 
-## 4. ⚠️ 실무 체크리스트
+## 4. 실무 체크리스트
 
 - [ ] 같은 그룹의 모든 장비에 동일한 가상 IP와 Group 번호를 설정했는가?
 - [ ] HSRP Version이 양쪽에서 동일한가?

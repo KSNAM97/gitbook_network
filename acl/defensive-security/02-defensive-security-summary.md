@@ -1,11 +1,11 @@
-# 🧩 스위치 & 방어 보안 통합 정리 — Port-security·BPDU Guard·TCP Intercept
+# 스위치 & 방어 보안 통합 정리 — Port-security·BPDU Guard·TCP Intercept
 
 > **Tag:** #Network #Security #PortSecurity #BPDUGuard #ErrDisable #TCPIntercept #SYNFlood #DefensiveSecurity
 > **핵심 요약:** Port-security는 Access Port에서 허용할 Source MAC을 제한하는 L2 방어 기술이고, BPDU Guard는 사용자 포트로 들어오는 BPDU를 감지해 STP Loop를 차단한다. TCP Intercept는 보호 대상 서버로 향하는 TCP SYN을 감시하거나 Proxy 처리하여 SYN Flood를 완화한다. 각 기술은 방어 계층과 목적이 다르며, Port-security는 802.1X를, TCP Intercept는 ZBF·방화벽·DDoS Scrubbing을 대체하지 않는다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념
+## 1. 핵심 기술 개념
 
 ### Q1. Port-security와 TCP Intercept의 방어 계층은?
 
@@ -217,7 +217,7 @@ ZBF/NGFW/DDoS Appliance
 
 ---
 
-## 2. 🛠️ Port-security 설정
+## 2. Port-security 설정
 
 ### 2-1. Sticky 방식
 
@@ -318,7 +318,7 @@ errdisable recovery cause bpduguard
 
 ---
 
-## 3. 🧱 Access Layer 표준 템플릿
+## 3. Access Layer 표준 템플릿
 
 ### 3-1. 관리 접근 제어
 
@@ -404,7 +404,7 @@ interface GigabitEthernet0/1
 
 ---
 
-## 4. 🛡️ TCP Intercept 설정
+## 4. TCP Intercept 설정
 
 ### 4-1. Watch Mode
 
@@ -489,7 +489,7 @@ ip tcp intercept drop-mode oldest
 
 ---
 
-## 5. 🔍 검증 명령어
+## 5. 검증 명령어
 
 ### Port-security
 
@@ -532,7 +532,7 @@ undebug all
 
 ---
 
-## 6. ⚠️ 실무 체크리스트
+## 6. 실무 체크리스트
 
 - [ ] 포트 역할별로 PC, Phone, AP, Server, Uplink 프로파일을 분리했는가?
 - [ ] 실제 정상 Source MAC 개수를 확인했는가?

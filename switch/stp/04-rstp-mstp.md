@@ -1,11 +1,11 @@
-# 🚀 RSTP & MSTP (고속 수렴 & 초대형망 STP)
+# RSTP & MSTP (고속 수렴 & 초대형망 STP)
 
 > **Tag:** #network #rstp #mstp #802.1w #802.1s #convergence
 > **핵심 요약:** PVST의 느린 수렴을 해결한 RSTP, 128개 STP 한계를 넘는 MSTP
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### RSTP(802.1w)가 기존 PVST보다 빠른 이유
 
@@ -19,7 +19,7 @@ PVST는 **VLAN당 STP 인스턴스 1개**를 돌려 최대 128개까지만 지�
 
 MSTP는 CST(단일 STP, 부하 적음)와 PVST(유연함)의 장점을 결합한다. STP Mode를 MST로 바꾸면 기본 동작은 **RSTP**가 된다. **MST0(IST)** 는 별도 매핑하지 않은 모든 VLAN을 관리하는 기본 인스턴스다.
 
-### 📊 PVST vs RSTP Port 상태 매핑
+### PVST vs RSTP Port 상태 매핑
 
 | PVST | RSTP |
 |------|------|
@@ -30,9 +30,9 @@ MSTP는 CST(단일 STP, 부하 적음)와 PVST(유연함)의 장점을 결합한
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 RSTP (Rapid-PVST) 구성
+### RSTP (Rapid-PVST) 구성
 
 ```cisco
 ! === 모든 스위치를 RSTP 모드로 전환 ===
@@ -44,7 +44,7 @@ SW3(config)# spanning-tree mode rapid-pvst
 SW2(config)# spanning-tree vlan 1 priority 4096     ! Root-bridge
 SW3(config)# spanning-tree vlan 1 priority 16384    ! Backup Root
 ```
-### 📌 MST Region 구성 (VLAN-to-Instance 매핑)
+### MST Region 구성 (VLAN-to-Instance 매핑)
 
 ```cisco
 ! === MST Region 설정 (모든 스위치에서 이름·Revision·매핑이 완전히 동일해야 함) ===
@@ -60,7 +60,7 @@ SW1(config-mst)# end
 SW1(config)# spanning-tree mst 1 priority 4096   ! Instance 1 Root
 SW2(config)# spanning-tree mst 2 priority 4096   ! Instance 2 Root
 ```
-### 📌 MST Cost 값 (PVST와 다름 - 주의)
+### MST Cost 값 (PVST와 다름 - 주의)
 
 ```properties
 # MST는 별도의 Long-path Cost 체계 사용
@@ -74,9 +74,9 @@ SW2(config)# spanning-tree mst 2 priority 4096   ! Instance 2 Root
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 
 ```cisco
 Switch# show spanning-tree                        ! RSTP 동작 및 Port Role 확인
@@ -86,13 +86,13 @@ Switch# show spanning-tree mst configuration       ! Region 이름/VLAN 매핑 �
 Switch# debug spanning-tree events                 ! Proposal/Agreement 로그 확인
 ```
 
-### 🚨 장애 시나리오 1: RSTP인데 수렴이 느림 (PVST처럼 동작)
+### 장애 시나리오 1: RSTP인데 수렴이 느림 (PVST처럼 동작)
 
 - **증상:** RSTP 설정 후에도 30초 지연 발생.
 - **원인 파악:** 상대 스위치가 **PVST(802.1D)** 로 동작 중이면, RSTP는 호환을 위해 해당 포트를 **레거시 STP로 fallback**함.
 - **해결:** 모든 스위치를 `spanning-tree mode rapid-pvst`로 통일. `show spanning-tree`에서 protocol이 rstp인지 확인.
 
-### 🚨 장애 시나리오 2: MSTP 스위치 간 VLAN 매핑이 동기화 안 됨
+### 장애 시나리오 2: MSTP 스위치 간 VLAN 매핑이 동기화 안 됨
 
 - **증상:** 일부 스위치가 다른 Region으로 인식되어 MST0(IST)로만 통신.
 - **원인 파악:** MSTP는 **Region Name + Revision + VLAN-to-Instance 매핑**이 **완전히 일치**해야 같은 Region으로 묶임. 한 글자라도 다르면 별도 Region.

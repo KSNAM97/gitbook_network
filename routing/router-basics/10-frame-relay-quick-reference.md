@@ -1,11 +1,11 @@
-# ⚡ Frame-relay 명령어 퀵 레퍼런스
+# Frame-relay 명령어 퀵 레퍼런스
 
 > **Tag:** #Network #QuickReference #FrameRelay #DLCI #LMI #WAN #CheatSheet
 > **핵심 요약:** Frame-relay 설정·검증 명령어를 빠르게 조회하기 위한 암기 카드. DLCI는 로컬 식별자이며, Multipoint에서는 라우팅 프로토콜을 위한 `broadcast` 키워드가 필수다.
 
 ---
 
-## 1. 🛠️ FR-Switch 설정
+## 1. FR-Switch 설정
 
 ```cisco
 ! FR-Switch 역할 활성화
@@ -30,7 +30,7 @@ frame-relay route 103 interface serial 1/2 301
 
 ---
 
-## 2. 🛠️ 주 Interface (Multipoint — Static Map)
+## 2. 주 Interface (Multipoint — Static Map)
 
 ```cisco
 interface serial 1/0
@@ -55,7 +55,7 @@ interface serial 1/0
 
 ---
 
-## 3. 🛠️ Sub-interface Point-to-Point
+## 3. Sub-interface Point-to-Point
 
 ```cisco
 interface serial 1/0
@@ -84,7 +84,7 @@ interface serial 1/0.13 point-to-point
 
 ---
 
-## 4. 🛠️ Sub-interface Multipoint (Hub-and-Spoke)
+## 4. Sub-interface Multipoint (Hub-and-Spoke)
 
 ### Hub
 
@@ -116,7 +116,7 @@ interface serial 1/0.123 multipoint
 
 ---
 
-## 5. 🛠️ LMI Type 수동 지정
+## 5. LMI Type 수동 지정
 
 ```cisco
 interface serial 1/0
@@ -127,7 +127,7 @@ interface serial 1/0
 
 ---
 
-## 6. 🛠️ Split-horizon 비활성화 (Multipoint Hub)
+## 6. Split-horizon 비활성화 (Multipoint Hub)
 
 ```cisco
 ! EIGRP
@@ -141,7 +141,7 @@ interface serial 1/0.123
 
 ---
 
-## 7. 🔍 검증 명령어
+## 7. 검증 명령어
 
 ### 7-1. VC / DLCI 상태
 
@@ -195,7 +195,7 @@ show ip route
 
 ---
 
-## 8. 🔢 구성 방식 비교 요약
+## 8. 구성 방식 비교 요약
 
 | 방식 | 명령 | map 필요 | broadcast 필요 | Split-horizon |
 |------|------|----------|----------------|---------------|
@@ -205,7 +205,7 @@ show ip route
 
 ---
 
-## 9. 🚨 증상별 Quick Check
+## 9. 증상별 Quick Check
 
 | 증상 | 먼저 확인 |
 |------|-----------|
@@ -218,7 +218,7 @@ show ip route
 
 ---
 
-## 10. ⚠️ 핵심 주의사항
+## 10. 핵심 주의사항
 
 ```properties
 DLCI = 로컬 식별자 (양단이 달라도 정상)

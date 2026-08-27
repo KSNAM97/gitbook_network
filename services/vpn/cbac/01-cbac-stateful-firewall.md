@@ -1,11 +1,11 @@
-# 🛡️ CBAC (Context-Based Access Control)
+# CBAC (Context-Based Access Control)
 
 > **Tag:** #network #security #cbac #stateful-firewall #ids #ips #dos #cisco
 > **핵심 요약:** 세션 상태를 추적해 "내부→외부 허용, 외부→내부 차단"을 자동 구현하는 IOS 상태 기반 방화벽. L7 검사·DoS 방어·URL 필터까지 지원
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### 일반 ACL, Reflexive ACL, CBAC의 차이와 방화벽/IDS/IPS의 관계
 
@@ -19,7 +19,7 @@ CBAC은 Half-open 세션(3-way handshake 미완성) 개수를 모니터링해, �
 
 Half-open이 비정상적으로 많다는 것은 응답을 받지 못하는 연결 시도가 폭주한다는 뜻으로, 전형적인 SYN Flood 신호다. UDP는 handshake가 없어 half-open 개념이 없다.
 
-### 📊 CBAC 세션 타이머 (기본값)
+### CBAC 세션 타이머 (기본값)
 
 | 프로토콜 | 유휴 타임아웃 | 비고 |
 |----------|:-------------:|------|
@@ -29,7 +29,7 @@ Half-open이 비정상적으로 많다는 것은 응답을 받지 못하는 연�
 | **ICMP** | 10초 | 무응답 시 entry 제거 |
 | **TCP synwait** | 30초 | SYN 후 미응답 시 삭제 |
 
-### 📊 방화벽 계열 비교
+### 방화벽 계열 비교
 
 | 구분 | 역할 | 배치 | 차단 여부 |
 |------|------|------|:---------:|
@@ -39,9 +39,9 @@ Half-open이 비정상적으로 많다는 것은 응답을 받지 못하는 연�
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 CBAC 기본 구성 (내부→외부 허용, 외부→내부 차단)
+### CBAC 기본 구성 (내부외부 허용, 외부내부 차단)
 
 ```cisco
 ! === [1] 외부→내부 인바운드 ACL : 기본 차단 + 필수 트래픽만 허용 ===
@@ -60,7 +60,7 @@ interface serial 1/0.10
  ip inspect CBAC out             ! 내부→외부는 검사(상태기록)
 ```
 
-### 📌 Half-open 세션 기반 DoS 방어
+### Half-open 세션 기반 DoS 방어
 
 ```cisco
 Copy! 전체 Half-open TCP 세션 임계치
@@ -75,7 +75,7 @@ ip inspect one-minute low 800
 ip inspect tcp max-incomplete host 50 block-time 2   ! 호스트당 50개 초과 시 2분 차단
 ```
 
-### 📌 세션 타이머 조정
+### 세션 타이머 조정
 
 ```cisco
 Copyip inspect tcp synwait-time 30            ! SYN 후 대기(기본 30초)
@@ -85,7 +85,7 @@ ip inspect udp idle-time 30               ! UDP 유휴(기본 30초)
 ip inspect dns idle-time 5                ! DNS(기본 5초)
 ```
 
-### 📌 URL 필터링 (특정 사이트 허용/차단)
+### URL 필터링 (특정 사이트 허용/차단)
 
 ```cisco
 Copyip inspect name CBAC http urlfilter
@@ -95,9 +95,9 @@ ip urlfilter exclusive-domain deny www.google.co.kr    ! 차단 도메인
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 
 ```cisco
 CopyRouter# show ip inspect session          ! 추적 중 세션 (SIS_OPEN)
@@ -107,7 +107,7 @@ Router# show ip inspect all               ! 전체 CBAC 상태
 Router# show ip access-lists              ! ACL 매칭 카운터
 ```
 
-### 📊 `show ip inspect session` 판독
+### `show ip inspect session` 판독
 
 ```text
 CopySession (192.168.1.1:23234)=>(200.20.2.2:23) tcp SIS_OPEN
@@ -115,17 +115,17 @@ CopySession (192.168.1.1:23234)=>(200.20.2.2:23) tcp SIS_OPEN
 
 내부(192.168.1.1)가 외부(200.20.2.2:23)로 연 TCP 세션 → 이 세션의 응답만 자동 허용.
 
-### 🚨 장애 시나리오 1: 내부→외부는 되는데 응답이 안 돌아옴
+### 장애 시나리오 1: 내부외부는 되는데 응답이 안 돌아옴
 
 - **원인 파악:** `ip inspect`를 **안 걸었거나 방향이 틀림.** 나가는 방향(out)에 inspect가 있어야 상태 기록 + 반환 구멍 생성.
 - **해결:** 나가는 방향에 `ip inspect [규칙] out` 확인. `show ip inspect session`에 세션이 잡히는지 점검.
 
-### 🚨 장애 시나리오 2: 라우팅(OSPF) 인접이 끊김
+### 장애 시나리오 2: 라우팅(OSPF) 인접이 끊김
 
 - **원인 파악:** 인바운드 ACL이 **OSPF(224.0.0.5)를 차단.** CBAC은 라우팅을 자동 허용하지 않음.
 - **해결:** 인바운드 ACL 최상단에 `permit ospf ... host 224.0.0.5` 추가.
 
-### 🚨 장애 시나리오 3 (핵심): NAT + IPsec + CBAC 통합 시 VPN이 안 됨
+### 장애 시나리오 3 (핵심): NAT + IPsec + CBAC 통합 시 VPN이 안 됨
 
 이 셋을 한 라우터에 함께 쓸 때 **순서·예외 처리**가 틀리면 VPN이 깨집니다. 세 가지를 모두 챙겨야 합니다:
 

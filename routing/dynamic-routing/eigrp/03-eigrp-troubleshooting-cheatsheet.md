@@ -1,11 +1,11 @@
-# 🚑 EIGRP 트러블슈팅 치트시트
+# EIGRP 트러블슈팅 치트시트
 
 > **Tag:** #EIGRP #Routing #Troubleshooting #DUAL #SIA #FeasibleSuccessor #CheatSheet
 > **핵심 요약:** EIGRP 장애는 **Interface/L2 → EIGRP 활성 여부 → AS/K값 → Passive → 인증 → Neighbor → Topology → RIB** 순서로 확인한다. Neighbor 장애는 설정 정합성과 연결 상태를 확인하고, SIA는 Active Route의 Reply가 지연되는 원인을 찾아 Stub·Summary·계층화로 Query 범위를 줄인다.
 
 ---
 
-## 1. 🎯 핵심 진단 순서
+## 1. 핵심 진단 순서
 
 ```properties
 [1] Interface up/up
@@ -27,7 +27,7 @@
 
 ---
 
-## 2. 🛠️ 증상별 즉시 대응표
+## 2. 증상별 즉시 대응표
 
 ### 2-1. Neighbor
 
@@ -55,7 +55,7 @@
 
 ---
 
-## 3. 🔍 핵심 진단 명령어
+## 3. 핵심 진단 명령어
 
 ```cisco
 show ip interface brief
@@ -72,7 +72,7 @@ show running-config | section router eigrp
 
 ---
 
-## 4. 🚨 트러블슈팅 시나리오
+## 4. 트러블슈팅 시나리오
 
 ### 시나리오 1. Neighbor 미형성
 
@@ -333,7 +333,7 @@ router eigrp 100
 
 ---
 
-## 5. 🐞 Debug
+## 5. Debug
 
 ```cisco
 debug eigrp packets hello
@@ -353,7 +353,7 @@ undebug all
 
 ---
 
-## 6. 🔧 현장 Quick Check
+## 6. 현장 Quick Check
 
 ```cisco
 show ip interface brief

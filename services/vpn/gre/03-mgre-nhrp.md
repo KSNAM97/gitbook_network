@@ -1,11 +1,11 @@
-# 🌐 mGRE & NHRP (Multipoint GRE)
+# mGRE & NHRP (Multipoint GRE)
 
 > **Tag:** #network #vpn #mgre #nhrp #dmvpn #hub-spoke #cisco
 > **핵심 요약:** 하나의 터널로 다수 지사를 연결하는 멀티포인트 GRE. NHRP로 터널IP↔공인IP를 매핑 (DMVPN의 기반)
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### 지사가 많아질 때 일반 GRE 대신 mGRE를 쓰는 이유
 
@@ -27,9 +27,9 @@ EIGRP를 쓸 경우, Hub는 한 지사에서 배운 경로를 같은 터널로 �
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 mGRE + NHRP (Hub-Spoke)
+### mGRE + NHRP (Hub-Spoke)
 
 ```cisco
 ! === Hub (NHRP Server) ===
@@ -54,7 +54,7 @@ Spoke(config-if)# ip nhrp map 172.16.123.1 121.160.14.1  ! Hub 터널IP↔공인
 Copy
 ````
 
-### 📌 라우팅 프로토콜 연동 (터널 타입 조정)
+### 라우팅 프로토콜 연동 (터널 타입 조정)
 
 ```cisco
 ! === EIGRP : Hub에서 split-horizon 해제 ===
@@ -68,9 +68,9 @@ Router(config-if)# ip ospf network point-to-multipoint  ! P2P → 멀티포인�
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 
 ```cisco
 Router# show ip nhrp                     ! NHRP 매핑 테이블 (터널IP↔NBMA)
@@ -80,13 +80,13 @@ Router# show ip route                     ! 터널 경로 + 사설망 경로 확
 Router# show ip ospf neighbor             ! 멀티 인접 형성 확인
 ```
 
-### 📊 `show ip nhrp` 판독
+### `show ip nhrp` 판독
 
 - **static** : 관리자가 수동 매핑한 항목 (지사→Hub)
 - **dynamic** : Hub가 지사로부터 자동 학습한 항목 (Hub에서 확인)
 - **NBMA address** : 해당 터널 IP에 대응하는 실제 공인 IP
 
-### 🚨 장애 시나리오 1: 지사가 NHRP 등록이 안 됨
+### 장애 시나리오 1: 지사가 NHRP 등록이 안 됨
 
 - **원인 파악:**
     1. **network-id 또는 authentication 불일치** — Hub/지사가 동일해야 함.
@@ -94,12 +94,12 @@ Router# show ip ospf neighbor             ! 멀티 인접 형성 확인
     3. Hub에 `ip nhrp map multicast dynamic` 누락.
 - **해결:** network-id/인증 일치 확인 → 지사의 nhs/map 설정 확인 → `show ip nhrp dynamic`(Hub)에 지사가 등록됐는지 확인.
 
-### 🚨 장애 시나리오 2: OSPF 인접이 1개만 맺힘 (다수 지사인데)
+### 장애 시나리오 2: OSPF 인접이 1개만 맺힘 (다수 지사인데)
 
 - **원인 파악:** 터널 OSPF 타입이 기본 **point-to-point**라 멀티 인접 불가.
 - **해결:** 모든 터널에 `ip ospf network point-to-multipoint` 적용. (또는 non-broadcast + Hub를 DR로 고정, 지사 priority 0)
 
-### 🚨 장애 시나리오 3: EIGRP에서 지사끼리 경로를 못 배움
+### 장애 시나리오 3: EIGRP에서 지사끼리 경로를 못 배움
 
 - **원인 파악:** Hub에서 **split-horizon**이 켜져 있어, 한 지사에서 배운 경로를 같은 터널의 다른 지사로 재광고하지 못함.
 - **해결:** Hub 터널에 `no ip split-horizon eigrp [AS]` 설정.

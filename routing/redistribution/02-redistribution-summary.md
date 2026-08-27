@@ -1,11 +1,11 @@
-# 🧩 라우팅 재분배 통합 정리 — Redistribution 설계 한눈에
+# 라우팅 재분배 통합 정리 — Redistribution 설계 한눈에
 
 > **Tags:** #Routing #Redistribution #OSPF #EIGRP #RIPv2 #RouteMap #PrefixList #Summary  
 > **핵심 요약:** 재분배는 서로 다른 라우팅 프로토콜의 경로를 다른 프로토콜로 주입하는 기능이다. 주요 위험은 **라우팅 루프·차선 경로·의도하지 않은 Prefix 광고·Seed Metric 오류**다. 실무에서는 Prefix-list로 대상을 분류하고, Route-map으로 허용·차단·Metric·Tag 정책을 적용한다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념
+## 1. 핵심 기술 개념
 
 ### Q1. 재분배에서 가장 먼저 통제해야 할 것은?
 
@@ -105,7 +105,7 @@ set metric 100
 
 ---
 
-## 2. 🧱 재분배 설계 구조
+## 2. 재분배 설계 구조
 
 ### 2-1. 재분배 4단계
 
@@ -132,7 +132,7 @@ set metric 100
 
 ---
 
-## 3. 🔢 주요 AD 및 Metric
+## 3. 주요 AD 및 Metric
 
 ### 3-1. Administrative Distance
 
@@ -177,9 +177,9 @@ metric 100000 10 255 1 1500
 
 ---
 
-## 4. 🛠️ 표준 설정 템플릿
+## 4. 표준 설정 템플릿
 
-### 4-1. Connected → OSPF
+### 4-1. Connected OSPF
 
 ```cisco
 ! R2: 13.13.12.0/24만 OSPF로 재분배
@@ -197,7 +197,7 @@ Route-map에 매치되지 않은 Connected 경로는 재분배되지 않는다.
 
 ---
 
-### 4-2. RIPv2 → OSPF
+### 4-2. RIPv2 OSPF
 
 ```cisco
 ! RFC1918 차단용 분류
@@ -237,7 +237,7 @@ router ospf 1
 
 ---
 
-### 4-3. OSPF → RIPv2
+### 4-3. OSPF RIPv2
 
 ```cisco
 router rip
@@ -278,7 +278,7 @@ router rip
 
 ---
 
-### 4-5. EIGRP → OSPF
+### 4-5. EIGRP OSPF
 
 ```cisco
 ip prefix-list EIGRP_E2 permit 4.1.1.0/24
@@ -301,7 +301,7 @@ Sequence 20에는 `match`가 없으므로 이전 Sequence에 매치되지 않은
 
 ---
 
-### 4-6. OSPF → EIGRP
+### 4-6. OSPF EIGRP
 
 ```cisco
 ip prefix-list TAG100 permit 199.171.0.0/21 le 32
@@ -371,7 +371,7 @@ ip prefix-list EXAMPLE permit 199.171.0.0/21 le 32
 
 ---
 
-## 6. 🔍 검증 명령어
+## 6. 검증 명령어
 
 ```cisco
 show ip route
@@ -403,7 +403,7 @@ show ip eigrp topology <prefix>/<length>
 
 ---
 
-## 7. 📌 핵심 정리
+## 7. 핵심 정리
 
 - 재분배 전 원본 RIB에 경로가 존재하는지 먼저 확인
 - Prefix-list `permit`은 Route-map에서 처리할 경로를 선택

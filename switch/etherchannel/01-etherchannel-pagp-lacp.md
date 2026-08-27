@@ -1,11 +1,11 @@
-# 🔗 EtherChannel (Link Aggregation)
+# EtherChannel (Link Aggregation)
 
 > **Tag:** #network #etherchannel #pagp #lacp #link-aggregation #cisco
 > **핵심 요약:** 다수의 물리 링크를 하나의 논리 링크로 묶어 대역폭 증대 + STP Loop 회피 + 이중화를 동시 달성
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### 다중 링크를 EtherChannel로 묶어야 하는 이유
 
@@ -19,7 +19,7 @@ EtherChannel은 대역폭 증대뿐 아니라 **링크 이중화**도 제공한�
 
 PAgP는 지원 포트 최대 8개, LACP는 최대 16개 구성 가능(**8개 active + 8개 standby/hot-standby**)하다. `on` 모드는 협상 프로토콜 없이 강제로 묶는 방식으로 상대 설정을 확인하지 못해 Loop 위험이 있어 **실무 비권장**이다. SPAN(포트 미러링)이나 Port-security가 설정된 포트에는 EtherChannel을 구성할 수 없다.
 
-### 📊 모드 호환성 매트릭스 (반드시 암기)
+### 모드 호환성 매트릭스 (반드시 암기)
 
 | SW1 | SW2 | 채널 형성? |
 |-----|-----|:----------:|
@@ -34,9 +34,9 @@ PAgP는 지원 포트 최대 8개, LACP는 최대 16개 구성 가능(**8개 act
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 L2 EtherChannel - PAgP (Cisco 전용)
+### L2 EtherChannel - PAgP (Cisco 전용)
 
 ```cisco
 ! === 논리 인터페이스(Port-channel)에 Trunk 설정 ===
@@ -50,7 +50,7 @@ SW1(config-if)# channel-protocol pagp                ! 프로토콜 명시
 SW1(config-if)# channel-group 12 mode desirable      ! 능동 협상 (상대는 desirable/auto)
 ```
 
-### 📌 L2 EtherChannel - LACP (표준, 타사 연동)
+### L2 EtherChannel - LACP (표준, 타사 연동)
 
 ```cisco
 SW2(config)# interface port-channel 23
@@ -62,7 +62,7 @@ SW2(config-if)# channel-protocol lacp
 SW2(config-if)# channel-group 23 mode active          ! 능동 협상 (상대는 active/passive)
 ```
 
-### 📌 L3 EtherChannel (라우팅용 논리 링크)
+### L3 EtherChannel (라우팅용 논리 링크)
 
 ```cisco
 SW1(config)# ip routing                               ! L3 라우팅 활성화 필수
@@ -81,9 +81,9 @@ SW1(config-if)# channel-group 12 mode desirable
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 
 ```cisco
 Switch# show etherchannel summary          ! 채널 상태 한눈에 확인 (가장 중요)
@@ -93,7 +93,7 @@ Switch# show interface trunk               ! Po가 trunk로 동작하는지 확�
 Switch# show spanning-tree                  ! STP가 Po를 단일 포트로 인식하는지
 ```
 
-### 📊 `show etherchannel summary` Flag 판독 (핵심)
+### `show etherchannel summary` Flag 판독 (핵심)
 
 ```text
 12  Po12(SU)   PAgP   Gi3/2(P) Gi3/3(P)
@@ -106,7 +106,7 @@ Switch# show spanning-tree                  ! STP가 Po를 단일 포트로 인�
 - **(s)** : suspended → **일시 중단 (설정 불일치)**
 - **(D)** : down
 
-### 🚨 장애 시나리오 1: 채널이 형성 안 됨 (포트가 I 또는 s 상태)
+### 장애 시나리오 1: 채널이 형성 안 됨 (포트가 I 또는 s 상태)
 
 - **원인 파악 (순서대로):**
     1. **모드 조합 오류** — 양쪽 다 auto 또는 passive면 형성 안 됨. 최소 한쪽은 능동으로.
@@ -114,7 +114,7 @@ Switch# show spanning-tree                  ! STP가 Po를 단일 포트로 인�
     3. **멤버 포트 설정 불일치** — 속도/듀플렉스/트렁크 모드/allowed VLAN/native VLAN이 멤버 포트 간 다르면 suspended.
 - **해결:** 양쪽 모드/프로토콜 통일 후, `show etherchannel summary`로 (P) 확인.
 
-### 🚨 장애 시나리오 2: 채널은 up인데 트래픽이 한쪽 링크로만 쏠림
+### 장애 시나리오 2: 채널은 up인데 트래픽이 한쪽 링크로만 쏠림
 
 - **증상:** 링크는 다 살아있는데 특정 물리 링크만 부하가 높음.
 - **원인 파악:** EtherChannel은 **로드밸런싱 해시** 기준(src-mac / dst-mac / src-dst-ip 등)에 따라 링크를 선택하는데, 트래픽 패턴이 편중되면 특정 링크에 몰림.
@@ -125,7 +125,7 @@ Switch# show spanning-tree                  ! STP가 Po를 단일 포트로 인�
     ```
     
 
-### 🚨 장애 시나리오 3: L2 EtherChannel 구성 시도했는데 거부됨
+### 장애 시나리오 3: L2 EtherChannel 구성 시도했는데 거부됨
 
 - **원인 파악:** 해당 포트에 **SPAN(모니터링) 또는 Port-security**가 설정되어 있음.
 - **해결:** 해당 기능을 먼저 제거한 후 EtherChannel 구성.

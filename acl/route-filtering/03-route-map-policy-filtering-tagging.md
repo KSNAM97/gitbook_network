@@ -1,4 +1,4 @@
-# 3-2-3. 🗺️  Route-map을 활용한 정책 기반 필터링 & Tagging
+# Route-map을 활용한 정책 기반 필터링 & Tagging
 
 > **Tag:** #Network #Cisco #ACL #Security #AccessControl #RouteMap #PolicyRouting
 > **핵심 요약:** ACL/Prefix-list 위에서 동작하는 정책 엔진 - 라우팅 세계의 if-then-else
@@ -6,7 +6,7 @@
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### Distribute-list와 Route-map의 선택 기준
 
@@ -28,9 +28,9 @@ Distribute-list는 매치 조건만 있고 액션이 없어 통과/차단 이분
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 Route-map 기본 구조
+### Route-map 기본 구조
 
 ```cisco
 ! [문법]
@@ -41,7 +41,7 @@ route-map <이름> {permit | deny} <시퀀스>
 !
 ! ★ 마지막에 암묵적 deny 존재 → 명시적 permit 라인이 반드시 필요
 ```
-### 📌 Distribute-list와 Route-map 비교 (동일 정책 4가지 방식)
+### Distribute-list와 Route-map 비교 (동일 정책 4가지 방식)
 ```cisco
 ! [시나리오] R3은 R5로부터 13.13.5.0/24, 13.13.15.0/24, 198.198.x.x/16 만 수신
 !
@@ -87,7 +87,7 @@ router eigrp 100
  distribute-list route-map EIGRP_IN in FastEthernet0/0
 !
 ```
-### 📌 Tagging - 경로에 메타데이터 부여 (송신 측)
+### Tagging - 경로에 메타데이터 부여 (송신 측)
 ```cisco
 ! [시나리오] R4가 "199.171.8.0/24 ~ 199.171.15.0/24" 대역에 tag 100 부여 후 광고
 !
@@ -103,7 +103,7 @@ router eigrp 100
  distribute-list route-map R4_TAG100 out FastEthernet0/0
 !
 ```
-### 📌 Tag 기반 필터링 (수신 측)
+### Tag 기반 필터링 (수신 측)
 ```cisco
 ! [시나리오] R5는 tag 100이 붙은 경로를 EIGRP로 수신하지 않음 (ACL/Prefix-list 사용 금지)
 !
@@ -116,7 +116,7 @@ router eigrp 100
  distribute-list route-map TAG100_DENY in FastEthernet0/0
 !
 ```
-### 📌 다단계 정책 - 사설 차단 + Tag 부여 + 나머지 처리
+### 다단계 정책 - 사설 차단 + Tag 부여 + 나머지 처리
 ```cisco
 ! [시나리오]
 !  1) R1은 R4로부터 수신하는 모든 사설 네트워크를 차단
@@ -143,7 +143,7 @@ router eigrp 100
  distribute-list route-map EIGRP_FILTER in FastEthernet0/0
 !
 ```
-### 📌 Match 조건의 OR / AND 예시
+### Match 조건의 OR / AND 예시
 ```cisco
 ! ===== OR 조건 (같은 줄) =====
 route-map POLICY permit 10
@@ -163,7 +163,7 @@ route-map FILTER deny 10
 route-map FILTER permit 20                              ! 나머지 허용
 !
 ```
-### 📌 Match 조건 종류 (자주 쓰는 것)
+### Match 조건 종류 (자주 쓰는 것)
 
 |Match 구문|매치 대상|
 |---|---|
@@ -176,7 +176,7 @@ route-map FILTER permit 20                              ! 나머지 허용
 |`match metric <값>`|메트릭 값|
 |`match route-type`|internal/external/level-1/level-2|
 
-### 📌 Set 액션 종류 (자주 쓰는 것)
+### Set 액션 종류 (자주 쓰는 것)
 
 |Set 구문|액션|
 |---|---|
@@ -190,9 +190,9 @@ route-map FILTER permit 20                              ! 나머지 허용
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 ```cisco
 ! Route-map 설정 확인
 show route-map
@@ -220,7 +220,7 @@ show ip eigrp topology | include tag is 150
 ! Route-map 매치 통계 (hit count)
 show route-map EIGRP_FILTER | include matches
 ```
-### 🚨 트러블슈팅 시나리오 1: Route-map 적용 후 모든 경로가 사라졌다
+### 트러블슈팅 시나리오 1: Route-map 적용 후 모든 경로가 사라졌다
 
 - **증상:** Route-map으로 특정 대역만 차단하려 했는데 라우팅 테이블이 통째로 비어버림.
 - **원인 파악:**
@@ -238,7 +238,7 @@ show route-map EIGRP_FILTER | include matches
     
 - **재발 방지:** Route-map 작성 시 항상 "deny 조건들 → 마지막에 빈 permit" 패턴 유지.
 
-### 🚨 트러블슈팅 시나리오 2: Match 조건이 OR인 줄 알았는데 AND로 동작
+### 트러블슈팅 시나리오 2: Match 조건이 OR인 줄 알았는데 AND로 동작
 
 - **증상:** "tag 100 또는 200이면 차단" 하려고 두 줄로 썼는데 아무것도 차단 안 됨.
 - **원인 파악:**
@@ -264,7 +264,7 @@ show route-map EIGRP_FILTER | include matches
     ```
     
 
-### 🚨 트러블슈팅 시나리오 3: Tag 설정했는데 다음 라우터에서 안 보임
+### 트러블슈팅 시나리오 3: Tag 설정했는데 다음 라우터에서 안 보임
 
 - **증상:** R4에서 `set tag 100` 했는데 R1의 라우팅 테이블에는 tag가 안 보임.
 - **원인 파악:**
@@ -281,7 +281,7 @@ show route-map EIGRP_FILTER | include matches
     
 - **주의:** RIP는 tag 필드 지원 (v2), EIGRP/OSPF/BGP 모두 지원. RIPv1은 지원 안 함.
 
-### 🚨 트러블슈팅 시나리오 4: 재분배 후 Tag가 사라진다
+### 트러블슈팅 시나리오 4: 재분배 후 Tag가 사라진다
 
 - **증상:** EIGRP → OSPF로 재분배할 때 EIGRP에서 붙인 tag가 OSPF에서 안 보임.
 - **원인 파악:**
@@ -299,7 +299,7 @@ show route-map EIGRP_FILTER | include matches
     
 - **재발 방지:** 재분배 구간에서는 반드시 tag 유지 여부를 검증하는 절차 필수.
 
-### ⚠️ Route-map 실무 체크리스트
+### Route-map 실무 체크리스트
 
 - [ ]  Route-map 마지막에 **명시적 permit** 라인이 있는가? (없으면 암묵적 deny)
 - [ ]  Match 조건의 **OR(같은 줄) / AND(다른 줄)** 을 정확히 이해했는가?

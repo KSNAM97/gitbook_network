@@ -1,11 +1,11 @@
-# ⚡ STP Fast 계열 (PortFast / UplinkFast / BackboneFast)
+# STP Fast 계열 (PortFast / UplinkFast / BackboneFast)
 
 > **Tag:** #network #stp #portfast #uplinkfast #backbonefast #convergence
 > **핵심 요약:** STP의 느린 Convergence(30~50초)를 단축하는 3가지 가속 기능
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### PortFast의 적용 대상과 위험성
 
@@ -21,9 +21,9 @@ UplinkFast는 Block 포트를 가진 **Access 계층 스위치에서만** 설정
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 PortFast + BPDUguard (단말 포트 표준 세트)
+### PortFast + BPDUguard (단말 포트 표준 세트)
 
 ```cisco
 ! 단말(PC/Server) 연결 포트의 정석 조합
@@ -35,14 +35,14 @@ Switch(config-if)# spanning-tree portfast            ! 즉시 Forwarding 전환
 ! === 전체 포트 일괄 적용 (Access 포트에만 자동 적용, 운영망에선 주의) ===
 Switch(config)# spanning-tree portfast default
 ```
-### 📌 UplinkFast (Access 계층 스위치에서만)
+### UplinkFast (Access 계층 스위치에서만)
 
 ```cisco
 ! Block 포트를 가진 스위치에서 전역 설정. RP 장애 시 즉시 전환
 SW1(config)# spanning-tree uplinkfast
 ```
 
-### 📌 BackboneFast (모든 스위치 공통)
+### BackboneFast (모든 스위치 공통)
 
 ```cisco
 ! 반드시 모든 스위치에 동일 설정해야 효과 발생
@@ -53,9 +53,9 @@ SW3(config)# spanning-tree backbonefast
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 
 ```cisco
 Switch# show spanning-tree                       ! Type의 'Edge' 표기로 PortFast 확인
@@ -63,7 +63,7 @@ Switch# show interfaces status err-disabled      ! BPDUguard로 차단된 포트
 Switch# debug spanning-tree events               ! Fast 기능 전환 로그 확인
 ```
 
-### 📊 Convergence 시간 비교 (핵심 암기)
+### Convergence 시간 비교 (핵심 암기)
 
 |기능|적용 전|적용 후|
 |---|---|---|
@@ -71,7 +71,7 @@ Switch# debug spanning-tree events               ! Fast 기능 전환 로그 확
 |**UplinkFast**|30초|즉시 Forwarding|
 |**BackboneFast**|50초 (Max-age 20 포함)|30초 (Max-age 생략)|
 
-### 🚨 장애 시나리오: PortFast 포트가 err-disabled 됨 (BPDUguard 동작)
+### 장애 시나리오: PortFast 포트가 err-disabled 됨 (BPDUguard 동작)
 
 - **증상:** 로그에 `%SPANTREE-2-BLOCK_BPDUGUARD ... putting Fa0/x in err-disable state` 출력, 포트 다운.
 - **원인 파악:** PortFast+BPDUguard 설정된 포트에 **스위치가 연결되어 BPDU가 수신됨** (정상적인 보호 동작).

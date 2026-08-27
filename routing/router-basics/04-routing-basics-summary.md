@@ -1,11 +1,11 @@
-# 🧭 라우팅 기초 개념 통합 정리 — Static·Dynamic·RIB·CEF 한눈에
+# 라우팅 기초 개념 통합 정리 — Static·Dynamic·RIB·CEF 한눈에
 
 > **Tag:** #Network #Routing #Static #Dynamic #RIB #FIB #CEF #AD #Metric #Concept #Summary
 > **핵심 요약:** 라우팅은 도달 가능한 경로를 **수집(Discovery) → 비교·선택(Selection) → 변화에 맞게 유지(Management)** 하는 과정이다. Static은 관리자가 직접 경로를 입력하고 Dynamic은 라우팅 프로토콜이 자동 학습한다. 동일 Prefix의 경로 출처가 다르면 AD, 같은 프로토콜 안에서는 Metric으로 RIB 경로를 선택하며, 실제 패킷 전달은 FIB에서 Longest Prefix Match로 처리한다. 소규모·Stub 구간은 Static, 변화가 많은 망은 Dynamic, 실무에서는 두 방식을 함께 사용하는 하이브리드 구성이 일반적이다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### Q1. 라우팅을 관통하는 기본 흐름은?
 
@@ -144,7 +144,7 @@ Dynamic Routing에서는 다음을 추가로 확인합니다.
 
 ---
 
-## 2. 🛠️ 표준 개념 및 설정
+## 2. 표준 개념 및 설정
 
 ### 2-1. 라우팅 3대 기능
 
@@ -344,7 +344,7 @@ ip route 0.0.0.0 0.0.0.0 192.0.2.1 200
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅
+## 3. 검증 및 트러블슈팅
 
 ### 3-1. Control Plane 검증
 
@@ -396,7 +396,7 @@ show ip route 0.0.0.0
 
 ---
 
-## 4. ⚠️ 대표 함정
+## 4. 대표 함정
 
 | 함정 | 실제 결과 | 권장 조치 |
 |---|---|---|

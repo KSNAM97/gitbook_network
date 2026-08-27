@@ -1,11 +1,11 @@
-# 🧩 VTP 통합 정리
+# VTP 통합 정리
 
 > **Tag:** #Network #Switch #VTP #VLAN #Cisco #VTPv1 #VTPv2 #VTPv3  
 > **핵심 요약:** VTP는 Cisco Switch 사이에서 VLAN Database를 동기화하는 Cisco 전용 L2 프로토콜이다. VTPv1/v2는 Domain·Password·Version과 Configuration Revision을 기준으로 VLAN 정보를 동기화하므로, 높은 Revision을 가진 장비를 잘못 연결하면 VLAN Database가 덮어써질 수 있다. VTPv3는 Primary Server 구조와 향상된 보호 기능을 제공하지만, 운영망에서는 여전히 Transparent/Off Mode 또는 명시적인 VLAN 관리 방식을 많이 사용한다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념
+## 1. 핵심 기술 개념
 
 ### Q1. VTP는 무엇인가?
 
@@ -354,7 +354,7 @@ show interfaces pruning
 
 ---
 
-## 2. 🛠️ VTPv1/v2 표준 설정
+## 2. VTPv1/v2 표준 설정
 
 ### 2-1. Server
 
@@ -433,7 +433,7 @@ interface GigabitEthernet0/1
 
 ---
 
-## 3. 🛠️ VTPv3 표준 설정
+## 3. VTPv3 표준 설정
 
 ### 3-1. Server 및 Primary 지정
 
@@ -492,7 +492,7 @@ vtp mode off
 
 ---
 
-## 4. 🛡️ 신규 Switch 안전 투입 절차
+## 4. 신규 Switch 안전 투입 절차
 
 ```properties
 [1] 운영 Trunk에 연결하지 않은 격리 상태 유지
@@ -532,7 +532,7 @@ vtp domain GIT_NET
 
 ---
 
-## 5. 🔍 검증 명령어
+## 5. 검증 명령어
 
 ### VTP
 
@@ -568,7 +568,7 @@ show vtp counters
 
 ---
 
-## 6. ⚠️ 실무 체크리스트
+## 6. 실무 체크리스트
 
 - [ ] 운영망이 사용하는 VTP Version을 확인했는가?
 - [ ] 신규 Switch를 Trunk에 연결하기 전에 격리했는가?

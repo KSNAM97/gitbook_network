@@ -1,11 +1,11 @@
-# 🔗 GRE-Over-IPsec (GRE + IPsec 결합)
+# GRE-Over-IPsec (GRE + IPsec 결합)
 
 > **Tag:** #network #vpn #gre #ipsec #dynamic-routing #transport-mode #cisco
 > **핵심 요약:** GRE의 멀티캐스트 지원과 IPsec의 암호화를 결합해, 라우팅 프로토콜(EIGRP/OSPF)까지 암호화하는 VPN
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### IPsec만으로 충분한데 GRE와 결합하는 이유
 
@@ -25,7 +25,7 @@ GRE가 이미 공인 IP로 캡슐화(터널링)를 했기 때문에, IPsec이 Tu
 
 역할 분담은 GRE가 터널링과 멀티캐스트 전달을, IPsec이 암호화·무결성·인증을 담당하는 구조다. GRE가 터널을 담당하므로 IPsec은 보안만 하면 되어 Transport가 최적이다. Transport 모드에선 외부 IP 헤더는 암호화 안 되지만, GRE 헤더부터 내부 전체가 보호된다.
 
-### 📊 캡슐화 순서 비교
+### 캡슐화 순서 비교
 
 | 적용 방식 | 캡슐화 구조 | New IP 헤더 |
 |-----------|-------------|:-----------:|
@@ -35,9 +35,9 @@ GRE가 이미 공인 IP로 캡슐화(터널링)를 했기 때문에, IPsec이 Tu
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 1단계: GRE 터널 + 동적 라우팅(EIGRP) 구성
+### 1단계: GRE 터널 + 동적 라우팅(EIGRP) 구성
 
 ```cisco
 ! === GIT-A : GRE 터널 (공인 IP를 source/dest로) ===
@@ -54,7 +54,7 @@ router eigrp 100
  network 192.168.10.0
  network 192.168.12.0
 ```
-### 📌 2단계: crypto map을 물리 인터페이스에 적용 (권장) + GRE 보호
+### 2단계: crypto map을 물리 인터페이스에 적용 (권장) + GRE 보호
 
 ```cisco
 ! === GIT-A ===
@@ -86,7 +86,7 @@ interface serial 1/0.10
 
 > ⚠️ **가장 흔한 실수 정정:** 원본의 `mode tranport`는 오타이며 올바른 명령은 `mode transport` 입니다.
 
-### 📌 (참고) 최신 보안 강화 버전
+### (참고) 최신 보안 강화 버전
 
 ```cisco
 ! 레거시(3DES/SHA1/DH2)는 취약 → 현대 표준으로 상향 권장
@@ -100,9 +100,9 @@ crypto ipsec transform-set IPSEC esp-gcm 256   ! AES-GCM (암호화+인증 결�
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 
 ```cisco
 Router# show crypto isakmp sa                  ! Phase1 SA (QM_IDLE=정상)
@@ -112,7 +112,7 @@ Router# show ip route eigrp                     ! 암호화된 채로 학습된 
 Router# debug crypto ipsec                       ! Phase2 협상 추적
 ```
 
-### 🚨 장애 시나리오 1 (핵심): IPsec 켜니 EIGRP/OSPF 인접이 끊김
+### 장애 시나리오 1 (핵심): IPsec 켜니 EIGRP/OSPF 인접이 끊김
 
 - **증상:** crypto map 적용 후 `%CRYPTO-4-RECVD_PKT_NOT_IPSEC ... 224.0.0.10` 로그와 함께 인접성 down.
 - **원인 파악:** IPsec 보호 대상 ACL에 **라우팅 프로토콜(멀티캐스트 224.0.0.x)을 직접 매칭**시킴. IPsec은 유니캐스트만 암호화하므로 멀티캐스트가 처리 실패.
@@ -126,12 +126,12 @@ Router# debug crypto ipsec                       ! Phase2 협상 추적
     
     이렇게 하면 GRE 안에 담긴 EIGRP가 함께 암호화되어 인접이 유지됨.
 
-### 🚨 장애 시나리오 2: 통신은 되는데 MTU 초과로 큰 패킷/일부 TCP만 실패
+### 장애 시나리오 2: 통신은 되는데 MTU 초과로 큰 패킷/일부 TCP만 실패
 
 - **원인 파악:** Tunnel 모드로 IPsec을 걸어 **헤더가 중복 추가**되어 MTU를 초과 → Fragmentation/일부 TCP 세션 장애.
 - **해결:** transform-set을 **`mode transport`** 로 변경하고 crypto map을 물리 인터페이스에 적용해 헤더 오버헤드를 최소화. 필요 시 `ip mtu`/`ip tcp adjust-mss` 조정.
 
-### 🚨 장애 시나리오 3: Phase 1은 되는데 암호화 카운터가 안 오름
+### 장애 시나리오 3: Phase 1은 되는데 암호화 카운터가 안 오름
 
 - **원인 파악:** 양쪽 `match address` ACL이 대칭이 아니거나(한쪽 ip/한쪽 gre), Tunnel/물리 적용 위치가 서로 다름.
 - **해결:** 양쪽 모두 동일하게 `permit gre host ... host ...` + 물리 인터페이스 적용으로 통일. `show crypto engine connections active`의 encrypt/decrypt 증가 확인.

@@ -1,11 +1,11 @@
-# ⚡ 라우팅 재분배 퀵 레퍼런스
+# 라우팅 재분배 퀵 레퍼런스
 
 > **Tags:** #Routing #Redistribution #QuickReference #RouteMap #PrefixList #Tag #CheatSheet
 > **핵심 요약:** 재분배 설정·Route-map·Prefix-list·Tag 루프 방지·검증 명령어를 빠르게 조회하기 위한 암기 카드. 핵심 패턴은 `Prefix-list → Route-map → redistribute` 조합이며, 양방향 재분배에서는 반드시 Tag 기반 루프 차단이 필요하다.
 
 ---
 
-## 1. 🛠️ 재분배 기본 문법
+## 1. 재분배 기본 문법
 
 ### OSPF로 재분배
 
@@ -49,7 +49,7 @@ router rip
 
 ---
 
-## 2. 📋 Prefix-list
+## 2. Prefix-list
 
 ```cisco
 ip prefix-list ALLOW permit 13.13.0.0/16 le 24
@@ -66,7 +66,7 @@ ip prefix-list PRIVATE permit 192.168.0.0/16 le 32
 
 ---
 
-## 3. 🗺️ Route-map 기본 패턴
+## 3. Route-map 기본 패턴
 
 ```cisco
 route-map POLICY deny 10
@@ -88,7 +88,7 @@ route-map POLICY permit 40                   ! Catch-all: 나머지 전부 허�
 
 ---
 
-## 4. 🔄 Tag 기반 루프 방지 (양방향 재분배 필수)
+## 4. Tag 기반 루프 방지 (양방향 재분배 필수)
 
 ```cisco
 ! A → B 방향: Tag 부착
@@ -105,7 +105,7 @@ route-map B->A permit 10
 
 ---
 
-## 5. ⚖️ E1 vs E2
+## 5. E1 vs E2
 
 | 구분 | Metric 계산 | 사용 시점 |
 |---|---|---|
@@ -119,7 +119,7 @@ set metric-type type-2      ! E2 (기본값)
 
 ---
 
-## 6. 📌 Offset-list (RIP Metric 보정)
+## 6. Offset-list (RIP Metric 보정)
 
 ```cisco
 access-list 1 permit 13.13.1.0 0.0.0.255
@@ -130,7 +130,7 @@ router rip
 
 ---
 
-## 7. 🔢 핵심 파라미터
+## 7. 핵심 파라미터
 
 | 항목 | 내용 |
 |---|---|
@@ -143,7 +143,7 @@ router rip
 
 ---
 
-## 8. 🔍 검증 명령어
+## 8. 검증 명령어
 
 ```cisco
 show ip route
@@ -167,7 +167,7 @@ show ip eigrp topology <prefix>/<length>
 
 ---
 
-## 9. 🚨 증상별 Quick Check
+## 9. 증상별 Quick Check
 
 | 증상 | 먼저 확인 |
 |---|---|
@@ -182,7 +182,7 @@ show ip eigrp topology <prefix>/<length>
 
 ---
 
-## 10. ⚠️ 핵심 주의사항
+## 10. 핵심 주의사항
 
 ```properties
 OSPF + subnets

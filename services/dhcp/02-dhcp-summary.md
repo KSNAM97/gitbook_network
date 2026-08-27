@@ -1,11 +1,11 @@
-# 🧩 DHCP 통합 정리
+# DHCP 통합 정리
 
 > **Tag:** #Network #DHCP #IPServices #Relay #Cisco  
 > **핵심 요약:** DHCP는 UDP 67(Server)/68(Client)를 사용해 IP·Subnet Mask·Gateway·DNS를 단말에 자동 할당하는 응용 계층 프로토콜이다. Client는 IP가 없는 상태에서 시작하므로 Discover와 Request를 Broadcast로 보내며, Server가 다른 Subnet에 있으면 Gateway 장비의 `ip helper-address`가 Broadcast를 Unicast로 변환하고 giaddr에 수신 Interface IP를 기록해 Server가 어느 Subnet의 요청인지 판별하게 한다. 운영 설계의 핵심은 Gateway·Server·고정 IP 장비를 `ip dhcp excluded-address`로 제외하고 Pool의 `network`와 `default-router`를 실제 Segment와 일치시키는 것이다.
 
 ---
 
-## 1. 🎯 핵심 기술 개념
+## 1. 핵심 기술 개념
 
 ### Q1. DHCP는 무엇인가?
 
@@ -343,7 +343,7 @@ Port 단위 방어는 6-1. 🔐 Port-security & Storm-control와 함께 설계�
 
 ---
 
-## 2. 🛠️ Cisco IOS DHCP Server 표준 설정
+## 2. Cisco IOS DHCP Server 표준 설정
 
 ### 2-1. 기본 Pool 구성
 
@@ -496,7 +496,7 @@ Vlan20 요청 → giaddr 192.168.20.254 → Server가 192.168.20.0/24 Pool 선�
 
 ---
 
-## 3. 🔍 검증 명령어
+## 3. 검증 명령어
 
 ```cisco
 show ip dhcp pool
@@ -528,7 +528,7 @@ undebug all
 
 ---
 
-## 4. 🛡️ 안전한 변경 및 Rollback 절차
+## 4. 안전한 변경 및 Rollback 절차
 
 ```properties
 [1] 현재 확인 : show ip dhcp pool / binding / conflict, show ip interface brief
@@ -562,7 +562,7 @@ copy running-config startup-config
 
 ---
 
-## 5. ⚠️ 실무 체크리스트
+## 5. 실무 체크리스트
 
 - [ ] Gateway IP를 `excluded-address`로 제외했는가?
 - [ ] DHCP Server 자신의 IP와 Static IP 장비 대역을 제외했는가?

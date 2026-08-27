@@ -1,11 +1,11 @@
-# ⚡ 라우팅 기초 명령어 퀵 레퍼런스
+# 라우팅 기초 명령어 퀵 레퍼런스
 
 > **Tag:** #Network #QuickReference #Routing #Static #FloatingStatic #IPSLA #RIB #CEF #AD #CheatSheet
 > **핵심 요약:** Static Route·Floating Static·IP SLA Track·RIB/FIB 검증 명령어를 빠르게 조회하기 위한 암기 카드. Static은 목적지 기반 경로이며, Ethernet에서는 Next-hop 또는 Fully Specified Static을 권장한다.
 
 ---
 
-## 1. 🛠️ Static Route 문법
+## 1. Static Route 문법
 
 ### 1-1. Default Route
 
@@ -130,7 +130,7 @@ no ip route 10.20.30.0 255.255.255.0 10.1.1.2
 
 ---
 
-## 2. 🔢 경로 선택 빠른 조회
+## 2. 경로 선택 빠른 조회
 
 ### 2-1. RIB 설치
 
@@ -160,7 +160,7 @@ Longest Prefix Match
 
 ---
 
-## 3. 🔢 Administrative Distance
+## 3. Administrative Distance
 
 | 경로 출처 | 기본 AD |
 |---|---:|
@@ -180,7 +180,7 @@ Longest Prefix Match
 
 ---
 
-## 4. 🧭 Static vs Dynamic
+## 4. Static vs Dynamic
 
 | 구분 | Static | Dynamic |
 |---|---|---|
@@ -193,7 +193,7 @@ Longest Prefix Match
 
 ---
 
-## 5. 🔗 Next-hop vs Exit Interface
+## 5. Next-hop vs Exit Interface
 
 | 방식 | 환경 | 주의점 |
 |---|---|---|
@@ -221,7 +221,7 @@ ip route 10.20.30.0 255.255.255.0 GigabitEthernet0/0 10.1.1.2
 
 ---
 
-## 6. 📡 IP SLA + Track
+## 6. IP SLA + Track
 
 ### 6-1. SLA 생성
 
@@ -272,7 +272,7 @@ ip route 0.0.0.0 0.0.0.0 192.0.2.1 200
 
 ---
 
-## 7. 🔌 Serial Link 기본 설정
+## 7. Serial Link 기본 설정
 
 DCE 측:
 
@@ -305,7 +305,7 @@ show controllers serial 1/0
 
 ---
 
-## 8. 🔍 RIB 검증
+## 8. RIB 검증
 
 ```cisco
 show ip route
@@ -336,7 +336,7 @@ Route Age
 
 ---
 
-## 9. ⚡ CEF/FIB/Adjacency 검증
+## 9. CEF/FIB/Adjacency 검증
 
 ```cisco
 show ip cef summary
@@ -355,7 +355,7 @@ Adjacency  = Next-hop L2 Rewrite 정보
 
 ---
 
-## 10. 🌐 연결성 검증
+## 10. 연결성 검증
 
 ```cisco
 show ip interface brief
@@ -376,7 +376,7 @@ show interfaces serial <INTERFACE>
 
 ---
 
-## 11. 📈 IP SLA/Track 검증
+## 11. IP SLA/Track 검증
 
 ```cisco
 show ip sla configuration
@@ -388,7 +388,7 @@ show ip route 0.0.0.0
 
 ---
 
-## 12. 🚨 증상별 Quick Check
+## 12. 증상별 Quick Check
 
 | 증상 | 먼저 확인 |
 |---|---|
@@ -405,7 +405,7 @@ show ip route 0.0.0.0
 
 ---
 
-## 13. ⚠️ 핵심 주의사항
+## 13. 핵심 주의사항
 
 ```properties
 Static Route ≠ PBR

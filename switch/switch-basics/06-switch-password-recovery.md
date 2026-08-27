@@ -1,4 +1,4 @@
-# 🔑 Switch Password 복구 (Password Recovery)
+# Switch Password 복구 (Password Recovery)
 
 > **Tag:** #Network #Cisco #Switch #PasswordRecovery #NVRAM
 > 핵심 요약: Enable Secret 또는 Console Password를 분실한 경우, 물리적 접근(Mode 버튼)으로 Switch를 부팅 모드로 진입한 뒤 NVRAM 설정 파일을 우회하여 새 Password를 설정한다. 반드시 **Console 또는 물리적 접근**이 전제된다.

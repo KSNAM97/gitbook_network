@@ -1,11 +1,11 @@
-# ⚡ 스위치 & 방어 보안 명령어 퀵 레퍼런스
+# 스위치 & 방어 보안 명령어 퀵 레퍼런스
 
 > **Tag:** #Network #QuickReference #PortSecurity #BPDUGuard #ErrDisable #TCPIntercept
 > **핵심 요약:** Port-security·BPDU Guard·Err-disable·TCP Intercept 설정과 검증 명령어를 빠르게 조회하기 위한 암기 카드. Port 역할과 플랫폼 지원 여부를 확인한 후 사용한다.
 
 ---
 
-## 1. 🔐 Port-security 기본 설정
+## 1. Port-security 기본 설정
 
 ```cisco
 interface FastEthernet0/1
@@ -18,7 +18,7 @@ interface FastEthernet0/1
 
 ---
 
-## 2. 📍 Static Secure MAC
+## 2. Static Secure MAC
 
 ```cisco
 interface FastEthernet0/1
@@ -31,7 +31,7 @@ interface FastEthernet0/1
 
 ---
 
-## 3. 📌 Sticky Secure MAC
+## 3. Sticky Secure MAC
 
 Sticky 활성화:
 
@@ -65,7 +65,7 @@ copy running-config startup-config
 
 ---
 
-## 4. 🚨 Violation Mode
+## 4. Violation Mode
 
 ```cisco
 switchport port-security violation protect
@@ -93,7 +93,7 @@ Aging = Disabled
 
 ---
 
-## 5. ☎️ IP Phone + PC
+## 5. IP Phone + PC
 
 ```cisco
 interface FastEthernet0/10
@@ -118,7 +118,7 @@ switchport port-security maximum 1 vlan voice
 
 ---
 
-## 6. ⏱️ Secure MAC Aging
+## 6. ⏱ Secure MAC Aging
 
 ```cisco
 switchport port-security aging time 60
@@ -141,7 +141,7 @@ switchport port-security aging static
 
 ---
 
-## 7. 🌳 PortFast + BPDU Guard
+## 7. PortFast + BPDU Guard
 
 Interface별 설정:
 
@@ -162,7 +162,7 @@ spanning-tree portfast bpduguard default
 
 ---
 
-## 8. ⛔ DTP 비활성화
+## 8. DTP 비활성화
 
 ```cisco
 interface FastEthernet0/1
@@ -181,7 +181,7 @@ interface GigabitEthernet0/1
 
 ---
 
-## 9. ♻️ Err-disable Recovery
+## 9. Err-disable Recovery
 
 Port-security 자동 복구:
 
@@ -215,7 +215,7 @@ interface FastEthernet0/1
 
 ---
 
-## 10. 🛡️ TCP Intercept ACL
+## 10. TCP Intercept ACL
 
 전체 TCP 서비스:
 
@@ -245,7 +245,7 @@ ACL deny/미매칭 = Intercept하지 않고 정상 전달
 
 ---
 
-## 11. 👀 TCP Intercept Watch Mode
+## 11. TCP Intercept Watch Mode
 
 ```cisco
 ip tcp intercept list TCP_PROTECT
@@ -261,7 +261,7 @@ Timeout 시 Server에 RST 전송
 
 ---
 
-## 12. 🧱 TCP Intercept Intercept Mode
+## 12. TCP Intercept Intercept Mode
 
 ```cisco
 ip tcp intercept list TCP_PROTECT
@@ -280,7 +280,7 @@ Router가 Client와 먼저 Handshake
 
 ---
 
-## 13. 📈 TCP Intercept Threshold
+## 13. TCP Intercept Threshold
 
 최신 문법:
 
@@ -314,7 +314,7 @@ ip tcp intercept drop-mode random
 
 ---
 
-## 14. ❌ TCP Intercept 제거
+## 14. TCP Intercept 제거
 
 ```cisco
 no ip tcp intercept list TCP_PROTECT
@@ -326,7 +326,7 @@ no ip tcp intercept watch-timeout 20
 
 ---
 
-## 15. 🔍 Port-security 검증
+## 15. Port-security 검증
 
 ```cisco
 show port-security
@@ -353,7 +353,7 @@ Security Violation Count
 
 ---
 
-## 16. 🔍 Err-disable/BPDU Guard 검증
+## 16. Err-disable/BPDU Guard 검증
 
 ```cisco
 show interfaces status err-disabled
@@ -368,7 +368,7 @@ show spanning-tree interface FastEthernet0/1 detail
 
 ---
 
-## 17. 🔍 TCP Intercept 검증
+## 17. TCP Intercept 검증
 
 ```cisco
 show tcp intercept connections
@@ -390,7 +390,7 @@ undebug all
 
 ---
 
-## 18. 🧭 포트 유형별 권장 프로파일
+## 18. 포트 유형별 권장 프로파일
 
 | 포트 유형 | Port-security | Maximum | BPDU Guard | 비고 |
 |---|---|---:|---|---|
@@ -406,7 +406,7 @@ undebug all
 
 ---
 
-## 19. ⚠️ 핵심 함정표
+## 19. 핵심 함정표
 
 | 함정 | 결과 | 조치 |
 |---|---|---|
@@ -423,7 +423,7 @@ undebug all
 
 ---
 
-## 20. 🚑 즉시 복구 순서
+## 20. 즉시 복구 순서
 
 Port-security:
 

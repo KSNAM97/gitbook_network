@@ -1,11 +1,11 @@
-# 3-1. 🔄 Route Redistribution (재분배) with Route-Map Filtering
+# Route Redistribution (재분배) with Route-Map Filtering
 
 > **Tags:** #Routing #OSPF #EIGRP #RIPv2 #Redistribution #RouteMap #PrefixList
 > **핵심 요약:** **Topology:** R1(OSPF/RIP) ↔ R2(OSPF Hub) ↔ R3(OSPF/EIGRP) / R4(RIP) / R5(EIGRP)
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### Q1. 실무에서 재분배(Redistribution)를 설계할 때 가장 경계해야 할 것은 무엇이며, 왜 반드시 Route-Map + Prefix-List 조합을 써야 하나요?
 
@@ -23,9 +23,9 @@
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 2-1. Connected → OSPF 재분배 (Route-Map 필터링)
+### 2-1. Connected OSPF 재분배 (Route-Map 필터링)
 
 ```cisco
 ! === R2: FastEthernet 0/1의 13.13.12.0/24만 OSPF로 재분배 ===
@@ -40,7 +40,7 @@ router ospf 1
  redistribute connected subnets route-map CONN->OSPF  ! subnets 키워드 필수 (classful 방지)
 !
 ```
-### 2-2. RIPv2 → OSPF 재분배 (다중 조건 필터링)
+### 2-2. RIPv2 OSPF 재분배 (다중 조건 필터링)
 
 ```cisco
 ! === R1: 사설망 차단 + 특정망 E1/Metric100 + 특정망 Tag199 ===
@@ -77,7 +77,7 @@ router ospf 1
  redistribute rip subnets route-map RIP->OSPF
 !
 ```
-### 2-3. OSPF → RIPv2 재분배 (Offset-list로 Metric 보정)
+### 2-3. OSPF RIPv2 재분배 (Offset-list로 Metric 보정)
 
 ```cisco
 ! === R1: OSPF 경로를 RIP Metric 4로 광고 ===
@@ -94,7 +94,7 @@ router rip
 !
 ```
 
-### 2-4. EIGRP → OSPF 재분배 (Metric-type 혼합 + Tag)
+### 2-4. EIGRP OSPF 재분배 (Metric-type 혼합 + Tag)
 ```cisco
 ! === R3: 4.1.1.0 + 198.198.x.x 는 E2/Metric200, 나머지는 E1 + Tag300 ===
 
@@ -115,7 +115,7 @@ router ospf 1
 !
 ```
 
-### 2-5. OSPF → EIGRP 재분배 (선택적 광고)
+### 2-5. OSPF EIGRP 재분배 (선택적 광고)
 ```cisco
 ! === R3: 199.171.0~7만 Tag100 부착, 199.171.8~은 완전 차단, 나머지 전부 재분배 ===
 
@@ -138,7 +138,7 @@ router eigrp 100
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
 ### 3-1. 필수 검증 명령어
 ```cisco
@@ -163,7 +163,7 @@ clear ip ospf process                        ! OSPF 프로세스 재시작
 
 ### 3-2. 대표 장애 시나리오 & 트러블슈팅
 
-#### 🚨 시나리오 1: "재분배했는데 특정 경로가 광고되지 않아요"
+#### 시나리오 1: "재분배했는데 특정 경로가 광고되지 않아요"
 
 |단계|확인 사항|명령어/조치|
 |---|---|---|
@@ -172,7 +172,7 @@ clear ip ospf process                        ! OSPF 프로세스 재시작
 |**③**|Prefix-list의 `le/ge` 옵션 오류|`/24 le 32`가 아니면 정확히 그 prefix만 매치됨|
 |**④**|재분배 대상 프로토콜의 라우팅 테이블에 실제 경로 존재 여부|`show ip route [protocol]`|
 
-#### 🚨 시나리오 2: "양방향 재분배 후 Sub-optimal Path 또는 Loop 발생"
+#### 시나리오 2: "양방향 재분배 후 Sub-optimal Path 또는 Loop 발생"
 
 - **증상:** OSPF 내부 경로가 EIGRP를 거쳐 다시 OSPF로 돌아와 D EX(170)가 O(110)를 이겨야 하는데 반대로 되거나, Traceroute가 이상한 경로를 탐.
 - **원인:** 상호 재분배 지점(Mutual Redistribution Point) 2군데 이상에서 Tag 필터링 미적용.

@@ -1,11 +1,11 @@
-# 🚑 NAT & PAT 트러블슈팅 치트시트
+# NAT & PAT 트러블슈팅 치트시트
 
 > **Tag:** #Network #NAT #PAT #IPServices #Cisco  
 > **핵심 요약:** NAT 장애는 **Interface 방향 지정 → 대상 선별 ACL → 변환 규칙 → 변환 Table → 라우팅 양방향 → ACL → 서비스** 순서로 확인합니다. `show ip nat translations`에 Entry가 생기는지가 1차 분기점이며, Entry가 있는데도 실패하면 NAT 문제가 아니라 경로·ACL·서버 문제일 가능성이 높습니다.
 
 ---
 
-## 1. 🎯 공통 진단 순서
+## 1. 공통 진단 순서
 
 ```properties
 [1] 내부 Interface에 ip nat inside가 있는가?
@@ -27,7 +27,7 @@ Entry 있음 → Return 경로 / ACL / 서버 서비스 / Firewall 확인
 
 ---
 
-## 2. 🛠️ 증상별 즉시 대응표
+## 2. 증상별 즉시 대응표
 
 | 증상 | 주요 원인 | 확인 | 조치 |
 |---|---|---|---|
@@ -47,7 +47,7 @@ Entry 있음 → Return 경로 / ACL / 서버 서비스 / Firewall 확인
 
 ---
 
-## 3. 🔍 핵심 진단 명령어
+## 3. 핵심 진단 명령어
 
 ```cisco
 show ip nat translations
@@ -73,9 +73,9 @@ no debug all
 
 ---
 
-## 4. 🚨 대표 장애 시나리오
+## 4. 대표 장애 시나리오
 
-### 시나리오 1. 내부 → 외부 통신이 전혀 안 되고 변환 Entry도 없음
+### 시나리오 1. 내부 외부 통신이 전혀 안 되고 변환 Entry도 없음
 
 **증상:** 내부 단말의 인터넷 Ping·웹 접속이 모두 실패하고 `show ip nat translations`이 비어 있습니다.
 
@@ -571,7 +571,7 @@ show ip route <IP-ADDRESS>
 
 ---
 
-## 5. 🔧 안전한 변경 및 복구 절차
+## 5. 안전한 변경 및 복구 절차
 
 ```properties
 [1] 현재 확인 : show run | section ip nat / show ip nat translations / show ip nat statistics

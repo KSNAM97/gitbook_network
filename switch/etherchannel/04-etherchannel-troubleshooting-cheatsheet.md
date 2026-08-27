@@ -1,11 +1,11 @@
-# 🚑 EtherChannel 트러블슈팅 치트시트
+# EtherChannel 트러블슈팅 치트시트
 
 > **Tag:** #Network #Switch #EtherChannel #LACP #PAgP #Cisco  
 > **핵심 요약:** EtherChannel 장애는 **물리 Link → 프로토콜 일치 → 모드 조합 → 멤버 설정 일치 → Flag 판독 → STP → 상위 서비스** 순서로 확인한다. Flag가 `(I)`면 협상 실패, `(s)`면 설정 불일치, `(D)`면 물리 문제로 원인 축이 완전히 다르다. 채널이 정상인데 통신이 안 된다면 EtherChannel이 아니라 Allowed VLAN, STP, L3 Gateway 문제일 가능성이 높다.
 
 ---
 
-## 1. 🎯 공통 진단 순서
+## 1. 공통 진단 순서
 
 ```properties
 [1]  멤버 물리 포트가 실제로 Up인가?
@@ -22,7 +22,7 @@
 
 ---
 
-## 2. 🛠️ 증상별 즉시 대응표
+## 2. 증상별 즉시 대응표
 
 | 증상 | 주요 원인 | 확인 | 조치 |
 |---|---|---|---|
@@ -46,7 +46,7 @@
 
 ---
 
-## 3. 🔍 핵심 진단 명령어
+## 3. 핵심 진단 명령어
 
 EtherChannel 및 협상 프로토콜:
 
@@ -83,7 +83,7 @@ show logging
 
 ---
 
-## 4. 🚨 대표 장애 시나리오
+## 4. 대표 장애 시나리오
 
 ### 시나리오 1. 채널이 형성되지 않고 멤버가 stand-alone `(I)`
 
@@ -617,7 +617,7 @@ show ip interface port-channel <CHANNEL-NUMBER>
 
 ---
 
-## 5. 🔧 안전한 변경 및 복구 절차
+## 5. 안전한 변경 및 복구 절차
 
 ### 5-1. 변경 절차
 

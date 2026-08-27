@@ -1,4 +1,4 @@
-# 3-1-1. 🔰  ACL 기초 - Standard ACL (Numbered & Named)
+# ACL 기초 - Standard ACL (Numbered & Named)
 
 > **Tag:** #Network #Cisco #ACL #Security #AccessControl
 > **핵심 요약:** Cisco IOS ACL의 동작 원리와 Standard ACL(1~99) 실무 활용
@@ -6,7 +6,7 @@
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### Standard ACL을 목적지 인터페이스에 가깝게 적용해야 하는 이유
 
@@ -22,16 +22,16 @@ Named ACL은 시퀀스 번호(10, 20, 30...)로 특정 라인만 삽입/삭제�
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 ACL 동작 3대 원칙 (반드시 암기)
+### ACL 동작 3대 원칙 (반드시 암기)
 
 ```cisco
 ! [원칙 1] 위에서 아래로 순차 매칭 → 구체적 조건이 먼저, 넓은 조건이 나중
 ! [원칙 2] 마지막에 암묵적 "deny any" 자동 추가 → 명시적 permit 없으면 다 차단
 ! [원칙 3] Numbered ACL은 라인 단위 수정 불가 → 부분 수정 시 전체 재작성 필요
 ```
-### 📌 Numbered Standard ACL - 허용 정책 (일부만 열어주기)
+### Numbered Standard ACL - 허용 정책 (일부만 열어주기)
 ```cisco
 ! 시나리오: 192.168.3.0/24 → 192.168.1.0/24 만 허용, 나머지 전부 차단
 !
@@ -43,7 +43,7 @@ interface FastEthernet0/0
 ! Standard ACL은 목적지 인터페이스에 out 방향으로 적용 (원칙)
 !
 ```
-### 📌 Numbered Standard ACL - 차단 정책 (일부만 막기)
+### Numbered Standard ACL - 차단 정책 (일부만 막기)
 ```cisco
 ! 시나리오: 192.168.1.0/24 만 차단, 나머지 전부 허용
 !
@@ -55,7 +55,7 @@ interface FastEthernet0/0
  ip access-group 2 out
 !
 ```
-### 📌 연속된 서브넷 집약 (Wildcard Mask 활용)
+### 연속된 서브넷 집약 (Wildcard Mask 활용)
 ```cisco
 ! 시나리오: 172.16.0.0/24 ~ 172.16.7.0/24 (8개 대역) 차단
 !
@@ -75,7 +75,7 @@ interface FastEthernet0/0
  ip access-group 3 out
 !
 ```
-### 📌 Named Standard ACL (실무 권장)
+### Named Standard ACL (실무 권장)
 ```cisco
 ! [Named ACL] 이름 기반 관리 + 시퀀스 번호로 라인 단위 편집 가능
 !
@@ -96,7 +96,7 @@ ip access-list standard ACL_ALLOW_MGMT
  no 25
 !
 ```
-### 📌 VTY 접근 제어 (Standard ACL의 대표 실무 용도)
+### VTY 접근 제어 (Standard ACL의 대표 실무 용도)
 ```cisco
 ! Telnet/SSH 접근을 특정 관리 대역에서만 허용 → Standard ACL의 실전 활용
 !
@@ -110,9 +110,9 @@ line vty 0 4
  transport input ssh
 !
 ```
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 ```cisco
 ! ACL 룰과 매칭 카운터(hit count) 확인 → 실제 어떤 라인이 동작하는지
 show access-lists
@@ -127,7 +127,7 @@ show ip interface FastEthernet0/0 | include access list
 ! VTY에 걸린 ACL 확인
 show running-config | section line vty
 ```
-### 🚨 트러블슈팅 시나리오 1: ACL 적용 후 모든 통신이 끊겼다
+### 트러블슈팅 시나리오 1: ACL 적용 후 모든 통신이 끊겼다
 
 - **증상:** `deny` 한 줄만 넣었는데 정상 트래픽까지 전부 차단됨.
 - **원인 파악:**
@@ -143,7 +143,7 @@ show running-config | section line vty
     ```
     
 
-### 🚨 트러블슈팅 시나리오 2: ACL 수정하려다 전체가 날아갔다
+### 트러블슈팅 시나리오 2: ACL 수정하려다 전체가 날아갔다
 
 - **증상:** Numbered ACL에서 특정 라인을 삭제하려고 `no access-list 1 permit ...` 입력 → ACL 전체가 사라짐 → 인터페이스가 존재하지 않는 ACL 참조 상태.
 - **원인 파악:**
@@ -156,7 +156,7 @@ show running-config | section line vty
     - 운영망은 반드시 **Named ACL** 사용 → 시퀀스 번호로 라인 단위 수정 가능.
     - 변경 전 반드시 `show running-config | section access-list` 로 백업 확보.
 
-### 🚨 트러블슈팅 시나리오 3: VTY 접근이 갑자기 안 된다
+### 트러블슈팅 시나리오 3: VTY 접근이 갑자기 안 된다
 
 - **증상:** SSH 접속 시도 시 즉시 연결 종료(connection refused).
 - **원인 파악:**
@@ -166,7 +166,7 @@ show running-config | section line vty
     - 콘솔 접속으로 진입 후 관리자 IP 대역을 permit 라인에 추가.
     - `access-class` 는 `interface`가 아닌 `line`에 적용된다는 점을 반드시 기억.
 
-### ⚠️ Standard ACL 실무 체크리스트
+### Standard ACL 실무 체크리스트
 
 - [ ]  Standard ACL을 **목적지 인터페이스 out** 방향에 적용했는가?
 - [ ]  명시적 `deny` 뒤에 `permit any` 를 넣어 나머지를 열어줬는가? (또는 반대)

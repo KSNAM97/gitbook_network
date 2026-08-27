@@ -1,11 +1,11 @@
-# 🏢 Multi-Layer Switch (L3 Switch)
+# Multi-Layer Switch (L3 Switch)
 
 > **Tag:** #network #l3switch #svi #routed-interface #inter-vlan #ospf #cisco
 > **핵심 요약:** L2/L3 기능을 겸비한 스위치로 하드웨어 기반 고속 라우팅과 VLAN 간 통신을 담당
 
 ---
 
-## 1. 🎯 핵심 기술 개념 (Concept)
+## 1. 핵심 기술 개념 (Concept)
 
 ### Router-on-a-Stick 대신 L3 스위치를 선택하는 이유
 
@@ -19,7 +19,7 @@ L3 스위치를 라우팅 장비로 쓰려면 반드시 전역에서 `ip routing
 
 Routed Interface(`no switchport`)는 VLAN에 속하지 않고 포트 자체에 IP를 가지므로 하나의 세그먼트(P2P)에 적합하다. SVI(`interface vlan X`)는 하나의 VLAN에 연결된 다수 PC의 게이트웨이를 담당하며 단말이 많은 액세스 VLAN에 적합하다. L2 스위치는 관리용으로 **VLAN 1 SVI 하나만** 쓰지만, L3(Multi-Layer) 스위치는 **다수의 SVI**를 게이트웨이로 운용한다.
 
-### 📊 Routed Interface vs SVI 비교
+### Routed Interface vs SVI 비교
 
 | 구분 | Routed Interface | SVI |
 |------|------------------|-----|
@@ -30,9 +30,9 @@ Routed Interface(`no switchport`)는 VLAN에 속하지 않고 포트 자체에 I
 
 ---
 
-## 2. 🛠️ 표준 설정 템플릿 (Configuration)
+## 2. 표준 설정 템플릿 (Configuration)
 
-### 📌 Routed Interface 구성 (물리 포트를 L3로)
+### Routed Interface 구성 (물리 포트를 L3로)
 
 ```cisco
 ! === L3 스위치 라우팅 활성화 (필수 선행) ===
@@ -49,7 +49,7 @@ SW1(config)# interface loopback 0
 SW1(config-if)# ip address 13.13.10.1 255.255.255.0
 ```
 
-### 📌 SVI 구성 (VLAN Gateway)
+### SVI 구성 (VLAN Gateway)
 
 ```cisco
 SW1(config)# ip routing                        ! Inter-VLAN 라우팅을 위해 필수
@@ -68,7 +68,7 @@ SW1(config-if)# switchport mode access
 SW1(config-if)# switchport access vlan 11      ! PC의 Gateway = int vlan 11
 ```
 
-### 📌 동적 라우팅 연동 (EIGRP 예시)
+### 동적 라우팅 연동 (EIGRP 예시)
 
 ```cisco
 SW2(config)# ip routing
@@ -80,7 +80,7 @@ SW2(config-router)# network 13.13.23.0 0.0.0.255
 SW2(config-router)# network 13.13.22.0 0.0.0.255
 ```
 
-### 📌 동적 라우팅 연동 (OSPF + Passive-interface)
+### 동적 라우팅 연동 (OSPF + Passive-interface)
 
 ```cisco
 SW1(config)# router ospf 1
@@ -96,9 +96,9 @@ SW1(config-router)# network 13.13.12.0 0.0.0.255 area 0
 
 ---
 
-## 3. 🔍 검증 및 트러블슈팅 (Verification & Troubleshooting)
+## 3. 검증 및 트러블슈팅 (Verification & Troubleshooting)
 
-### ✅ 필수 검증 명령어
+### 필수 검증 명령어
 
 ```cisco
 Switch# show ip route                     ! 라우팅 테이블 (C=직접연결, O=OSPF, D=EIGRP)
@@ -109,7 +109,7 @@ Switch# show run | section router ospf    ! 라우팅 프로토콜 설정 확인
 Switch# show vlan brief                    ! 단말 포트의 VLAN 할당 확인
 ```
 
-### 🚨 장애 시나리오 1: SVI에 IP를 줬는데 VLAN 간 통신 불가
+### 장애 시나리오 1: SVI에 IP를 줬는데 VLAN 간 통신 불가
 
 - **증상:** `interface vlan X`에 IP를 설정했으나 라우팅이 안 됨.
 - **원인 파악 (순서대로):**
@@ -118,13 +118,13 @@ Switch# show vlan brief                    ! 단말 포트의 VLAN 할당 확인
     3. 단말이 여전히 **VLAN 1(기본)** 에 있는데 게이트웨이는 VLAN 11 — 포트를 `switchport access vlan 11`로 할당해야 함.
 - **해결:** `ip routing` 확인 → 해당 VLAN에 up 상태 포트 확보 → 단말 포트 VLAN 재할당.
 
-### 🚨 장애 시나리오 2: 같은 스위치의 두 VLAN PC는 되는데 원격 스위치 VLAN과 통신 불가
+### 장애 시나리오 2: 같은 스위치의 두 VLAN PC는 되는데 원격 스위치 VLAN과 통신 불가
 
 - **증상:** SW1 내부 PC → SW1 게이트웨이(O), 그러나 SW3 내부망(13.13.14.0/24)으로 Ping 실패.
 - **원인 파악:** SW1의 라우팅 테이블에 **원격 네트워크 정보가 없음.** SVI로 로컬 게이트웨이는 만들었으나, 스위치 간 **동적 라우팅(OSPF/EIGRP)이 미구성**되어 서로의 대역을 학습하지 못함.
 - **해결:** 스위치 간 라우팅 프로토콜을 구성하고 `show ip route`로 원격 네트워크(O/D 표시)가 학습됐는지 확인. `show ip ospf neighbor`가 **FULL**인지 점검.
 
-### 🚨 장애 시나리오 3: OSPF 인접(Neighbor)이 안 맺힘
+### 장애 시나리오 3: OSPF 인접(Neighbor)이 안 맺힘
 
 - **원인 파악:**
     1. `passive-interface default`는 걸었는데 정작 **인접 맺을 인터페이스를 `no passive-interface`로 열지 않음** (가장 흔함).

@@ -1,11 +1,11 @@
-# 🚑 Frame-relay 트러블슈팅 치트시트
+# Frame-relay 트러블슈팅 치트시트
 
 > **Tag:** #Network #Troubleshooting #FrameRelay #DLCI #LMI #WAN #CheatSheet
 > **핵심 요약:** Frame-relay 장애는 **Physical → Encapsulation → LMI 동기화 → DLCI Status → frame-relay map → 라우팅** 순서로 확인한다. DLCI Active인데 통신이 안 되면 map 누락이나 broadcast 미설정을 먼저 의심한다.
 
 ---
 
-## 1. 🎯 핵심 진단 흐름
+## 1. 핵심 진단 흐름
 
 ### Q1. 통신 불가 시 어떤 순서로 확인하는가?
 
@@ -58,7 +58,7 @@ DLCI Active
 
 ---
 
-## 2. 🛠️ 증상별 즉시 대응표
+## 2. 증상별 즉시 대응표
 
 ### 2-1. 회선 및 DLCI 상태
 
@@ -100,7 +100,7 @@ DLCI Active
 
 ---
 
-## 3. 🔍 필수 진단 명령어
+## 3. 필수 진단 명령어
 
 ### Physical / L2
 
@@ -155,7 +155,7 @@ traceroute <REMOTE_IP>
 
 ---
 
-## 4. 🚨 트러블슈팅 시나리오
+## 4. 트러블슈팅 시나리오
 
 ### 시나리오 1. VC Status: Deleted
 
@@ -211,7 +211,7 @@ show ip route 192.168.10.2         ! 라우팅 경로 확인
 
 ---
 
-### 시나리오 3. Spoke↔Spoke 통신 불가 (Hub-and-Spoke)
+### 시나리오 3. SpokeSpoke 통신 불가 (Hub-and-Spoke)
 
 #### 증상
 
@@ -271,7 +271,7 @@ show frame-relay map
 
 ---
 
-## 5. 🔧 현장 Quick Check
+## 5. 현장 Quick Check
 
 ```cisco
 show ip interface brief
