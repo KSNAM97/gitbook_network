@@ -876,4 +876,3 @@ undebug all
 > - IPsec 이중화는 HSRP Virtual IP를 Peer로 쓰고 `crypto map <NAME> redundancy <HSRP-GROUP>`으로 연동한다.
 > - CBAC은 레거시 Stateful Firewall이며 신규 설계는 ZBF를 검토한다.
 > - 알고리즘은 AES/SHA-2 계열을 권장하되 지원 여부는 IOS 버전·License·플랫폼별 확인이 필요하다.
-> - 관련: 5-3-1-1. 🚇 GRE Static · 5-3-1-2. 🔄 GRE Dynamic · 5-3-1-3. 🌐 mGRE & NHRP · 5-3-2. 🔒 IPsec VPN (암호화 · AH&ESP · IKE) · 5-3-3. 🛡️ CBAC (Stateful Firewall) · 5-3-4. 🔗 GRE-Over-IPsec (라우팅 암호화) · 5-3-5. 🌐 DMVPN (동적 멀티포인트 VPN) · 5-3-6. ⚖️ IPsec 이중화 (HSRP 연동) · 5-3-7. 🧩 VPN 통합 정리 (GRE · IPsec · DMVPN) · 5-3-8. 🚑 VPN 트러블슈팅 치트시트 · 5-3-9. ⚡ VPN 명령어 퀵 레퍼런스

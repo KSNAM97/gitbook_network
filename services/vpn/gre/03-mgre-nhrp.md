@@ -86,7 +86,7 @@ Router# show ip ospf neighbor             ! 멀티 인접 형성 확인
 - **dynamic** : Hub가 지사로부터 자동 학습한 항목 (Hub에서 확인)
 - **NBMA address** : 해당 터널 IP에 대응하는 실제 공인 IP
 
-### 장애 시나리오 1: 지사가 NHRP 등록이 안 됨
+### Case 1: 지사가 NHRP 등록이 안 됨
 
 - **원인 파악:**
     1. **network-id 또는 authentication 불일치** — Hub/지사가 동일해야 함.
@@ -94,17 +94,15 @@ Router# show ip ospf neighbor             ! 멀티 인접 형성 확인
     3. Hub에 `ip nhrp map multicast dynamic` 누락.
 - **해결:** network-id/인증 일치 확인 → 지사의 nhs/map 설정 확인 → `show ip nhrp dynamic`(Hub)에 지사가 등록됐는지 확인.
 
-### 장애 시나리오 2: OSPF 인접이 1개만 맺힘 (다수 지사인데)
+### Case 2: OSPF 인접이 1개만 맺힘 (다수 지사인데)
 
 - **원인 파악:** 터널 OSPF 타입이 기본 **point-to-point**라 멀티 인접 불가.
 - **해결:** 모든 터널에 `ip ospf network point-to-multipoint` 적용. (또는 non-broadcast + Hub를 DR로 고정, 지사 priority 0)
 
-### 장애 시나리오 3: EIGRP에서 지사끼리 경로를 못 배움
+### Case 3: EIGRP에서 지사끼리 경로를 못 배움
 
 - **원인 파악:** Hub에서 **split-horizon**이 켜져 있어, 한 지사에서 배운 경로를 같은 터널의 다른 지사로 재광고하지 못함.
 - **해결:** Hub 터널에 `no ip split-horizon eigrp [AS]` 설정.
-
-> 💡 **면접 한 줄 요약:** mGRE는 터널 1개로 다수 지사를 수용하는 멀티포인트 구조이고, NHRP가 터널IP↔공인IP 매핑을 담당하며, 라우팅 연동 시 EIGRP는 split-horizon 해제, OSPF는 network type 변경이 필수다. 이 조합이 곧 DMVPN의 토대다.
 
 c, eigrp neighbor
 
@@ -275,5 +273,3 @@ Neighbor ID     Pri   State           	Dead Time     Address         	Interface
 ```
 
 ---
-
-> 관련: 5-3-1-1. 🚇 GRE Static · 5-3-1-2. 🔄 GRE Dynamic

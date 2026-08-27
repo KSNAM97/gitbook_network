@@ -120,7 +120,7 @@ Router# debug crypto ipsec               ! Phase2 협상 추적
 - **QM_IDLE** : Phase 1 정상 완료 (Quick Mode 대기 상태)
 - **MM_NO_STATE / MM_KEY_EXCH** : Phase 1 협상 진행/실패 중
 
-### 장애 시나리오 1: Phase 1이 안 올라옴 (SA 없음)
+### Case 1: Phase 1이 안 올라옴 (SA 없음)
 
 - **원인 파악:**
     1. **정책 불일치** — 양쪽 encryption/hash/group/authentication이 완전히 같아야 함.
@@ -128,7 +128,7 @@ Router# debug crypto ipsec               ! Phase2 협상 추적
     3. **UDP 500 차단** — 경로상 ACL/방화벽이 IKE를 막음.
 - **해결:** `debug crypto isakmp`로 어느 파라미터에서 실패하는지 확인, 양쪽 정책·키·peer를 일치시킴.
 
-### 장애 시나리오 2: Phase 1은 되는데 Phase 2가 안 됨 / 트래픽 암호화 안 됨
+### Case 2: Phase 1은 되는데 Phase 2가 안 됨 / 트래픽 암호화 안 됨
 
 - **원인 파악:**
     1. **Interesting Traffic ACL 불일치** — 양쪽 match ACL이 서로 대칭(mirror)이어야 함.
@@ -136,13 +136,10 @@ Router# debug crypto ipsec               ! Phase2 협상 추적
     3. **crypto map을 인터페이스에 미적용.**
 - **해결:** 양쪽 ACL을 정확히 반대로 맞추고, `show crypto ipsec sa`의 encrypt/decrypt 카운터가 증가하는지 확인.
 
-### 장애 시나리오 3: VPN은 되는데 인터넷이 안 되거나, VPN이 간헐 끊김
+### Case 3: VPN은 되는데 인터넷이 안 되거나, VPN이 간헐 끊김
 
 - **원인 파악:** **NAT 예외 처리 누락.** VPN 대상 트래픽이 NAT로 변환되어 상대가 인식 못 함.
 - **해결:** NAT ACL에서 VPN 트래픽을 `deny`로 먼저 제외.
-
-> 💡 **면접 한 줄 요약:** IPsec은 GRE에 없는 암호화를 담당하며, 실무의 핵심은 ① 실무에선 ESP만 쓴다(AH는 NAT 불가), ② Phase 1(관리채널)→Phase 2(데이터) 2단계 협상, ③ 양쪽 정책·PSK·ACL 대칭 일치, ④ NAT 예외 처리다.
-
 
 ---
 

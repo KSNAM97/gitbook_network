@@ -1041,4 +1041,3 @@ Overlay 라우팅 확인 (show ip route / show ip eigrp neighbors)
 > - GRE는 캡슐화이고 암호화는 IPsec이 담당한다.
 > - AH는 암호화가 없고 NAT 통과가 곤란하므로 ESP를 사용한다.
 > - Crypto ACL은 양단 미러, NAT는 VPN 대역 `deny` 선행이 필수다.
-> - 관련: 5-3-1-1. 🚇 GRE Static · 5-3-1-2. 🔄 GRE Dynamic · 5-3-1-3. 🌐 mGRE & NHRP · 5-3-2. 🔒 IPsec VPN (암호화 · AH&ESP · IKE) · 5-3-3. 🛡️ CBAC (Stateful Firewall) · 5-3-4. 🔗 GRE-Over-IPsec (라우팅 암호화) · 5-3-5. 🌐 DMVPN (동적 멀티포인트 VPN) · 5-3-6. ⚖️ IPsec 이중화 (HSRP 연동) · 5-3-7. 🧩 VPN 통합 정리 (GRE · IPsec · DMVPN) · 5-3-8. 🚑 VPN 트러블슈팅 치트시트 · 5-3-9. ⚡ VPN 명령어 퀵 레퍼런스

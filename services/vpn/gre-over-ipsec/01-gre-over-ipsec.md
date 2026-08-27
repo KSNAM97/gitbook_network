@@ -112,7 +112,7 @@ Router# show ip route eigrp                     ! 암호화된 채로 학습된 
 Router# debug crypto ipsec                       ! Phase2 협상 추적
 ```
 
-### 장애 시나리오 1 (핵심): IPsec 켜니 EIGRP/OSPF 인접이 끊김
+### Case 1 (핵심): IPsec 켜니 EIGRP/OSPF 인접이 끊김
 
 - **증상:** crypto map 적용 후 `%CRYPTO-4-RECVD_PKT_NOT_IPSEC ... 224.0.0.10` 로그와 함께 인접성 down.
 - **원인 파악:** IPsec 보호 대상 ACL에 **라우팅 프로토콜(멀티캐스트 224.0.0.x)을 직접 매칭**시킴. IPsec은 유니캐스트만 암호화하므로 멀티캐스트가 처리 실패.
@@ -126,18 +126,14 @@ Router# debug crypto ipsec                       ! Phase2 협상 추적
     
     이렇게 하면 GRE 안에 담긴 EIGRP가 함께 암호화되어 인접이 유지됨.
 
-### 장애 시나리오 2: 통신은 되는데 MTU 초과로 큰 패킷/일부 TCP만 실패
+### Case 2: 통신은 되는데 MTU 초과로 큰 패킷/일부 TCP만 실패
 
 - **원인 파악:** Tunnel 모드로 IPsec을 걸어 **헤더가 중복 추가**되어 MTU를 초과 → Fragmentation/일부 TCP 세션 장애.
 - **해결:** transform-set을 **`mode transport`** 로 변경하고 crypto map을 물리 인터페이스에 적용해 헤더 오버헤드를 최소화. 필요 시 `ip mtu`/`ip tcp adjust-mss` 조정.
 
-### 장애 시나리오 3: Phase 1은 되는데 암호화 카운터가 안 오름
+### Case 3: Phase 1은 되는데 암호화 카운터가 안 오름
 
 - **원인 파악:** 양쪽 `match address` ACL이 대칭이 아니거나(한쪽 ip/한쪽 gre), Tunnel/물리 적용 위치가 서로 다름.
 - **해결:** 양쪽 모두 동일하게 `permit gre host ... host ...` + 물리 인터페이스 적용으로 통일. `show crypto engine connections active`의 encrypt/decrypt 증가 확인.
 
-> 💡 **면접 한 줄 요약:** GRE-over-IPsec의 존재 이유는 "IPsec 단독으로는 암호화 못 하는 멀티캐스트 라우팅을 GRE로 감싸 암호화"하는 것이다. 실무 정석은 ① crypto map을 **물리 인터페이스**에 적용, ② 보호 대상을 **GRE 프로토콜 전체**로 지정, ③ **Transport 모드**로 헤더 오버헤드를 최소화하는 것이다.
-
 ---
-
-> 관련: 5-3-1-1. 🚇 GRE Static · 5-3-1-2. 🔄 GRE Dynamic · 5-3-1-3. 🌐 mGRE & NHRP · 5-3-2. 🔒 IPsec VPN (암호화 · AH&ESP · IKE) · 5-3-3. 🛡️ CBAC (Stateful Firewall) · 5-3-4. 🔗 GRE-Over-IPsec (라우팅 암호화) · 5-3-5. 🌐 DMVPN (동적 멀티포인트 VPN) · 5-3-6. ⚖️ IPsec 이중화 (HSRP 연동) · 5-3-7. 🧩 VPN 통합 정리 (GRE · IPsec · DMVPN) · 5-3-8. 🚑 VPN 트러블슈팅 치트시트 · 5-3-9. ⚡ VPN 명령어 퀵 레퍼런스

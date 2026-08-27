@@ -140,22 +140,20 @@ Router# show ip cef [목적지]                 ! Phase 3 실제 전달 경로 �
     - **상대 Spoke 터널IP(172.16.123.3)** → Phase 2
 - Phase 3는 라우팅 테이블은 Hub를 가리켜도 실제 전달은 Shortcut → **`show ip route`만으로 판단 불가**, `show ip nhrp`/`show ip cef` 병행.
 
-### 장애 시나리오 1: Spoke가 Hub에 NHRP 등록이 안 됨
+### Case 1: Spoke가 Hub에 NHRP 등록이 안 됨
 
 - **원인 파악:** ① network-id/authentication 불일치, ② Spoke의 `ip nhrp nhs`(Hub 터널IP) 누락, ③ Hub의 `ip nhrp map multicast dynamic` 누락, ④ IPsec Phase1 실패로 터널 자체가 안 뜸.
 - **해결:** 네 항목 순서대로 점검, `show ip nhrp dynamic`(Hub)에 Spoke가 뜨는지 확인.
 
-### 장애 시나리오 2: Spoke끼리 직접 통신이 안 되고 계속 Hub만 경유 (Phase 2/3 기대인데)
+### Case 2: Spoke끼리 직접 통신이 안 되고 계속 Hub만 경유 (Phase 2/3 기대인데)
 
 - **원인 파악:** Hub에 **`no ip next-hop-self eigrp`(Phase 2)** 또는 **`ip nhrp redirect`(Phase 3)** 누락. Spoke에 `ip nhrp shortcut` 누락.
 - **해결:** 원하는 Phase에 맞는 명령을 Hub/Spoke에 추가하고 `show ip route`의 넥스트홉 변화 확인.
 
-### 장애 시나리오 3: 라우팅 프로토콜 경로가 Spoke끼리 안 배워짐
+### Case 3: 라우팅 프로토콜 경로가 Spoke끼리 안 배워짐
 
 - **원인 파악:** Hub에서 **split-horizon**이 켜져 있어 한 Spoke 경로를 같은 터널의 다른 Spoke로 재광고 못 함.
 - **해결:** Hub 터널에 `no ip split-horizon eigrp [AS]` 적용.
-
-> 💡 **면접 한 줄 요약:** DMVPN은 mGRE+NHRP+IPsec Profile+동적라우팅으로 "Hub 설정 변경 없이 무한 확장"하는 VPN이며, Phase 1(Hub경유)→2(Spoke직접)→3(Redirect/Shortcut로 대규모 최적)로 발전한다. 실무 핵심은 IPsec Profile(Peer 주소 불필요)과 split-horizon/next-hop-self 제어다.
 
 ---
 

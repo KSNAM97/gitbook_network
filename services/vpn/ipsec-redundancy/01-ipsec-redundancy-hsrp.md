@@ -179,28 +179,26 @@ Router# show ip ospf neighbor                 ! DR/BDR 확인
 - `show standby brief`: HQ-1이 내부(Grp1)·외부(Grp2) 모두 **Active**, Virtual IP 소유.
 - `show crypto isakmp peer`: **Active(HQ-1)에만** Peer 표시, Standby(HQ-2)엔 없음.
 - 절체 후: HQ-2가 Active로, 같은 Virtual IP로 Peer가 나타나며 암/복호화 카운터 증가.
-### 장애 시나리오 1: Active 절체는 됐는데 VPN이 안 넘어감
+### Case 1: Active 절체는 됐는데 VPN이 안 넘어감
 
 - **증상:** HSRP는 HQ-2로 넘어갔으나 원격지와 VPN 불통. 로그에 `%CRYPTO-6-IKMP_MODE_FAILURE`.
 - **원인 파악:** crypto map을 **HSRP와 연동(`redundancy [이름]`)하지 않음** 또는 HSRP `name` 미지정. IPsec이 물리 IP에 묶여 절체 안 됨.
 - **해결:** `standby [grp] name IPSEC_R` + `crypto map ... redundancy IPSEC_R`를 양쪽 HQ에 적용. `crypto isakmp keepalive`로 죽은 SA 조기 정리.
 
-### 장애 시나리오 2: WAN(외부) 회선만 끊겼는데 절체가 안 됨
+### Case 2: WAN(외부) 회선만 끊겼는데 절체가 안 됨
 
 - **원인 파악:** HSRP는 자기 인터페이스 장애만 감지 → 반대편 장애를 모름. **Track 미설정.**
 - **해결:** 내부 그룹이 외부 IF(`track fa0/1`), 외부 그룹이 내부 IF(`track fa0/0`)를 **교차 추적**하도록 설정. `show standby all`에서 Track state와 차감된 우선순위 확인.
 
-### 장애 시나리오 3: 절체 후 원격지가 Peer를 못 찾음
+### Case 3: 절체 후 원격지가 Peer를 못 찾음
 
 - **원인 파악:** 원격지가 HQ의 **물리 IP를 Peer로 지정**해 둠. Active가 바뀌면 그 물리 IP는 응답 안 함.
 - **해결:** 원격지 `set peer`와 `crypto isakmp key address`를 모두 **HSRP Virtual IP(121.160.10.4)** 로 통일.
 
-### 장애 시나리오 4: OSPF 인접이 불안정하거나 BDR이 자꾸 바뀜
+### Case 4: OSPF 인접이 불안정하거나 BDR이 자꾸 바뀜
 
 - **원인 파악:** HQ 이중화 구간에서 DR/BDR 선출이 유동적.
 - **해결:** ISP를 `ip ospf priority 255`로 DR 고정, HQ들을 `ip ospf priority 0`으로 후보 제외.
-
-> 💡 **면접 한 줄 요약:** IPsec 이중화의 핵심은 ① 본사 두 라우터가 공유하는 **HSRP Virtual IP를 VPN Peer**로 쓰고, ② `crypto map ... redundancy [HSRP이름]`으로 SA를 승계시키며, ③ **Track으로 내부/외부를 교차 감지**하고, ④ `crypto isakmp keepalive`(DPD)로 죽은 SA를 빨리 정리하는 것이다. 공중망은 OSPF DR을 ISP로 고정해 안정화한다.
 
 ```cisco
 Interface Grp  Pri P State   	Active	          	Standby              Virtual IP
@@ -406,5 +404,3 @@ EX5-2) 아래의 조건에 맞게 IPsec 이중화를 구성하시오
 ```
 
 ---
-
-> 관련: 5-3-1-1. 🚇 GRE Static · 5-3-1-2. 🔄 GRE Dynamic · 5-3-1-3. 🌐 mGRE & NHRP · 5-3-2. 🔒 IPsec VPN (암호화 · AH&ESP · IKE) · 5-3-3. 🛡️ CBAC (Stateful Firewall) · 5-3-4. 🔗 GRE-Over-IPsec (라우팅 암호화) · 5-3-5. 🌐 DMVPN (동적 멀티포인트 VPN) · 5-3-6. ⚖️ IPsec 이중화 (HSRP 연동) · 5-3-7. 🧩 VPN 통합 정리 (GRE · IPsec · DMVPN) · 5-3-8. 🚑 VPN 트러블슈팅 치트시트 · 5-3-9. ⚡ VPN 명령어 퀵 레퍼런스

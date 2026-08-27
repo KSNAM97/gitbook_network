@@ -74,18 +74,14 @@ Router# show ip nat translations        ! NAT 변환 매핑 확인
 Router# traceroute [목적지]              ! 실제 경로가 터널/NAT 중 어디로 가는지
 ```
 
-### 장애 시나리오 1: 터널은 up인데 EIGRP 인접이 안 맺힘
+### Case 1: 터널은 up인데 EIGRP 인접이 안 맺힘
 
 - **원인 파악:** `passive-interface default`는 걸었는데 **터널을 `no passive-interface`로 열지 않음** (가장 흔함). 또는 양쪽 터널 대역 network 문 누락.
 - **해결:** 양쪽 라우터에서 터널 인터페이스를 EIGRP에 포함하고 passive 해제 → `show ip eigrp neighbor` 확인.
 
-### 장애 시나리오 2: 사설망끼리는 되는데 인터넷이 안 됨 (또는 반대)
+### Case 2: 사설망끼리는 되는데 인터넷이 안 됨 (또는 반대)
 
 - **원인 파악:** NAT의 inside/outside 방향 지정 누락, 또는 ACL이 사설 대역을 커버 못 함.
 - **해결:** `show ip nat translations`로 변환 발생 여부 확인. 터널 트래픽과 인터넷 트래픽 경로가 각각 올바른지 traceroute로 점검.
 
-> 💡 **면접 한 줄 요약:** GRE Dynamic은 터널 위에 라우팅 프로토콜을 올려 사설망 경로를 자동화하는 방식이며, NAT(인터넷용)와 터널(사설망용)은 트래픽 성격이 달라 한 장비에서 문제없이 공존한다.
-
 ---
-
-> 관련: 5-3-1-1. 🚇 GRE Static · 5-3-1-3. 🌐 mGRE & NHRP

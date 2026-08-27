@@ -133,9 +133,9 @@ debug crypto ipsec
 
 ---
 
-## 4. 대표 장애 시나리오
+## 4. Case별 트러블슈팅 가이드
 
-### 시나리오 1. Tunnel Interface가 Down/Down
+### Case 1: Tunnel Interface가 Down/Down
 
 #### 원인 후보
 
@@ -179,7 +179,7 @@ GRE Tunnel Up 조건
 
 ---
 
-### 시나리오 2. Tunnel이 Up/Down을 반복하고 %TUN-5-RECURDOWN 발생
+### Case 2: Tunnel이 Up/Down을 반복하고 %TUN-5-RECURDOWN 발생
 
 #### 증상
 
@@ -230,7 +230,7 @@ show logging
 
 ---
 
-### 시나리오 3. Tunnel IP는 통신되지만 사설망끼리 통신 안 됨
+### Case 3: Tunnel IP는 통신되지만 사설망끼리 통신 안 됨
 
 #### 핵심 판단
 
@@ -278,7 +278,7 @@ show ip route eigrp
 
 ---
 
-### 시나리오 4. Tunnel은 Up인데 라우팅 프로토콜 인접이 형성되지 않음
+### Case 4: Tunnel은 Up인데 라우팅 프로토콜 인접이 형성되지 않음
 
 #### 원인 후보
 
@@ -322,7 +322,7 @@ show ip ospf interface tunnel <TUNNEL-NUMBER>
 
 ---
 
-### 시나리오 5. Spoke가 Hub에 NHRP 등록되지 않음
+### Case 5: Spoke가 Hub에 NHRP 등록되지 않음
 
 #### 원인 후보
 
@@ -372,7 +372,7 @@ show dmvpn
 
 ---
 
-### 시나리오 6. Phase 1이 형성되지 않음 (SA 없음 또는 MM_NO_STATE)
+### Case 6: Phase 1이 형성되지 않음 (SA 없음 또는 MM_NO_STATE)
 
 #### 원인 후보
 
@@ -428,7 +428,7 @@ SA 자체가 없음        → UDP 500 도달성 또는 관심 트래픽 발생 
 
 ---
 
-### 시나리오 7. Phase 1은 QM_IDLE인데 Phase 2가 형성되지 않음
+### Case 7: Phase 1은 QM_IDLE인데 Phase 2가 형성되지 않음
 
 #### 원인 후보
 
@@ -477,7 +477,7 @@ show crypto session
 
 ---
 
-### 시나리오 8. encaps 카운터만 증가하고 decaps가 0
+### Case 8: encaps 카운터만 증가하고 decaps가 0
 
 #### 판독
 
@@ -518,7 +518,7 @@ show crypto ipsec sa
 
 ---
 
-### 시나리오 9. VPN 트래픽이 NAT로 변환되어 통신 실패
+### Case 9: VPN 트래픽이 NAT로 변환되어 통신 실패
 
 #### 증상
 
@@ -566,7 +566,7 @@ NAT 동작은 5-2. 🔀 NAT & PAT (주소 변환)을 함께 확인하십시오.
 
 ---
 
-### 시나리오 10. Ping은 되지만 큰 패킷과 일부 TCP 세션만 실패
+### Case 10: Ping은 되지만 큰 패킷과 일부 TCP 세션만 실패
 
 #### 증상
 
@@ -614,7 +614,7 @@ NAT-T 오버헤드     ≈ 8 Byte
 
 ---
 
-### 시나리오 11. Crypto Map 적용 후 EIGRP/OSPF 인접이 끊김
+### Case 11: Crypto Map 적용 후 EIGRP/OSPF 인접이 끊김
 
 #### 증상
 
@@ -668,7 +668,7 @@ GRE 안에 담긴 라우팅 프로토콜이 함께 보호됨
 
 ---
 
-### 시나리오 12. NAT 뒤에 있는 Site에서 VPN이 성립하지 않음
+### Case 12: NAT 뒤에 있는 Site에서 VPN이 성립하지 않음
 
 #### 원인 후보
 
@@ -712,7 +712,7 @@ ESP (50) + NAT-T (UDP 4500) = 암호화 제공, NAT 통과 가능
 
 ---
 
-### 시나리오 13. CBAC 적용 후 VPN 또는 라우팅이 끊김
+### Case 13: CBAC 적용 후 VPN 또는 라우팅이 끊김
 
 #### 원인 후보
 
@@ -763,7 +763,7 @@ CBAC은 레거시 방식이므로 신규 설계에서는 ZBF를 검토하십시�
 
 ---
 
-### 시나리오 14. HSRP 절체 후 VPN이 넘어가지 않음
+### Case 14: HSRP 절체 후 VPN이 넘어가지 않음
 
 #### 원인 후보
 
@@ -824,7 +824,7 @@ Gateway 이중화 동작은 7-1. ⚖️ HSRP & VRRP (Gateway Redundancy)를 참�
 
 ---
 
-### 시나리오 15. DMVPN에서 Spoke 간 직접 통신이 되지 않고 계속 Hub를 경유
+### Case 15: DMVPN에서 Spoke 간 직접 통신이 되지 않고 계속 Hub를 경유
 
 #### Phase 판별
 
@@ -884,7 +884,7 @@ show crypto ipsec sa
 
 ---
 
-### 시나리오 16. IPsec SA가 주기적으로 끊기고 재협상됨
+### Case 16: IPsec SA가 주기적으로 끊기고 재협상됨
 
 #### 원인 후보
 
@@ -1013,4 +1013,3 @@ Crypto Map 적용, ACL·NAT·라우팅·Tunnel 변경
 > - DMVPN Phase 3는 라우팅 테이블만으로 판단할 수 없어 `show ip nhrp`와 `show ip cef`를 병행한다.
 > - `debug crypto` 계열은 운영 부하가 크므로 범위를 좁히고 즉시 해제한다.
 > - 변경은 현재 확인 → 백업 → 경로 확인 → 적용 → 검증 → 저장 순서를 지키고 Rollback을 준비한다.
-> - 관련: 5-3-1-1. 🚇 GRE Static · 5-3-1-2. 🔄 GRE Dynamic · 5-3-1-3. 🌐 mGRE & NHRP · 5-3-2. 🔒 IPsec VPN (암호화 · AH&ESP · IKE) · 5-3-3. 🛡️ CBAC (Stateful Firewall) · 5-3-4. 🔗 GRE-Over-IPsec (라우팅 암호화) · 5-3-5. 🌐 DMVPN (동적 멀티포인트 VPN) · 5-3-6. ⚖️ IPsec 이중화 (HSRP 연동) · 5-3-7. 🧩 VPN 통합 정리 (GRE · IPsec · DMVPN) · 5-3-8. 🚑 VPN 트러블슈팅 치트시트 · 5-3-9. ⚡ VPN 명령어 퀵 레퍼런스

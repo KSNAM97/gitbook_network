@@ -115,17 +115,17 @@ CopySession (192.168.1.1:23234)=>(200.20.2.2:23) tcp SIS_OPEN
 
 내부(192.168.1.1)가 외부(200.20.2.2:23)로 연 TCP 세션 → 이 세션의 응답만 자동 허용.
 
-### 장애 시나리오 1: 내부외부는 되는데 응답이 안 돌아옴
+### Case 1: 내부외부는 되는데 응답이 안 돌아옴
 
 - **원인 파악:** `ip inspect`를 **안 걸었거나 방향이 틀림.** 나가는 방향(out)에 inspect가 있어야 상태 기록 + 반환 구멍 생성.
 - **해결:** 나가는 방향에 `ip inspect [규칙] out` 확인. `show ip inspect session`에 세션이 잡히는지 점검.
 
-### 장애 시나리오 2: 라우팅(OSPF) 인접이 끊김
+### Case 2: 라우팅(OSPF) 인접이 끊김
 
 - **원인 파악:** 인바운드 ACL이 **OSPF(224.0.0.5)를 차단.** CBAC은 라우팅을 자동 허용하지 않음.
 - **해결:** 인바운드 ACL 최상단에 `permit ospf ... host 224.0.0.5` 추가.
 
-### 장애 시나리오 3 (핵심): NAT + IPsec + CBAC 통합 시 VPN이 안 됨
+### Case 3 (핵심): NAT + IPsec + CBAC 통합 시 VPN이 안 됨
 
 이 셋을 한 라우터에 함께 쓸 때 **순서·예외 처리**가 틀리면 VPN이 깨집니다. 세 가지를 모두 챙겨야 합니다:
 
@@ -155,8 +155,6 @@ CopySession (192.168.1.1:23234)=>(200.20.2.2:23) tcp SIS_OPEN
     
 
 - **검증:** `show crypto engine connections active`에서 encrypt/decrypt 카운터가 증가하면 성공.
-
-> 💡 **면접 한 줄 요약:** CBAC은 상태 테이블로 "내부가 시작한 세션의 응답만 허용"하는 IOS 상태 기반 방화벽이며, DoS는 half-open 세션 임계치로 방어한다. 실무 최대 함정은 NAT+IPsec+CBAC 공존 시 ① NAT 예외 ② 사설망 라우팅 ③ 인바운드에서 ESP/IKE 허용을 모두 챙기는 것이다.
 
 ---
 
@@ -203,5 +201,3 @@ EX2) 아래의 조건에 맞게 CBAC을 구성하시오
 ```
 
 ---
-
-> 관련: 5-3-1-1. 🚇 GRE Static · 5-3-1-2. 🔄 GRE Dynamic · 5-3-1-3. 🌐 mGRE & NHRP · 5-3-2. 🔒 IPsec VPN (암호화 · AH&ESP · IKE) · 5-3-3. 🛡️ CBAC (Stateful Firewall) · 5-3-4. 🔗 GRE-Over-IPsec (라우팅 암호화) · 5-3-5. 🌐 DMVPN (동적 멀티포인트 VPN) · 5-3-6. ⚖️ IPsec 이중화 (HSRP 연동) · 5-3-7. 🧩 VPN 통합 정리 (GRE · IPsec · DMVPN) · 5-3-8. 🚑 VPN 트러블슈팅 치트시트 · 5-3-9. ⚡ VPN 명령어 퀵 레퍼런스
