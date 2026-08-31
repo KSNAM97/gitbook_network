@@ -3,6 +3,8 @@
 > **Tag:** #Network #Routing #Static #Dynamic #RIB #FIB #CEF #AD #Metric #Concept #Summary
 > **핵심 요약:** 라우팅은 도달 가능한 경로를 **수집(Discovery) → 비교·선택(Selection) → 변화에 맞게 유지(Management)** 하는 과정이다. Static은 관리자가 직접 경로를 입력하고 Dynamic은 라우팅 프로토콜이 자동 학습한다. 동일 Prefix의 경로 출처가 다르면 AD, 같은 프로토콜 안에서는 Metric으로 RIB 경로를 선택하며, 실제 패킷 전달은 FIB에서 Longest Prefix Match로 처리한다. 소규모·Stub 구간은 Static, 변화가 많은 망은 Dynamic, 실무에서는 두 방식을 함께 사용하는 하이브리드 구성이 일반적이다.
 
+![라우팅 기초 실습 토폴로지](images/routing-basics-topology.png)
+
 ---
 
 ## 1. 핵심 기술 개념 (Concept)

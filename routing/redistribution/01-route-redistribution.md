@@ -3,6 +3,8 @@
 > **Tags:** #Routing #OSPF #EIGRP #RIPv2 #Redistribution #RouteMap #PrefixList
 > **핵심 요약:** **Topology:** R1(OSPF/RIP) ↔ R2(OSPF Hub) ↔ R3(OSPF/EIGRP) / R4(RIP) / R5(EIGRP)
 
+![재분배 실습 토폴로지](images/redistribution-topology.png)
+
 ---
 
 ## 1. 핵심 기술 개념 (Concept)

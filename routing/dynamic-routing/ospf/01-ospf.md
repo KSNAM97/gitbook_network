@@ -3,6 +3,9 @@
 > **Tag:** #Network #Cisco #OSPF #Routing #IGP #LinkState
 > **핵심 요약:** **Link-State 기반의 표준 IGP** — Dijkstra(SPF) 알고리즘으로 Loop-Free 경로를 계산하며, Area 기반 계층 설계로 대규모 엔터프라이즈/데이터센터 환경에서 사실상 표준으로 자리잡은 라우팅 프로토콜.
 
+![OSPF 실습 토폴로지 1](images/ospf-topology-1.png)
+![OSPF 실습 토폴로지 2](images/ospf-topology-2.png)
+
 ---
 
 ## 1. 핵심 기술 개념 (Concept)

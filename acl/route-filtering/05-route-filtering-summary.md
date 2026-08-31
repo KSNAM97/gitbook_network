@@ -3,6 +3,8 @@
 > **Tag:** #Network #Routing #RouteFiltering #PrefixList #DistributeList #RouteMap #OffsetList #Bogon
 > **핵심 요약:** 라우팅 정책은 **무엇을 고를 것인가(Prefix-list/ACL) → 허용·차단할 것인가(Distribute-list) → 속성을 변경할 것인가(Route-map) → 기존 Metric에 가중치를 더할 것인가(Offset-list)**로 나눠 이해한다. Prefix-list는 Prefix Length까지 매칭하고, Distribute-list는 경로의 송수신을 필터링하며, Route-map은 Match+Set 정책을 수행한다. Offset-list는 RIP/EIGRP Metric을 증가시켜 경로 우선순위를 낮춘다.
 
+![라우팅 필터링 실습 토폴로지](images/route-filtering-topology.png)
+
 ---
 
 ## 1. 핵심 기술 개념

@@ -3,6 +3,8 @@
 >**Tags:** #EIGRP #Routing #IGP #Cisco #DUAL #HybridProtocol
 > **핵심 요약:** **Category:** Routing Protocol / Fundamentals
 
+![EIGRP 실습 토폴로지](images/eigrp-topology.png)
+
 ---
 
 ## 1. 핵심 기술 개념 (Concept)

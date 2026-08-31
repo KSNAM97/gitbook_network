@@ -4,6 +4,8 @@
 > **핵심 요약:** Cisco IOS ACL의 동작 원리와 Standard ACL(1~99) 실무 활용
 > Numbered 방식과 Named 방식의 차이, 그리고 적용 위치(in/out) 결정 기준
 
+![ACL 실습 토폴로지](images/acl-topology.png)
+
 ---
 
 ## 1. 핵심 기술 개념 (Concept)

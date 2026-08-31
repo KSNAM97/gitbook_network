@@ -3,6 +3,8 @@
 > **Tag:** #network #fhrp #hsrp #vrrp #gateway-redundancy #track #cisco
 > **핵심 요약:** 게이트웨이 단일 장애점(SPOF)을 제거하는 First-Hop Redundancy Protocol. Virtual IP/MAC과 Track이 핵심
 
+![Gateway 이중화 실습 토폴로지](images/gateway-redundancy-topology.png)
+
 ---
 
 ## 1. 핵심 기술 개념 (Concept)

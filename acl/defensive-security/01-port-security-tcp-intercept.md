@@ -4,6 +4,8 @@
 > **핵심 요약:** L2 경계 방어(Port-security)와 L4 세션 방어(TCP Intercept)
 > ACL 기반 정책의 최종 응용 - 실무 인프라 보안의 마지막 관문
 
+![TCP Intercept 실습 토폴로지](images/tcp-intercept-topology.png)
+
 ---
 
 ## 1. 핵심 기술 개념 (Concept)
